@@ -7,7 +7,6 @@ import { ToastController } from 'ionic-angular';
 @Injectable()
 export class AuthServiceProvider {
 
-
   user: Observable<firebase.User>;
 
   constructor(public afAuth: AngularFireAuth, 

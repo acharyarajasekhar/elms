@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { HomePage } from '../home/home';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 @IonicPage()
@@ -33,8 +32,9 @@ export class SigninPage {
 
   signIn() {
     this.authService.signIn(this.signInForm.value).then((data) => {
-      console.log(data);
-      this.navCtrl.setRoot("HomePage");
+      if(data) {
+        this.navCtrl.setRoot("HomePage");
+      }
     })
   }
 
