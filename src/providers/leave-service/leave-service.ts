@@ -1,17 +1,36 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database'; 
 
-/*
-  Generated class for the LeaveServiceProvider provider.
+export enum LeaveStatus {
+  Requested = 0,
+  Accepted = 1,
+  Declined = 2,
+  Cancelled = 3
+}
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
+export interface Leave {
+  requestor: string,
+  from: Date,
+  to: Date,
+  isHalfDay: boolean,
+  reason: string,
+  approvor: string,
+  status: LeaveStatus,
+  createdAt: Date,
+  modifiedAt: Date
+}
+
 @Injectable()
 export class LeaveServiceProvider {
 
-  constructor(public http: HttpClient) {
-    console.log('Hello LeaveServiceProvider Provider');
+  leaves: AngularFireList<Leave> = null;
+
+  constructor(public db: AngularFireDatabase) {
+    this.leaves = this.db.list('leaves');
+  }
+
+  createLeave(leave: Leave) {
+    this.leaves.push(leave);
   }
 
 }

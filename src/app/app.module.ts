@@ -18,7 +18,6 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
-import { DatabaseServiceProvider } from '../providers/database-service/database-service';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../providers/user-service/user-service';
 import { LeaveServiceProvider } from '../providers/leave-service/leave-service';
@@ -61,7 +60,6 @@ const firebaseConfig = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    DatabaseServiceProvider,
     AuthServiceProvider,
     UserServiceProvider,
     LeaveServiceProvider

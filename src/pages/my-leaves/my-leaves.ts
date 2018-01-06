@@ -26,27 +26,7 @@ export class MyLeavesPage {
   }
 
   openNewLeave() {
-    this.navCtrl.push("CreateLeaveRequestPage");
-  }
-
-  addEvent() {
-    // let modal = this.modalCtrl.create('EventModalPage', {selectedDay: this.selectedDay});
-    // modal.present();
-    // modal.onDidDismiss(data => {
-    //   if (data) {
-    //     let eventData = data;
- 
-    //     eventData.startTime = new Date(data.startTime);
-    //     eventData.endTime = new Date(data.endTime);
- 
-    //     let events = this.eventSource;
-    //     events.push(eventData);
-    //     this.eventSource = [];
-    //     setTimeout(() => {
-    //       this.eventSource = events;
-    //     });
-    //   }
-    // });
+    this.navCtrl.push("NewLeavePage");
   }
  
   onViewTitleChanged(title) {
