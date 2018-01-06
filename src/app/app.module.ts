@@ -20,6 +20,8 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { DatabaseServiceProvider } from '../providers/database-service/database-service';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { UserServiceProvider } from '../providers/user-service/user-service';
+import { LeaveServiceProvider } from '../providers/leave-service/leave-service';
   
 // AF2 Settings
 const firebaseConfig = {
@@ -35,11 +37,11 @@ const firebaseConfig = {
   declarations: [
     MyApp,
     // HomePakge,
-    UserProfilePage,
-    MyLeavesPage,
+    // UserProfilePage,
+    // MyLeavesPage,
     // CreateLeaveRequestPage
   ],
-  imports: [
+  imports: [    
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
@@ -51,8 +53,8 @@ const firebaseConfig = {
   entryComponents: [
     MyApp,
     // HomePage,
-    UserProfilePage,
-    MyLeavesPage,
+    // UserProfilePage,
+    // MyLeavesPage,
     // CreateLeaveRequestPage
   ],
   providers: [
@@ -60,7 +62,9 @@ const firebaseConfig = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DatabaseServiceProvider,
-    AuthServiceProvider
+    AuthServiceProvider,
+    UserServiceProvider,
+    LeaveServiceProvider
   ]
 })
 export class AppModule {}

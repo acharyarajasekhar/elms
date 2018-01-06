@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the UserProfilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { UserServiceProvider } from '../../providers/user-service/user-service';
 
 @IonicPage()
 @Component({
@@ -15,11 +11,26 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class UserProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  profileForm: FormGroup;
+
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams,
+    private formBuilder: FormBuilder,
+    public userService: UserServiceProvider,
+    public authService: AuthServiceProvider) {
+      this.profileForm = this.formBuilder.group({
+        name: ['', Validators.required],
+        manager: ['', Validators.required],
+        team: ['', Validators.required]
+      });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserProfilePage');
+  }
+
+  updateProfile(){
+    this.userService.updateUser(this.profileForm.value);
   }
 
 }

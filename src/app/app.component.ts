@@ -28,9 +28,9 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'My Profile', component: UserProfilePage },
-      { title: 'My Leaves', component: MyLeavesPage },
+      { title: 'Home', component: "HomePage" },
+      { title: 'My Profile', component: "UserProfilePage" },
+      { title: 'My Leaves', component: "MyLeavesPage" },
       // { title: 'New Leave', component: CreateLeaveRequestPage }
     ];
 
@@ -49,7 +49,7 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     // this.nav.setRoot(page.component);
-    if (page.component == HomePage) {
+    if (page.component == "HomePage") {
       this.nav.setRoot(page.component);
     }
     else {

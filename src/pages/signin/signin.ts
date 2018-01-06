@@ -31,8 +31,8 @@ export class SigninPage {
   }
 
   signIn() {
-    this.authService.signIn(this.signInForm.value).then((data) => {
-      if(data) {
+    this.authService.signIn(this.signInForm.value).then((user) => {
+      if(this.authService.user) {
         this.navCtrl.setRoot("HomePage");
       }
     })

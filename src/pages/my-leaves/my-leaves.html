@@ -3,11 +3,27 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>My Leaves</ion-title>
+    <ion-title>My Leaves - {{ viewTitle }}</ion-title>
   </ion-navbar>
 </ion-header>
 
+<ion-content>
+  <calendar [eventSource]="eventSource" 
+    [calendarMode]="calendar.mode" 
+    [currentDate]="calendar.currentDate" 
+    (onEventSelected)="onEventSelected($event)"
+    (onTitleChanged)="onViewTitleChanged($event)" 
+    (onTimeSelected)="onTimeSelected($event)" step="30" class="calendar">
+  </calendar>
 
+  <ion-fab right bottom>
+    <button ion-fab mini (click)="openNewLeave()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>
+
+<!-- 
 <ion-content padding>
 
     <ion-fab right bottom>
@@ -230,4 +246,4 @@
       </ion-col>
     </ion-row>
   </ion-card>
-</ion-content>
+</ion-content> -->

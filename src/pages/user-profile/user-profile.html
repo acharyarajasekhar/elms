@@ -8,6 +8,23 @@
 </ion-header>
 
 
-<ion-content padding>
-
-</ion-content>
+<ion-content padding class="background">
+    <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+      <ion-card>
+        <ion-card-content>
+          <ion-list no-line>
+            <ion-item>
+              <ion-input type="text" formControlName="name" placeholder="Name"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input type="text" formControlName="manager" placeholder="Manager"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input type="password" formControlName="team" placeholder="Team"></ion-input>
+            </ion-item>
+            <button ion-button type="submit" [disabled]="!profileForm.valid" block outline color="dark">Update</button>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </form>
+  </ion-content>

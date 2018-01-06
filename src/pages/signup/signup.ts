@@ -17,7 +17,8 @@ export class SignupPage {
     private formBuilder: FormBuilder,
     public authService: AuthServiceProvider) {
     this.signUpForm = this.formBuilder.group({
-      userid: ['', Validators.required],
+      name: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
@@ -33,7 +34,7 @@ export class SignupPage {
   signUp() {
     this.authService.signUp(this.signUpForm.value).then((data) => {
       if(data) {
-        this.navCtrl.setRoot("HomePage");
+        // this.navCtrl.setRoot("HomePage");
       }
     })
   }
