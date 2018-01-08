@@ -29,8 +29,8 @@ export class UserProfilePage {
     console.log('ionViewDidLoad UserProfilePage');
   }
 
-  updateProfile(){
-    this.userService.updateUser(this.profileForm.value);
+  editProfile(){
+    this.navCtrl.push("EditUserProfilePage");
   }
 
 }
