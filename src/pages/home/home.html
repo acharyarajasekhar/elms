@@ -5,21 +5,54 @@
     </button>
     <ion-title>LMS</ion-title>
     <ion-buttons end>
-      <button ion-button (click)="openNotifications()"><ion-icon name="notifications"></ion-icon></button>
+      <button ion-button (click)="openNotifications()">
+        <ion-icon name="notifications"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-slides pager="true">
-    <ion-slide>
-      <h1>Slide 1</h1>
+  <ion-slides pager="true" id="cover">
+      <ion-slide><img src="https://media.istockphoto.com/photos/wooden-table-texture-background-picture-id486764801?s=2048x2048" /></ion-slide>
+      <ion-slide><img src="https://media.istockphoto.com/photos/wooden-table-texture-background-picture-id486764801?s=2048x2048" /></ion-slide>
+      <ion-slide><img src="https://media.istockphoto.com/photos/wooden-table-texture-background-picture-id486764801?s=2048x2048" /></ion-slide>
+      <ion-slide><img src="https://media.istockphoto.com/photos/wooden-table-texture-background-picture-id486764801?s=2048x2048" /></ion-slide>
+      <ion-slide><img src="https://media.istockphoto.com/photos/wooden-table-texture-background-picture-id486764801?s=2048x2048" /></ion-slide>
+  </ion-slides>
+
+  <br/>
+  <h1>Who is on leave</h1>
+  <h3>Today</h3>
+  <ion-slides pager="false" id="today" slidesPerView=5>
+    <ion-slide *ngFor="let i of [1,2,3,4,5,6]">
+      <ion-card>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4n2Po2LKFB5hq_8hhb4h1-mB142xp3vvoXE6tllgNP8tW2k-W" />
+        <ion-card-content>
+          <ion-card-title>
+            Nine Inch Nails Live
+          </ion-card-title>
+          <p>
+            The most popular industrial group ever, and largely responsible for bringing the music to a mass audience.
+          </p>
+        </ion-card-content>
+      </ion-card>
     </ion-slide>
-    <ion-slide>
-      <h1>Slide 2</h1>
-    </ion-slide>
-    <ion-slide>
-      <h1>Slide 3</h1>
+  </ion-slides>
+  <h3>Tomorrow</h3>
+  <ion-slides pager="false" id="today" slidesPerView=5>
+    <ion-slide *ngFor="let i of [1,2,3,4,5,6]">
+      <ion-card>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4n2Po2LKFB5hq_8hhb4h1-mB142xp3vvoXE6tllgNP8tW2k-W" />
+        <ion-card-content>
+          <ion-card-title>
+            Nine Inch Nails Live
+          </ion-card-title>
+          <p>
+            The most popular industrial group ever, and largely responsible for bringing the music to a mass audience.
+          </p>
+        </ion-card-content>
+      </ion-card>
     </ion-slide>
   </ion-slides>
 </ion-content>
