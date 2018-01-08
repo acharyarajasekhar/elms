@@ -14,5 +14,24 @@
 
 
 <ion-content padding class="background">
-
+  <ion-card>
+    <ion-card-header>
+      <ion-card>
+        <img #avatar id="avatar" src="http://www.4akb.ru/default-icon.png" avatar/>
+        <h1 class="card-title">Acharya Raja Sekhar</h1>
+        <p class="card-subtitle">Messaging Team</p>
+      </ion-card>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list inset>
+        <ion-item>
+          <ion-icon name="mail"></ion-icon> abrundhavana@csc.com
+        </ion-item>
+        <ion-item>
+          <ion-icon name="call"></ion-icon>+91 9876543210
+        </ion-item>
+      </ion-list>
+      <!-- <input #AvatarSelector type="file" ng2FileSelect [uploader]="uploader" *ngIf="isEditAllowed" style="visibility: hidden;"/> -->
+    </ion-card-content>
+  </ion-card>
 </ion-content>

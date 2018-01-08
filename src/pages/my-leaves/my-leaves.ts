@@ -23,6 +23,18 @@ export class MyLeavesPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MyLeavesPage');
+
+    this.eventSource = [{
+      "title": "Sick leave",
+      "startTime": new Date("01-05-2018 00:00:00"),
+      "endTime": new Date("01-10-2018 00:00:00"),
+      "allDay": true
+    },{
+      "title": "Cousin marriage leave",
+      "startTime": new Date("02-15-2018 00:00:00"),
+      "endTime": new Date("02-17-2018 00:00:00"),
+      "allDay": true
+    }];
   }
 
   openNewLeave() {
