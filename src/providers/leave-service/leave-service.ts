@@ -29,7 +29,8 @@ export class LeaveServiceProvider {
     this.leaves = this.db.list('leaves');
   }
 
-  createLeave(leave: Leave) {
+  createLeave(leave){
+    debugger;
     this.leaves.push(leave);
   }
 

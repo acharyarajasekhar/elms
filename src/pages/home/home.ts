@@ -19,4 +19,8 @@ export class HomePage {
     this.navCtrl.push("NotificationsPage");
   }
 
+  openNewLeave() {
+    this.navCtrl.push("NewLeavePage");
+  }
+
 }
