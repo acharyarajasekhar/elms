@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - "stable"
+
+branches:
+  only:
+    - master
+
+before_script:
+  - npm install -g firebase-tools
+  - npm install -g ionic
+  - npm install -g cordova
+
+script:
+  - ionic build --platform browser
+
+after_success:
+  - firebase deploy --token=${FIREBASE_TOKEN}
