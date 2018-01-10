@@ -16,10 +16,15 @@ export class NewLeavePage {
     public leaveService: LeaveServiceProvider) {
 
       this.LeaveForm = this.formBuilder.group({
-        isHalfDay: [''],
+        isHalfDay: [false],
         from: ['', Validators.required],
         to: ['', Validators.required],
         reason: ['', Validators.required],
+        requestor:  ['vjayapal2@csc.com'],
+        approvor:  ['sbalasubra45@csc.com'],
+        status:  ['Pending'],
+        createdAt: [''],
+        modifiedAt: ['']
       });
   }
 

@@ -30,8 +30,11 @@ export class LeaveServiceProvider {
   }
 
   createLeave(leave){
-    debugger;
     this.leaves.push(leave);
+  }
+
+  getLeaveList(){
+
   }
 
 }
