@@ -21,6 +21,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../providers/user-service/user-service';
 import { LeaveServiceProvider } from '../providers/leave-service/leave-service';
+import { NotificationService } from '../providers/notification-service/notification-service';
   
 // AF2 Settings
 const firebaseConfig = {
@@ -62,7 +63,8 @@ const firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthServiceProvider,
     UserServiceProvider,
-    LeaveServiceProvider
+    LeaveServiceProvider,
+    NotificationService
   ]
 })
 export class AppModule {}

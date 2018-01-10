@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the NotificationsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Observable } from 'rxjs/Observable';
+import { Leave } from '../../models/leave.model';
+import { NotificationService } from '../../providers/notification-service/notification-service';
 
 @IonicPage()
 @Component({
@@ -14,12 +10,38 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'notifications.html',
 })
 export class NotificationsPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  leaves$:Observable<Leave[]>;
+  photoUrl:string = "";
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    private notificationService:NotificationService
+  ) {
+    this.leaves$ = this.notificationService
+        .getAllPendingLeaves()
+        .snapshotChanges()
+        .map(
+          changes=>{
+          //this.photoUrl = "";//to do
+          return changes.map(c=>({
+                key:c.payload.key,...c.payload.val()
+          }))
+        });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NotificationsPage');
+    this.photoUrl ==""? this.photoUrl = "http://www.4akb.ru/default-icon.png": this.photoUrl;
   }
+
+  
+ changeLeaveStatus(key$,status){
+   if(status === 'accept'){
+     this.notificationService.acceptleave(key$);
+   }
+   else if(status === 'decline'){
+    this.notificationService.declineLeave(key$);
+   }
+ }
 
 }

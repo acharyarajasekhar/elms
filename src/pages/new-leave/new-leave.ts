@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { LeaveServiceProvider, Leave } from '../../providers/leave-service/leave-service';
+import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 
 @IonicPage()
 @Component({
