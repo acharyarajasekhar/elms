@@ -8,7 +8,7 @@ import { UserServiceProvider, User } from '../user-service/user-service';
 @Injectable()
 export class AuthServiceProvider {
 
-  user: Observable<firebase.User>;
+  public user: Observable<firebase.User>;
 
   constructor(public afAuth: AngularFireAuth,
     public toastCtrl: ToastController,

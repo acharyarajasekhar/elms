@@ -20,12 +20,12 @@
     
               <ion-item>
                 <ion-label>From</ion-label>
-                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="from"></ion-datetime>
+                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="from" [(ngModel)]="today"></ion-datetime>
               </ion-item>
     
               <ion-item>
                 <ion-label>To</ion-label>
-                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="to"></ion-datetime>
+                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="to" [(ngModel)]="today1"></ion-datetime>
               </ion-item>
     
               <ion-item>

@@ -9,10 +9,10 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
   templateUrl: 'home.html'
 })
 export class HomePage {  
-
+  cards: any;
   constructor(public navCtrl: NavController,
   private authService: AuthServiceProvider) {
-
+    this.cards = new Array(10);
   }
 
   openNotifications() {
