@@ -15,4 +15,5 @@ script:
   - ionic build --platform browser
 
 after_success:
-  - firebase deploy --token=${FIREBASE_TOKEN}
+  - firebase use --token ${FIREBASE_TOKEN} production
+  - firebase deploy --token "${FIREBASE_TOKEN}"
