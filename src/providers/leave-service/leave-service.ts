@@ -1,10 +1,7 @@
 import { User } from './../user-service/user-service';
-import { Leave } from './leave-service';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database'; 
-<<<<<<< HEAD
 import { Leave } from '../../models/leave.model';
-=======
 import * as firebase from 'firebase/app';
 import { DateTime } from 'ionic-angular/components/datetime/datetime';
 
@@ -27,7 +24,6 @@ export interface Leave {
   createdAt: Date,
   modifiedAt: Date
 }
->>>>>>> de6b77cb43b96577fba870e9637edd07e46d6990
 
 @Injectable()
 export class LeaveServiceProvider{
