@@ -26,35 +26,62 @@
   <h1>Who is on leave</h1>
   <h3>Today</h3>
   <ion-slides pager="false" id="today" slidesPerView=5>
-    <ion-slide *ngFor="let i of [1,2,3,4,5,6]">
-    <ion-card *ngFor="let card of cards">
-      <ion-card-content>
-        <ion-card-title>
-          Nine Inch Nails Live
-        </ion-card-title>
-        <p>
-          The most popular industrial group ever, and largely responsible for bringing the music to a mass audience.
-        </p>
-      </ion-card-content>  
+    <ion-slide *ngFor="let leave of leaves$ | async">
+      <ion-card >
+        <ion-item>
+          <ion-avatar item-start>
+            <img [src]="photoUrl">
+          </ion-avatar>
+          <h2>{{leave.requestor}}</h2>
+          <p>{{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}</p>
+        </ion-item> 
+       
+        <ion-card-content>
+          <p>{{leave.reason }}</p>
+        </ion-card-content>
+      
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-left clear small>
+              <ion-icon name="people"></ion-icon>
+            </button>
+            <ion-note>
+                12 Other leaves applied
+            </ion-note>
+          </ion-col>
+        </ion-row>
     </ion-card>
   </ion-slide>
 </ion-slides>
   <h3>Tomorrow</h3>
   <ion-slides pager="false" id="today" slidesPerView=5>
-    <ion-slide *ngFor="let i of [1,2,3,4,5,6]">
+    <ion-slide *ngFor="let leave of leaves$ | async">
       <ion-card>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4n2Po2LKFB5hq_8hhb4h1-mB142xp3vvoXE6tllgNP8tW2k-W" />
+        <ion-item>
+          <ion-avatar item-start>
+            <img [src]="photoUrl">
+          </ion-avatar>
+          <h2>{{leave.requestor}}</h2>
+          <p>{{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}</p>
+        </ion-item> 
+       
         <ion-card-content>
-          <ion-card-title>
-            Nine Inch Nails Live
-          </ion-card-title>
-          <p>
-            The most popular industrial group ever, and largely responsible for bringing the music to a mass audience.
-          </p>
+          <p>{{leave.reason }}</p>
         </ion-card-content>
-      </ion-card>
-    </ion-slide>
-  </ion-slides>
+      
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-left clear small>
+              <ion-icon name="people"></ion-icon>
+            </button>
+            <ion-note>
+                12 Other leaves applied
+            </ion-note>
+          </ion-col>
+        </ion-row>
+    </ion-card>
+  </ion-slide>
+</ion-slides>
   <ion-fab right bottom>
     <button ion-fab mini (click)="openNewLeave()">
       <ion-icon name="add"></ion-icon>

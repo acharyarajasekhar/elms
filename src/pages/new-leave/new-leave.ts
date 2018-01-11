@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-<<<<<<< HEAD
-import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 
-=======
+//import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
+
+
 import { LeaveServiceProvider, Leave } from '../../providers/leave-service/leave-service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { MyLeavesPage } from "../my-leaves/my-leaves"
->>>>>>> de6b77cb43b96577fba870e9637edd07e46d6990
+
 @IonicPage()
 @Component({
   selector: 'page-new-leave',
@@ -21,6 +21,7 @@ export class NewLeavePage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private formBuilder: FormBuilder,
+    
     public leaveService: LeaveServiceProvider) {
       this.today = new Date().toISOString(),
       this.today1 = new Date().toISOString(),
