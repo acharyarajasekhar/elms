@@ -47,7 +47,7 @@ const firebaseConfig = {
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFireAuthModule    
+    AngularFireAuthModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

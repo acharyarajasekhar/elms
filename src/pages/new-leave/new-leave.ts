@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+<<<<<<< HEAD
 
 //import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 
 
 import { LeaveServiceProvider, Leave } from '../../providers/leave-service/leave-service';
+=======
+import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
+>>>>>>> 0900a76dba85af2b5fe0494dafe568a7d5c551a6
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { MyLeavesPage } from "../my-leaves/my-leaves"
 

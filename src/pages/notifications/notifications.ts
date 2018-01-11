@@ -22,26 +22,33 @@ export class NotificationsPage {
         .snapshotChanges()
         .map(
           changes=>{
-          //this.photoUrl = "";//to do
+          changes.map(c=>{ 
+            let result = c.payload.val(); 
+            this.getUserDetails(result.requestor);
+          });
           return changes.map(c=>({
-                key:c.payload.key,...c.payload.val()
+            key:c.payload.key,...c.payload.val()
           }))
         });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad NotificationsPage');
-    this.photoUrl ==""? this.photoUrl = "http://www.4akb.ru/default-icon.png": this.photoUrl;
-  }
+ionViewDidLoad() {
+  this.photoUrl ==""? this.photoUrl = "http://www.4akb.ru/default-icon.png": this.photoUrl;
+}
 
+getUserDetails(uid :string){
+  // this.notificationService.getRequestorDetails(uid).snapshotChanges().subscribe(user=>{
+  //   console.log(user.payload.val());
+  // });
+}
   
- changeLeaveStatus(key$,status){
-   if(status === 'accept'){
-     this.notificationService.acceptleave(key$);
-   }
-   else if(status === 'decline'){
-    this.notificationService.declineLeave(key$);
-   }
- }
+changeLeaveStatus(key$,status){
+  if(status === 'accept'){
+    this.notificationService.acceptleave(key$);
+  }
+  else if(status === 'decline'){
+  this.notificationService.declineLeave(key$);
+  }
+}
 
 }

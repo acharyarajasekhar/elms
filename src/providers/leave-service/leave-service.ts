@@ -1,10 +1,13 @@
 import { User } from './../user-service/user-service';
-import { Leave } from './leave-service';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database'; 
+<<<<<<< HEAD
 
 //import { Leave } from '../../models/leave.model';
 
+=======
+import { Leave } from '../../models/leave.model';
+>>>>>>> 0900a76dba85af2b5fe0494dafe568a7d5c551a6
 import * as firebase from 'firebase/app';
 import { DateTime } from 'ionic-angular/components/datetime/datetime';
 

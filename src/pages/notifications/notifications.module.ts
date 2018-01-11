@@ -6,6 +6,7 @@ import { AngularFireList } from 'angularfire2/database';
 import { Leave } from '../../models/leave.model';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
+import { PipesModule } from '../../pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { Observable } from 'rxjs/Observable';
   ],
   imports: [
     IonicPageModule.forChild(NotificationsPage),
+    PipesModule
   ],
 })
 export class NotificationsPageModule {
