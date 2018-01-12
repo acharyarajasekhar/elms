@@ -7,6 +7,7 @@ import { Leave } from '../../models/leave.model';
 import * as _ from "lodash";
 import * as firebase from "firebase";
 import { UserServiceProvider } from '../../providers/user-service/user-service';
+import { User } from '../../models/user.model';
 @IonicPage()
 @Component({
   selector: 'page-home',
@@ -15,7 +16,9 @@ import { UserServiceProvider } from '../../providers/user-service/user-service';
 export class HomePage {  
   cards: any;
   leaves$:Observable<Leave[]>;
-  userInfo$;
+  userInfo$:User;
+  teamInfo$:User[]= [];
+  teamLeaves$:any[] = [];
   constructor(
     public navCtrl: NavController,
     private authService: AuthServiceProvider,
@@ -43,9 +46,43 @@ export class HomePage {
   }
 
   getUserContext(){
-    this.userService.getUserByUID()
+    this.userService.getUsersInfo()
     .subscribe(result=>{
-      this.userInfo$ = _.filter(result, { uid : firebase.auth().currentUser.uid}); 
+      this.userInfo$ = _.filter(result, { uid : firebase.auth().currentUser.uid});
+      let isManager = this.userInfo$[0].isManagerRole;
+      let myTeam = this.userInfo$[0].team;
+      localStorage.setItem('isManagerRole',''+isManager+'');
+      localStorage.setItem('myTeam',myTeam);
     });
+  }
+
+  getTeamMembers(){
+    this.userService.getUsersInfo()
+    .subscribe(result=>{
+      this.teamInfo$ = _.filter(result, { team : localStorage.getItem('myTeam')});
+    });
+  }
+
+  getMyTeamLeaves(){
+    this.teamInfo$.forEach(u=>{
+      this.leaveService.getLeaveListByUID(u.uid)
+                      .snapshotChanges()
+                      .map(changes=>{
+                        return changes.map(c=>({
+                          key:c.payload.key,...c.payload.val()
+                        }))
+                      })
+                      .subscribe(leaves=>{
+                          this.teamLeaves$.push(leaves);//my team leaves array
+                      });
+    });
+  }
+
+  filterLeavesByDate(startDt:Date, endDate:Date){
+    if(this.teamLeaves$.length > 0){
+      let filteredResult =  _.filter(this.teamLeaves$,{ from:startDt });
+      return filteredResult;
+    }
+    return "";
   }
 }

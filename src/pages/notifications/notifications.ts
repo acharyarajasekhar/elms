@@ -21,6 +21,7 @@ export class NotificationsPage {
   loggedInUserId:string;
   managerUserId:string;
   userName:string;
+  isManagerRole;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -28,6 +29,7 @@ export class NotificationsPage {
     private userService:UserServiceProvider
   ) {
     this.loggedInUserId = firebase.auth().currentUser.uid;
+    this.isManagerRole = localStorage.getItem('isManagerRole');
     //this.UserContext = this.userService.getUserByUID(this.loggedInUserId);
     // if(this.UserContext.manager && this.UserContext.manager != null){
     //   this.managerUserId = this.userService.getUserContext(this.UserContext.manager).uid;
@@ -45,7 +47,7 @@ export class NotificationsPage {
             {key:c.payload.key,...c.payload.val()}
           ))
         }).subscribe(result=>{
-             let unSorted:Leave[] = _.filter(result, { status: 0 ,requestor : this.loggedInUserId});
+             let unSorted:Leave[] = _.filter(result, { status: 0 ,requestor : this.loggedInUserId,isRead: false});
              this.leaves$ = _.orderBy(unSorted, ['from'], ['asc']); 
         });
   }
@@ -59,10 +61,16 @@ export class NotificationsPage {
 
   swipeEvent(event,keyObj){
     if (event.direction == 2){ //(2)swipe left direction ~ reject
-      this.notificationService.declineLeave(keyObj);
+      if(!this.isManagerRole && this.isManagerRole == "true")
+        this.notificationService.declineLeave(keyObj,true);
+      else
+        this.notificationService.declineLeave(keyObj,false);
     }
     if (event.direction == 4){ //(4)swipe right direction ~ accept
-      this.notificationService.acceptleave(keyObj);
+      if(!this.isManagerRole && this.isManagerRole == "false")
+        this.notificationService.acceptleave(keyObj,true);
+      else
+        this.notificationService.acceptleave(keyObj,false);
     } 
   }
 

@@ -33,7 +33,7 @@ export class AuthServiceProvider {
   }
 
   signOut() {
-
+    this.afAuth.auth.signOut();
   }
 
   signUp(credentials) {

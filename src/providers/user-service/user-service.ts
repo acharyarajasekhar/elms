@@ -23,7 +23,7 @@ export class UserServiceProvider {
     
   }
 
-  getUserByUID():any{
+  getUsersInfo():any{
     return this.db.list('/users')
           .snapshotChanges()
           .map(

@@ -2,31 +2,37 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database'; 
 import { Leave } from '../../models/leave.model';
 import * as firebase from 'firebase';
-import { DateTime } from 'ionic-angular/components/datetime/datetime';
 import { LeaveStatus } from '../../models/leavestatus.enum';
+import { UserServiceProvider } from '../user-service/user-service';
 
 @Injectable()
 export class LeaveServiceProvider{
   uid:string = firebase.auth().currentUser.uid;
-  leaves: AngularFireList<Leave> = null;
   
-  constructor(public db: AngularFireDatabase) {
+  constructor(
+    public db: AngularFireDatabase,
+    private userService:UserServiceProvider) {
     this.getLeaveList(); 
   }
 
   createLeave(leave:Leave){
+   console.log(this.uid);
     leave.requestor = this.uid;
     leave.status = LeaveStatus.Requested;
     leave.createdAt = new Date();
-    console.log(leave);
-    this.leaves.push(leave);
+    leave.isRead = false;
+    this.db.list('leaves/'+ this.uid).push(leave);
   }
 
   getLeaveList(){
     return this.db.list('/leaves/'+ this.uid);
   }
 
-  getAllLeaves():AngularFireList<{}> {
+  getLeaveListByUID(usrid:string){
+    return this.db.list('/leaves/'+ usrid);
+  }
+
+  getAllLeaves():AngularFireList<Leave[]> {
     return this.db.list('/leaves');
   }
 

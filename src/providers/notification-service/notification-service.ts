@@ -17,12 +17,18 @@ export class NotificationService {
     return this.db.list<Leave>('/leaves/'+ this.uid);    
   }
 
-  acceptleave(leaveId):void{
-    this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 1,approver: this.uid, modifiedAt: new Date()});//~(1)accept
+  acceptleave(leaveId,isManager):void{
+    if(isManager)
+      this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 1,approver: this.uid, modifiedAt: new Date()});//~(1)accept
+    else
+      this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({isRead: true});//~(1)accept
   }
   
-  declineLeave(leaveId):void{
-    this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 2,approver: this.uid, modifiedAt: new Date()});//~(2)decline
+  declineLeave(leaveId,isManager):void{
+    if(isManager)
+      this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 2,approver: this.uid, modifiedAt: new Date()});//~(2)decline
+    else
+      this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({isRead: true});//~(2)decline
   }
 
   duringThisTime(startDate,endDate){

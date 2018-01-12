@@ -9,5 +9,6 @@ export interface Leave {
     approver: string,
     status: LeaveStatus,
     createdAt: Date,
-    modifiedAt: Date
+    modifiedAt: Date,
+    isRead :boolean
   }

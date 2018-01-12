@@ -5,5 +5,6 @@ export interface User {
     photoUrl: string,
     phoneNumber: string,
     manager: string,
-    team: string
+    team: string,
+    isManagerRole?:boolean
   }
