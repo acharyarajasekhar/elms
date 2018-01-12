@@ -14,6 +14,7 @@ export class NewLeavePage {
   public isHalfDay: boolean;
   public today: string;
   public today1: string;
+
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private formBuilder: FormBuilder,
@@ -28,13 +29,10 @@ export class NewLeavePage {
         reason: ['', Validators.required]
       });
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad NewLeavePage');
-  }
+  
   addLeave(){
     this.leaveService.createLeave(this.LeaveForm.value);
-    this.navCtrl.push("MyLeavesPage");
+    this.navCtrl.pop();
   }
 
 }
