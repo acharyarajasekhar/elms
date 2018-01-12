@@ -5,7 +5,7 @@ import {
   AngularFireList
 } from 'angularfire2/database';
 import { Leave } from '../../models/leave.model';
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
 
 @Injectable()
 export class NotificationService {
@@ -18,11 +18,11 @@ export class NotificationService {
   }
 
   acceptleave(leaveId):void{
-    this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 1});//~(1)accept
+    this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 1,approver: this.uid, modifiedAt: new Date()});//~(1)accept
   }
   
   declineLeave(leaveId):void{
-    this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 2});//~(2)decline
+    this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 2,approver: this.uid, modifiedAt: new Date()});//~(2)decline
   }
 
   duringThisTime(startDate,endDate){

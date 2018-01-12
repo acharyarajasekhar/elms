@@ -6,7 +6,7 @@ export interface Leave {
     to: Date,
     isHalfDay: boolean,
     reason: string,
-    approvor: string,
+    approver: string,
     status: LeaveStatus,
     createdAt: Date,
     modifiedAt: Date

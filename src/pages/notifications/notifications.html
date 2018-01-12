@@ -10,12 +10,12 @@
             <ion-avatar item-start>
               <img [src]="photoUrl">
             </ion-avatar>
-            <h2>{{leave.requestor}}</h2>
+            <h2>{{ userName }}</h2>
             <p>{{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}</p>
           </ion-item> 
          
           <ion-card-content>
-            <p>{{leave.reason | summary :100}}</p>
+            <p>{{leave.reason | summary :70}}</p>
           </ion-card-content>
         
           <ion-row>

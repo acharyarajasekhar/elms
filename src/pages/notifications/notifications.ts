@@ -16,10 +16,11 @@ import { User } from '../../models/user.model';
 export class NotificationsPage {
   leaves$:any;
   photoUrl:string = "";
-  UserContext:User;
+  UserContext:any;
   userId:string;
   loggedInUserId:string;
   managerUserId:string;
+  userName:string;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -50,13 +51,10 @@ export class NotificationsPage {
   }
 
   ionViewDidLoad() {
-    this.photoUrl ==""? this.photoUrl = "http://www.4akb.ru/default-icon.png": this.photoUrl;
-  }
-
-  getUserDetails(uid :string){
-    // this.notificationService.getRequestorDetails(uid).snapshotChanges().subscribe(user=>{
-    //   console.log(user.payload.val());
-    // });
+    this.userName = this.navParams.get('name');
+    this.navParams.get('photoUrl') == ""?
+          this.photoUrl = "http://www.4akb.ru/default-icon.png": 
+          this.photoUrl = this.navParams.get('photoUrl');
   }
 
   swipeEvent(event,keyObj){

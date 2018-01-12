@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database'; 
 import { Leave } from '../../models/leave.model';
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
 import { DateTime } from 'ionic-angular/components/datetime/datetime';
 import { LeaveStatus } from '../../models/leavestatus.enum';
 
@@ -11,7 +11,7 @@ export class LeaveServiceProvider{
   leaves: AngularFireList<Leave> = null;
   
   constructor(public db: AngularFireDatabase) {
-    this.leaves = this.db.list('leaves/'+ this.uid);
+    this.getLeaveList(); 
   }
 
   createLeave(leave:Leave){
@@ -23,7 +23,7 @@ export class LeaveServiceProvider{
   }
 
   getLeaveList(){
-    return this.leaves;
+    return this.db.list('/leaves/'+ this.uid);
   }
 
   getAllLeaves():AngularFireList<{}> {
