@@ -1,41 +1,21 @@
-import { User } from './../user-service/user-service';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database'; 
 import { Leave } from '../../models/leave.model';
 import * as firebase from 'firebase/app';
 import { DateTime } from 'ionic-angular/components/datetime/datetime';
-
-export enum LeaveStatus {
-  Requested = 0,
-  Accepted = 1,
-  Declined = 2,
-  Cancelled = 3
-}
-
-export interface Leave {
-  from: Date,
-  to: Date,
-  isHalfDay: boolean,
-  reason: string,
-
-  requestor: string,  
-  approvor: string,
-  status: LeaveStatus,
-  createdAt: Date,
-  modifiedAt: Date
-}
+import { LeaveStatus } from '../../models/leavestatus.enum';
 
 @Injectable()
 export class LeaveServiceProvider{
-
+  uid:string = firebase.auth().currentUser.uid;
   leaves: AngularFireList<Leave> = null;
   
   constructor(public db: AngularFireDatabase) {
-    this.leaves = this.db.list('leaves');
+    this.leaves = this.db.list('leaves/'+ this.uid);
   }
 
   createLeave(leave:Leave){
-    leave.requestor = firebase.auth().currentUser.uid;
+    leave.requestor = this.uid;
     leave.status = LeaveStatus.Requested;
     leave.createdAt = new Date();
     console.log(leave);
@@ -43,7 +23,7 @@ export class LeaveServiceProvider{
   }
 
   getLeaveList(){
-
+    return this.leaves;
   }
 
 }

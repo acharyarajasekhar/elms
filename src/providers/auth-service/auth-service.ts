@@ -3,7 +3,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase/app';
 import { ToastController } from 'ionic-angular';
-import { UserServiceProvider, User } from '../user-service/user-service';
+import { UserServiceProvider } from '../user-service/user-service';
+import { User } from '../../models/user.model';
 
 @Injectable()
 export class AuthServiceProvider {

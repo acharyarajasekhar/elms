@@ -5,23 +5,24 @@ import {
   AngularFireList
 } from 'angularfire2/database';
 import { Leave } from '../../models/leave.model';
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class NotificationService {
+  uid:string = firebase.auth().currentUser.uid;
   constructor(public db: AngularFireDatabase) {
-    this.getAllPendingLeaves();
   }
 
-  getAllPendingLeaves():AngularFireList<{}> {
-    return this.db.list('/leaves');
+  getAllPendingLeaves():AngularFireList<Leave> {
+    return this.db.list<Leave>('/leaves/'+ this.uid);    
   }
 
   acceptleave(leaveId):void{
-    this.db.object('/leaves/'+ leaveId).update({status:'Accepted'});
+    this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 1});//~(1)accept
   }
   
   declineLeave(leaveId):void{
-    this.db.object('/leaves/'+ leaveId).update({status:'Declined'});
+    this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 2});//~(2)decline
   }
 
   duringThisTime(startDate,endDate){
