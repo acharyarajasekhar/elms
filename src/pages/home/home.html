@@ -25,7 +25,7 @@
   <br/>
   <h1>Who is on leave</h1>
   <h3>Today</h3>
-  <ion-slides pager="false" id="today" slidesPerView=5>
+  <ion-slides pager="false" id="today" slidesPerView=1>
     <ion-slide *ngFor="let leave of leaves$ | async">
       <ion-card >
         <ion-item>
@@ -54,7 +54,7 @@
   </ion-slide>
 </ion-slides>
   <h3>Tomorrow</h3>
-  <ion-slides pager="false" id="today" slidesPerView=5>
+  <ion-slides pager="false" id="today" slidesPerView=1>
     <ion-slide *ngFor="let leave of leaves$ | async">
       <ion-card>
         <ion-item>
