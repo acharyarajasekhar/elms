@@ -8,7 +8,7 @@
     <div>
         <ion-item>
             <ion-avatar item-start>
-              <img [src]="photoUrl">
+              <img [src]="photoUrl" *ngIf="photoUrl">
             </ion-avatar>
             <h2>{{ userName }}</h2>
             <p>{{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}</p>

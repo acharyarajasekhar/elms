@@ -41,6 +41,10 @@ export class HomePage {
     this.navCtrl.push("NotificationsPage",{ name: this.userInfo$[0].name, photoUrl:this.userInfo$[0].photoUrl });
   }
 
+  openReports() {
+    this.navCtrl.push("ReportPage",{ userCtx: this.userInfo$[0] });
+  }
+
   openNewLeave() {
     this.navCtrl.push("NewLeavePage");
   }
@@ -59,11 +63,13 @@ export class HomePage {
   getTeamMembers(){
     this.userService.getUsersInfo()
     .subscribe(result=>{
+      //get my team memebers from list of users
       this.teamInfo$ = _.filter(result, { team : localStorage.getItem('myTeam')});
     });
   }
 
   getMyTeamLeaves(){
+    //get all leaves for each users
     this.teamInfo$.forEach(u=>{
       this.leaveService.getLeaveListByUID(u.uid)
                       .snapshotChanges()
@@ -80,7 +86,8 @@ export class HomePage {
 
   filterLeavesByDate(startDt:Date, endDate:Date){
     if(this.teamLeaves$.length > 0){
-      let filteredResult =  _.filter(this.teamLeaves$,{ from:startDt });
+      //fetch only approved leaves of my team memebers
+      let filteredResult =  _.filter(this.teamLeaves$,{ from:startDt, status: 1 });
       return filteredResult;
     }
     return "";
