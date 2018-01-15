@@ -22,6 +22,9 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../providers/user-service/user-service';
 import { LeaveServiceProvider } from '../providers/leave-service/leave-service';
 import { NotificationService } from '../providers/notification-service/notification-service';
+import { ReportTeamPage } from '../pages/report-team/report-team';
+import { ReportAnnualPage } from '../pages/report-annual/report-annual';
+import { ReportReporteePage } from '../pages/report-reportee/report-reportee';
   
 // AF2 Settings
 const firebaseConfig = {
@@ -36,10 +39,9 @@ const firebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
-    // HomePakge,
-    // UserProfilePage,
-    // MyLeavesPage,
-    // CreateLeaveRequestPage
+    ReportTeamPage,
+    ReportAnnualPage,
+    ReportReporteePage
   ],
   imports: [    
     BrowserModule,
@@ -52,10 +54,9 @@ const firebaseConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    // HomePage,
-    // UserProfilePage,
-    // MyLeavesPage,
-    // CreateLeaveRequestPage
+    ReportTeamPage,
+    ReportAnnualPage,
+    ReportReporteePage,
   ],
   providers: [
     StatusBar,

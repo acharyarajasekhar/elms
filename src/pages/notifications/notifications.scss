@@ -1,9 +1,15 @@
 page-notifications {
-    .ion-card{
-        margin-top: 3em;
+    .ion-avatar{
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
     }
     .leave-card {
-        border-right: 1px solid grey;
-        border-bottom: 1px solid grey;
+        background:#fff;
+        border-radius: 2px;
+        display: inline-block;
+        margin: 1rem;
+        position: relative;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     }
 }

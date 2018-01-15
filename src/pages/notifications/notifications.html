@@ -12,22 +12,22 @@
             </ion-avatar>
             <h2>{{ userName }}</h2>
             <p>{{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}</p>
-          </ion-item> 
+        </ion-item> 
          
-          <ion-card-content>
-            <p>{{leave.reason | summary :70}}</p>
-          </ion-card-content>
-        
-          <ion-row>
-            <ion-col>
-              <button ion-button icon-left clear small>
-                <ion-icon name="people"></ion-icon>
-              </button>
-              <ion-note>
-                  12 Other leaves applied
-              </ion-note>
-            </ion-col>
-          </ion-row>
+        <ion-card-content>
+          <p>{{leave.reason | summary :70}}</p>
+        </ion-card-content>
+      
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-left clear small>
+              <ion-icon name="people"></ion-icon>
+            </button>
+            <ion-note>
+                12 Other leaves applied
+            </ion-note>
+          </ion-col>
+        </ion-row>
     </div>
     </ion-card>
 </ion-content>
