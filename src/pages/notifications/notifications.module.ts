@@ -7,15 +7,20 @@ import { Leave } from '../../models/leave.model';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 import { PipesModule } from '../../pipes/pipes.module';
+import { TimeAgoPipe} from 'time-ago-pipe';
 
 @NgModule({
   declarations: [
     NotificationsPage,
+    TimeAgoPipe
   ],
   imports: [
     IonicPageModule.forChild(NotificationsPage),
-    PipesModule
+    PipesModule,
   ],
+  exports:[
+    TimeAgoPipe
+  ]
 })
 export class NotificationsPageModule {
   constructor() {} 

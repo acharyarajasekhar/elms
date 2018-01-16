@@ -8,7 +8,7 @@ export interface Leave {
     reason: string,
     approver: string,
     status: LeaveStatus,
-    createdAt: Date,
+    createdAt: any,
     modifiedAt: Date,
     isRead :boolean
   }

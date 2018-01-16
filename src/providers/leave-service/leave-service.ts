@@ -4,6 +4,7 @@ import { Leave } from '../../models/leave.model';
 import * as firebase from 'firebase';
 import { LeaveStatus } from '../../models/leavestatus.enum';
 import { UserServiceProvider } from '../user-service/user-service';
+import { convertDataToISO } from 'ionic-angular/util/datetime-util';
 
 @Injectable()
 export class LeaveServiceProvider implements OnInit{
@@ -18,7 +19,7 @@ export class LeaveServiceProvider implements OnInit{
   createLeave(leave:Leave){
     leave.requestor = this.uid;
     leave.status = LeaveStatus.Requested;
-    leave.createdAt = new Date();
+    leave.createdAt = new Date().toISOString();
     leave.isRead = false;
     this.db.list('leaves/'+ this.uid).push(leave);
   }

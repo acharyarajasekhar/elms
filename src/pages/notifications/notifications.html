@@ -12,6 +12,9 @@
             </ion-avatar>
             <h2>{{ userName }}</h2>
             <p>{{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}</p>
+            <div item-end>
+              <p class="ts-globe">{{leave.createdAt | timeAgo }} <ion-icon name="md-globe"></ion-icon></p>              
+            </div>
         </ion-item> 
          
         <ion-card-content>
