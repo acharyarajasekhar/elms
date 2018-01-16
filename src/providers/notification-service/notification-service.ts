@@ -19,16 +19,20 @@ export class NotificationService {
 
   acceptleave(leaveId,isManager):void{
     if(isManager)
-      this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 1,approver: this.uid, modifiedAt: new Date()});//~(1)accept
+      this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 1,approver: this.uid, modifiedAt: new Date(),isRead: true});//~(1)accept
     else
       this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({isRead: true});//~(1)accept
   }
   
   declineLeave(leaveId,isManager):void{
     if(isManager)
-      this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 2,approver: this.uid, modifiedAt: new Date()});//~(2)decline
+      this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 2,approver: this.uid, modifiedAt: new Date(),isRead: true});//~(2)decline
     else
       this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({isRead: true});//~(2)decline
+  }
+
+  archieveLeave(leaveId){
+    this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({isRead: true});
   }
 
   duringThisTime(startDate,endDate){

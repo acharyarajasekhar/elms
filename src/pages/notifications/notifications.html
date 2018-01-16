@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="has-header">
-    <ion-card *ngFor="let leave of leaves$" (swipe)="swipeEvent($event,leave.key)" class="leave-card">
+    <!-- <ion-card *ngFor="let leave of leaves$" (swipe)="swipeEvent($event,leave.key)" class="leave-card">
     <div>
         <ion-item>
             <ion-avatar item-start>
@@ -32,5 +32,28 @@
           </ion-col>
         </ion-row>
     </div>
-    </ion-card>
+    </ion-card> -->
+    <ion-list>
+        <ion-item-sliding #item *ngFor="let leave of leaves$">
+          <ion-item>
+              <ion-avatar item-start>
+                  <img [src]="photoUrl" *ngIf="photoUrl">
+              </ion-avatar>
+              <h2>{{ userName }}</h2>
+              <p>{{leave.reason | summary :40}}</p>
+              <ion-note item-end>
+                  {{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}
+              </ion-note>
+            </ion-item>
+          <ion-item-options side="left">
+            <button ion-button color="danger" (click)="rejectLeave(leave.key)" *ngIf="isManagerRole == 'true' && isManagerRole != null">Reject</button>
+            <button ion-button color="light" (click)="readOnly(leave.key)" *ngIf="isManagerRole == 'false' || isManagerRole == null">Archive</button>
+          </ion-item-options>
+      
+          <ion-item-options side="right">
+            <button ion-button color="secondary" (click)="acceptLeave(leave.key)" *ngIf="isManagerRole == 'true' && isManagerRole != null">Accept</button>
+            <button ion-button color="light" (click)="readOnly(leave.key)" *ngIf="isManagerRole == 'false' || isManagerRole== null">Archive</button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
 </ion-content>

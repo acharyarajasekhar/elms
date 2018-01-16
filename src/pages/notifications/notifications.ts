@@ -21,7 +21,7 @@ export class NotificationsPage implements OnInit{
   loggedInUserId:string;
   managerUserId:string;
   userName:string;
-  isManagerRole;
+  isManagerRole:string;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -72,6 +72,28 @@ export class NotificationsPage implements OnInit{
       else
         this.notificationService.acceptleave(keyObj,false);
     } 
+  }
+
+  rejectLeave(keyObj){
+    if(this.isManagerRole != "" && this.isManagerRole == "true"){
+      this.notificationService.declineLeave(keyObj,true);
+    }   
+    else{
+      this.notificationService.declineLeave(keyObj,false);
+    }
+  }
+
+  acceptLeave(keyObj){
+    if(this.isManagerRole != "" && this.isManagerRole == "true"){
+      this.notificationService.acceptleave(keyObj,true);
+    }   
+    else{
+      this.notificationService.acceptleave(keyObj,false);
+    }
+  }
+
+  readOnly(keyObj){
+    this.notificationService.archieveLeave(keyObj);
   }
 
   ngOnInit(){
