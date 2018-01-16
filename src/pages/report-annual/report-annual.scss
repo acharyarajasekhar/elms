@@ -1,3 +1,29 @@
 page-report-annual {
-
+    .report-card {
+        background:#fff;
+        border-radius: 2px;
+        display: inline-block;
+        margin: 1rem;
+        position: relative;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    }
+    .scroll-content {
+        background-color: map-get($colors, light);
+    }
 }
+.ios, .md {
+ 
+    page-home {
+ 
+        .scroll-content {
+            background-color: map-get($colors, light);
+        }
+ 
+        ion-card-header {
+            font-weight: bold;
+        }
+ 
+    }
+ 
+}
+

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
@@ -13,12 +13,13 @@ import { User } from '../../models/user.model';
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage {  
+export class HomePage implements OnInit{  
   cards: any;
   leaves$:Observable<Leave[]>;
   userInfo$:User;
   teamInfo$:User[]= [];
   teamLeaves$:any[] = [];
+  loggedInUserId:string;
   constructor(
     public navCtrl: NavController,
     private authService: AuthServiceProvider,
@@ -34,6 +35,7 @@ export class HomePage {
                 key:c.payload.key,...c.payload.val()
           }))
         });
+    this.loggedInUserId = firebase.auth().currentUser.uid;
     this.getUserContext();
   }
 
@@ -52,7 +54,7 @@ export class HomePage {
   getUserContext(){
     this.userService.getUsersInfo()
     .subscribe(result=>{
-      this.userInfo$ = _.filter(result, { uid : firebase.auth().currentUser.uid});
+      this.userInfo$ = _.filter(result, { uid : this.loggedInUserId});
       let isManager = this.userInfo$[0].isManagerRole;
       let myTeam = this.userInfo$[0].team;
       localStorage.setItem('isManagerRole',''+isManager+'');
@@ -91,5 +93,11 @@ export class HomePage {
       return filteredResult;
     }
     return "";
+  }
+
+  ngOnInit(){
+    if(this.loggedInUserId === "" || this.loggedInUserId === null){
+      this.loggedInUserId = firebase.auth().currentUser.uid;
+    }
   }
 }

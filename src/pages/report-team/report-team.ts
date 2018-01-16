@@ -1,12 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the ReportTeamPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Chart } from 'chart.js';
 
 @IonicPage()
 @Component({
@@ -14,12 +8,45 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'report-team.html',
 })
 export class ReportTeamPage {
-
+  @ViewChild('lineCanvas') lineCanvas;
+  lineChart: any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ReportTeamPage');
+    this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+ 
+      type: 'line',
+      data: {
+          labels: ["January", "February", "March", "April", "May", "June", "July"],
+          datasets: [
+              {
+                  label: "Leave Count",
+                  fill: false,
+                  lineTension: 0.1,
+                  backgroundColor: "rgba(75,192,192,0.4)",
+                  borderColor: "rgba(75,192,192,1)",
+                  borderCapStyle: 'butt',
+                  borderDash: [],
+                  borderDashOffset: 0.0,
+                  borderJoinStyle: 'miter',
+                  pointBorderColor: "rgba(75,192,192,1)",
+                  pointBackgroundColor: "#fff",
+                  pointBorderWidth: 1,
+                  pointHoverRadius: 5,
+                  pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                  pointHoverBorderColor: "rgba(220,220,220,1)",
+                  pointHoverBorderWidth: 2,
+                  pointRadius: 1,
+                  pointHitRadius: 10,
+                  data: [65, 59, 80, 81, 56, 55, 40],
+                  spanGaps: false,
+              }
+          ]
+      }
+
+  });
+
   }
 
 }

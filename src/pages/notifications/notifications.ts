@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { Leave } from '../../models/leave.model';
@@ -13,7 +13,7 @@ import { User } from '../../models/user.model';
   selector: 'page-notifications', 
   templateUrl: 'notifications.html',
 })
-export class NotificationsPage {
+export class NotificationsPage implements OnInit{
   leaves$:any;
   photoUrl:string = "";
   UserContext:any;
@@ -72,6 +72,13 @@ export class NotificationsPage {
       else
         this.notificationService.acceptleave(keyObj,false);
     } 
+  }
+
+  ngOnInit(){
+    if(this.loggedInUserId == "" || this.loggedInUserId == null){
+      this.loggedInUserId = firebase.auth().currentUser.uid;
+      this.isManagerRole = localStorage.getItem('isManagerRole');
+    }
   }
 
 }

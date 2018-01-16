@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database'; 
 import { Leave } from '../../models/leave.model';
 import * as firebase from 'firebase';
@@ -6,7 +6,7 @@ import { LeaveStatus } from '../../models/leavestatus.enum';
 import { UserServiceProvider } from '../user-service/user-service';
 
 @Injectable()
-export class LeaveServiceProvider{
+export class LeaveServiceProvider implements OnInit{
   uid:string = firebase.auth().currentUser.uid;
   
   constructor(
@@ -16,7 +16,6 @@ export class LeaveServiceProvider{
   }
 
   createLeave(leave:Leave){
-   console.log(this.uid);
     leave.requestor = this.uid;
     leave.status = LeaveStatus.Requested;
     leave.createdAt = new Date();
@@ -36,4 +35,9 @@ export class LeaveServiceProvider{
     return this.db.list('/leaves');
   }
 
+  ngOnInit(){
+    if(this.uid === "" || this.uid === null){
+      this.uid = firebase.auth().currentUser.uid;
+    }
+  }
 }
