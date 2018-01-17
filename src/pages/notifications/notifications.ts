@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
 import { NotificationService } from '../../providers/notification-service/notification-service';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
-import { UserServiceProvider } from '../../providers/user-service/user-service';
-import { User } from '../../models/user.model';
 import { Leave } from '../../models/leave.model';
 import * as _ from "lodash";
 import * as firebase from "firebase";
@@ -23,16 +20,16 @@ export class NotificationsPage implements OnInit{
   loggedInUserId:string;
   managerUserId:string;
   userName:string;
-  isManagerRole:boolean;
+  isManagerRole:string;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     private notificationService:NotificationService,
-    private userService:UserServiceProvider,
     private leaveService:LeaveServiceProvider
   ) {
     this.loggedInUserId = firebase.auth().currentUser.uid;
-    this.isManagerRole = <any>localStorage.getItem('isManagerRole');
+    this.isManagerRole = localStorage.getItem('isManagerRole');
+    console.log(this.isManagerRole);
     this.bindNotificationList();
   }
 
@@ -65,13 +62,13 @@ export class NotificationsPage implements OnInit{
 
   swipeEvent(event,keyObj){
     if (event.direction == 2){ //(2)swipe left direction ~ reject
-      if(!this.isManagerRole && this.isManagerRole == true)
+      if(!this.isManagerRole && this.isManagerRole == 'true')
         this.notificationService.declineLeave(keyObj,true);
       else
         this.notificationService.declineLeave(keyObj,false);
     }
     if (event.direction == 4){ //(4)swipe right direction ~ accept
-      if(!this.isManagerRole && this.isManagerRole == false)
+      if(!this.isManagerRole && this.isManagerRole == 'false')
         this.notificationService.acceptleave(keyObj,true);
       else
         this.notificationService.acceptleave(keyObj,false);
@@ -103,7 +100,7 @@ export class NotificationsPage implements OnInit{
   ngOnInit(){
     if(this.loggedInUserId == "" || this.loggedInUserId == null){
       this.loggedInUserId = firebase.auth().currentUser.uid;
-      this.isManagerRole = Boolean(localStorage.getItem('isManagerRole'));
+      this.isManagerRole = localStorage.getItem('isManagerRole');
     }
   }
 

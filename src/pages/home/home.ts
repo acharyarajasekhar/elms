@@ -24,7 +24,6 @@ export class HomePage implements OnInit{
   badgeCount:number;
   constructor(
     public navCtrl: NavController,
-    //private authService: AuthServiceProvider,
     public leaveService: LeaveServiceProvider,
     private userService:UserServiceProvider) {
     this.cards = new Array(10);
