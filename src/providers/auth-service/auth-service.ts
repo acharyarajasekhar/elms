@@ -33,7 +33,9 @@ export class AuthServiceProvider {
   }
 
   signOut() {
-    this.afAuth.auth.signOut();
+    this.afAuth.auth.signOut().then(()=>{
+      //to-do
+    });
   }
 
   signUp(credentials) {

@@ -13,10 +13,6 @@ export class NotificationService {
   constructor(public db: AngularFireDatabase) {
   }
 
-  getAllPendingLeaves():AngularFireList<Leave> {
-    return this.db.list<Leave>('/leaves/'+ this.uid);    
-  }
-
   acceptleave(leaveId,isManager):void{
     if(isManager)
       this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 1,approver: this.uid, modifiedAt: new Date(),isRead: true});//~(1)accept

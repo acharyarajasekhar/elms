@@ -23,6 +23,10 @@ export class LeaveServiceProvider implements OnInit{
     leave.isRead = false;
     this.db.list('leaves/'+ this.uid).push(leave);
   }
+  
+  getLeavesByUser():AngularFireList<Leave> {
+    return this.db.list<Leave>('/leaves/'+ this.uid);    
+  }
 
   getLeaveList(){
     return this.db.list('/leaves/'+ this.uid);

@@ -34,4 +34,8 @@ export class UserServiceProvider {
           });
   }
 
+  getMyTeam(teamId:number){
+    return this.db.list('/teams/'+ teamId + '/members/');
+  }
+
 }
