@@ -39,11 +39,13 @@
               <ion-avatar item-start>
                   <img [src]="photoUrl" *ngIf="photoUrl">
               </ion-avatar>
-              <h2>{{ userName }}</h2>
-              <p>{{leave.reason | summary :40}}</p>
-              <ion-note item-end>
-                  {{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}
-              </ion-note>
+              <ion-label style="margin-top:-5px;">
+                {{ userName }}
+              </ion-label>
+              <ion-label style="margin-bottom:-20px;font-size:12px;margin-left:-215px;" item-content>
+                {{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}
+              </ion-label>
+              <p style="margin-top:-10px;" item-content item-end class="ts-globe">{{leave.createdAt | timeAgo }} <ion-icon name="md-globe"></ion-icon></p> 
             </ion-item>
           <ion-item-options side="left">
             <button ion-button color="danger" (click)="rejectLeave(leave.key)" *ngIf="isManagerRole == 'true' && isManagerRole != null">Reject</button>
