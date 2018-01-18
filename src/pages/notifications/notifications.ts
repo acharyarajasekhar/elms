@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { NotificationService } from '../../providers/notification-service/notification-service';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
@@ -26,7 +26,8 @@ export class NotificationsPage implements OnInit{
     public navParams: NavParams,
     private notificationService:NotificationService,
     public auth: AuthServiceProvider,
-    private leaveService:LeaveServiceProvider
+    private leaveService:LeaveServiceProvider,
+    public toastCtrl: ToastController
   ) {
     this.isManagerRole = localStorage.getItem('isManagerRole');
     this.bindNotificationList();
@@ -81,27 +82,40 @@ export class NotificationsPage implements OnInit{
   rejectLeave(keyObj){
     if(this.isManagerRole == 'true'){
       this.notificationService.declineLeave(keyObj,true);
+      this.showToast('Leave request rejected succesfully');
     }   
     else{
       this.notificationService.declineLeave(keyObj,false);
+      this.showToast('Archived');
     }
   }
 
   acceptLeave(keyObj){
     if(this.isManagerRole == 'true'){
       this.notificationService.acceptleave(keyObj,true);
+      this.showToast('Leave request accepted succesfully');
     }   
     else{
       this.notificationService.acceptleave(keyObj,false);
+      this.showToast('Archived');
     }
   }
 
   readOnly(keyObj){
     this.notificationService.archieveLeave(keyObj);
+    this.showToast('Archived');
   }
 
   ngOnInit(){
 
   }
 
+  showToast(alert_message:string){
+    let toast = this.toastCtrl.create({
+      message: alert_message,
+      duration: 2000,
+      position: 'bottom'
+    }); 
+    toast.present(toast);
+  }
 }
