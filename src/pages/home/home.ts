@@ -21,10 +21,14 @@ export class HomePage implements OnInit{
   teamLeaves$:any[] = [];
   loggedInUserId:string;
   badgeCount:number;
+  user: any;
+
   constructor(
     public navCtrl: NavController,
+    private authService: AuthServiceProvider,
     public leaveService: LeaveServiceProvider,
     private userService:UserServiceProvider) {
+      this.user = this.authService.user;
     this.cards = new Array(10);
     this.leaves$ = this.leaveService
         .getAllLeaves()
@@ -35,11 +39,16 @@ export class HomePage implements OnInit{
                 key:c.payload.key,...c.payload.val()
           }))
         });
-    this.loggedInUserId = firebase.auth().currentUser.uid;
+    this.loggedInUserId = this.user.uid;
     this.badgeCount = localStorage.getItem('badgeCount')!=""? Number(localStorage.getItem('badgeCount')): 0;
     this.getUserContext();
   }
 
+  SearchRecords()
+  {
+    this.navCtrl.push("SearchLeavesPage",{ UserInfo: this.userInfo$[0]});
+    // page-search-leaves
+  }
   openNotifications() {
     this.navCtrl.push("NotificationsPage",{ name: this.userInfo$[0].name, photoUrl:this.userInfo$[0].photoUrl });
   }
@@ -95,7 +104,7 @@ export class HomePage implements OnInit{
 
   ngOnInit(){
     if(this.loggedInUserId === "" || this.loggedInUserId === null){
-      this.loggedInUserId = firebase.auth().currentUser.uid;
+      this.loggedInUserId = this.user.uid;
     }
   }
 }
