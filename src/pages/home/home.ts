@@ -3,7 +3,6 @@ import { IonicPage, NavController } from 'ionic-angular';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/switchmap';
 import { Leave } from '../../models/leave.model';
 import * as _ from "lodash";
 import * as firebase from "firebase";
