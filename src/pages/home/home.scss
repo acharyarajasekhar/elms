@@ -24,4 +24,14 @@ page-home {
         color: white;
         text-align: center;
     }
+    .badge-custom{
+        font-size: 12px;
+        margin-top: -20px;
+        margin-right: -5px;
+        background-color: red;
+        z-index: 999;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
 }

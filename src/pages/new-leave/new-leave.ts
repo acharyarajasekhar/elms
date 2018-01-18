@@ -10,7 +10,7 @@ import { MyLeavesPage } from "../my-leaves/my-leaves"
   templateUrl: 'new-leave.html',
 })
 export class NewLeavePage {
-
+  
   LeaveForm: FormGroup;
   myDate: Date = new Date();
 
@@ -27,7 +27,7 @@ export class NewLeavePage {
   }
   
   addLeave(){
-    this.leaveService.createLeave(this.LeaveForm.value);
+    this.leaveService.createLeave(this.LeaveForm.value,"");
     this.navCtrl.pop();
   }
 

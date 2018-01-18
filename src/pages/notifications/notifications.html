@@ -42,8 +42,9 @@
               <ion-label style="margin-top:-5px;">
                 {{ userName }}
               </ion-label>
-              <ion-label style="margin-bottom:-20px;font-size:12px;margin-left:-215px;" item-content>
-                {{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}
+              
+              <ion-label class="event-time-style" item-content>
+                <ion-icon name="alarm"></ion-icon>  {{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}
               </ion-label>
               <p style="margin-top:-10px;" item-content item-end class="ts-globe">{{leave.createdAt | timeAgo }} <ion-icon name="md-globe"></ion-icon></p> 
             </ion-item>

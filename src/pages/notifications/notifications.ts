@@ -6,7 +6,6 @@ import { Leave } from '../../models/leave.model';
 import * as _ from "lodash";
 import * as firebase from "firebase";
 
-
 @IonicPage()
 @Component({
   selector: 'page-notifications', 
@@ -29,27 +28,19 @@ export class NotificationsPage implements OnInit{
   ) {
     this.loggedInUserId = firebase.auth().currentUser.uid;
     this.isManagerRole = localStorage.getItem('isManagerRole');
-    console.log(this.isManagerRole);
     this.bindNotificationList();
   }
 
-  bindNotificationList(){
-    this.leaveService
-        .getLeavesByUser()
-        .snapshotChanges()
-        .map(
-          changes=>{
-          return changes.map(c=>(
-            {key:c.payload.key,...c.payload.val()}
-          ))
-        }).subscribe(result=>{
-             let unSorted:Leave[] = _.filter(result, { 
+  async bindNotificationList(){
+    await this.leaveService
+              .getLeavesByUser(this.loggedInUserId)
+              .subscribe(result=>{
+                  let unSorted:Leave[] = _.filter(result, { 
                                                         status: 0 ,//pending leaves
                                                         requestor : this.loggedInUserId,
                                                         isRead: false
-                                                     });
-             localStorage.setItem('badgeCount',unSorted.length.toString())                                                
-             this.leaves$ = _.orderBy(unSorted, ['from'], ['asc']); 
+                                                     });                                            
+                  this.leaves$ = _.orderBy(unSorted, ['from'], ['asc']); 
         });
   }
 
@@ -76,7 +67,7 @@ export class NotificationsPage implements OnInit{
   }
 
   rejectLeave(keyObj){
-    if(this.isManagerRole){
+    if(this.isManagerRole == 'true'){
       this.notificationService.declineLeave(keyObj,true);
     }   
     else{
@@ -85,7 +76,7 @@ export class NotificationsPage implements OnInit{
   }
 
   acceptLeave(keyObj){
-    if(this.isManagerRole){
+    if(this.isManagerRole == 'true'){
       this.notificationService.acceptleave(keyObj,true);
     }   
     else{
@@ -98,10 +89,7 @@ export class NotificationsPage implements OnInit{
   }
 
   ngOnInit(){
-    if(this.loggedInUserId == "" || this.loggedInUserId == null){
-      this.loggedInUserId = firebase.auth().currentUser.uid;
-      this.isManagerRole = localStorage.getItem('isManagerRole');
-    }
+     
   }
 
 }

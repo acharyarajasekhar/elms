@@ -25,6 +25,7 @@ import { NotificationService } from '../providers/notification-service/notificat
 import { ReportTeamPage } from '../pages/report-team/report-team';
 import { ReportAnnualPage } from '../pages/report-annual/report-annual';
 import { ReportReporteePage } from '../pages/report-reportee/report-reportee';
+import { TeamServiceProvider } from '../providers/team-service/team-service';
   
 // AF2 Settings
 const firebaseConfig = {
@@ -65,7 +66,8 @@ const firebaseConfig = {
     AuthServiceProvider,
     UserServiceProvider,
     LeaveServiceProvider,
-    NotificationService
+    NotificationService,
+    TeamServiceProvider,
   ]
 })
 export class AppModule {}

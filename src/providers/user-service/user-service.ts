@@ -15,6 +15,15 @@ export class UserServiceProvider {
     this.users = this.db.list('/users');
   }
 
+  getUserByKey(key:string){
+    return this.db.object('/users/' + key)
+                  .snapshotChanges()
+                  .map(
+                    changes=>{
+                        return changes.payload.val()
+                  });
+  }
+
   createUser(user: User) {
     this.users.push(user);
   }

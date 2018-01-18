@@ -10,5 +10,8 @@ export interface Leave {
     status: LeaveStatus,
     createdAt: any,
     modifiedAt: Date,
-    isRead :boolean
+    isRead :boolean,
+    name?: string,
+    photoUrl?: string,
+    key:string
   }
