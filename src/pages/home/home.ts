@@ -46,7 +46,7 @@ export class HomePage implements OnInit{
 
   SearchRecords()
   {
-    this.navCtrl.push("searchleavesPage",{ UserInfo: this.userInfo$[0]});
+    this.navCtrl.push("SearchLeavesPage",{ UserInfo: this.userInfo$[0]});
     // page-search-leaves
   }
   openNotifications() {
