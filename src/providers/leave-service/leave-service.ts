@@ -1,46 +1,60 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database'; 
 import { Leave } from '../../models/leave.model';
-import * as firebase from 'firebase';
 import { LeaveStatus } from '../../models/leavestatus.enum';
 import { UserServiceProvider } from '../user-service/user-service';
-import { convertDataToISO } from 'ionic-angular/util/datetime-util';
 import { AuthServiceProvider } from '../auth-service/auth-service';
 import 'rxjs/add/operator/toPromise';
+import * as firebase from "firebase";
+import * as _ from 'lodash';
+import { TeamServiceProvider } from '../team-service/team-service';
 
 @Injectable()
-export class LeaveServiceProvider {
-
-  myUserID: string = this.auth.user.uid;
-  
+export class LeaveServiceProvider { 
+  uid: string = firebase.auth().currentUser.uid;
   constructor(
-    public auth: AuthServiceProvider,
     public db: AngularFireDatabase,
+    public auth: AuthServiceProvider,
+    private teamService:TeamServiceProvider,
     private userService:UserServiceProvider) {
-    this.getLeaveList(); 
   }
 
   createLeave(leave:Leave){
-    leave.requestor = this.myUserID;
+    leave.requestor = this.uid;
     leave.status = LeaveStatus.Requested;
     leave.createdAt = new Date().toISOString();
     leave.isRead = false;
-    this.db.list('leaves/'+ this.myUserID).push(leave);
+    this.db.list('leaves/'+ this.uid).push(leave);
   }
   
-  getLeavesByUser():AngularFireList<Leave> {
-    return this.db.list<Leave>('/leaves/'+ this.myUserID);    
+  getLeavesByUser(user:string) {
+    return this.db.list<Leave>('/leaves/'+ user)
+                  .snapshotChanges()
+                  .map(
+                    changes=>{
+                    return changes.map(c=>(
+                      {key:c.payload.key,...c.payload.val()}
+                  ))
+     });    
   }
 
   getLeaveList(){
-    return this.db.list('/leaves/'+ this.myUserID);
+    return this.db.list('/leaves/'+ this.uid);
   }
 
-  getLeaveListByUID(usrid:string){
-    return this.db.list('/leaves/'+ usrid);
+  getBadgeCount(userid?:string){
+    if(userid)
+      return this.getLeavesByUser(userid);
   }
 
-  getAllLeaves():AngularFireList<Leave[]> {
-    return this.db.list('/leaves');
+  getAllLeaves(){
+    return this.db.list('/leaves')
+                  .snapshotChanges()
+                  .map(
+                  changes=>{
+                  return changes.map(c=>({
+                        key:c.payload.key,...c.payload.val()
+          }))
+    });
   }
 }

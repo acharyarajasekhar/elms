@@ -27,7 +27,7 @@ export class NewLeavePage {
   }
   
   addLeave(){
-    this.leaveService.createLeave(this.LeaveForm.value,"");
+    this.leaveService.createLeave(this.LeaveForm.value);
     this.navCtrl.pop();
   }
 

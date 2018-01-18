@@ -6,7 +6,6 @@ import { Team } from '../../models/team.model';
 @Injectable()
 export class TeamServiceProvider {
   teams: AngularFireList<Team> = null;
-  
   constructor(public db: AngularFireDatabase) {
     this.getTeams();
   }
@@ -14,5 +13,4 @@ export class TeamServiceProvider {
   getTeams(){
     return this.db.list<Team>('/teams');
   }
-
 }

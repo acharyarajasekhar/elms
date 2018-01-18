@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { NotificationService } from '../../providers/notification-service/notification-service';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { Leave } from '../../models/leave.model';
 import * as _ from "lodash";
 import * as firebase from "firebase";
@@ -13,10 +14,10 @@ import * as firebase from "firebase";
 })
 export class NotificationsPage implements OnInit{
   leaves$:any;
-  photoUrl:string = "";
+  photoUrl:string;
   UserContext:any;
   userId:string;
-  loggedInUserId:string;
+  loggedInUserId:string = firebase.auth().currentUser.uid;
   managerUserId:string;
   userName:string;
   isManagerRole:string;
@@ -24,24 +25,35 @@ export class NotificationsPage implements OnInit{
     public navCtrl: NavController, 
     public navParams: NavParams,
     private notificationService:NotificationService,
+    public auth: AuthServiceProvider,
     private leaveService:LeaveServiceProvider
   ) {
-    this.loggedInUserId = firebase.auth().currentUser.uid;
     this.isManagerRole = localStorage.getItem('isManagerRole');
     this.bindNotificationList();
   }
 
-  async bindNotificationList(){
+  bindNotificationList(){
+    if((this.isManagerRole!= undefined || this.isManagerRole == "") && this.isManagerRole == "true")
+      this.managerLeaveView(this.loggedInUserId);
+    else
+      this.userLeaveView(this.loggedInUserId);
+  }
+
+  async userLeaveView(user:string){
     await this.leaveService
-              .getLeavesByUser(this.loggedInUserId)
+              .getLeavesByUser(user)
               .subscribe(result=>{
                   let unSorted:Leave[] = _.filter(result, { 
                                                         status: 0 ,//pending leaves
-                                                        requestor : this.loggedInUserId,
+                                                        requestor : user,
                                                         isRead: false
                                                      });                                            
                   this.leaves$ = _.orderBy(unSorted, ['from'], ['asc']); 
         });
+  }
+
+  managerLeaveView(managerId){
+   //to-do
   }
 
   ionViewDidLoad() {
@@ -89,7 +101,7 @@ export class NotificationsPage implements OnInit{
   }
 
   ngOnInit(){
-     
+
   }
 
 }

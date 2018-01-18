@@ -1,16 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { 
-  AngularFireDatabase, 
-  AngularFireList
-} from 'angularfire2/database';
+import { AngularFireDatabase,AngularFireList } from 'angularfire2/database';
 import { Leave } from '../../models/leave.model';
-import * as firebase from 'firebase';
+import { AuthServiceProvider } from '../auth-service/auth-service';
+import 'rxjs/add/operator/toPromise';
+import * as firebase from "firebase";
 
 @Injectable()
 export class NotificationService {
-  uid:string = firebase.auth().currentUser.uid;
-  constructor(public db: AngularFireDatabase) {
+  uid: string = firebase.auth().currentUser.uid;
+  constructor(
+    public db: AngularFireDatabase,
+    public auth: AuthServiceProvider,) {
   }
 
   acceptleave(leaveId,isManager):void{

@@ -8,6 +8,7 @@ import * as _ from "lodash";
 import * as firebase from "firebase";
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { User } from '../../models/user.model';
+
 @IonicPage()
 @Component({
   selector: 'page-home',
@@ -19,36 +20,26 @@ export class HomePage implements OnInit{
   userInfo$:User;
   teamInfo$:any[]= [];
   teamLeaves$:any[] = [];
-  loggedInUserId:string;
+  loggedInUserId:string = firebase.auth().currentUser.uid; 
   badgeCount:number;
-  user: any;
-
   constructor(
     public navCtrl: NavController,
-    private authService: AuthServiceProvider,
     public leaveService: LeaveServiceProvider,
+    public auth: AuthServiceProvider,
     private userService:UserServiceProvider) {
-      this.user = this.authService.user;
     this.cards = new Array(10);
-    this.leaves$ = this.leaveService
-        .getAllLeaves()
-        .snapshotChanges()
-        .map(
-          changes=>{
-          return changes.map(c=>({
-                key:c.payload.key,...c.payload.val()
-          }))
-        });
-    this.loggedInUserId = this.user.uid;
-    this.badgeCount = localStorage.getItem('badgeCount')!=""? Number(localStorage.getItem('badgeCount')): 0;
+    this.bindLeaveCarosol();
     this.getUserContext();
   }
 
-  SearchRecords()
-  {
-    this.navCtrl.push("SearchLeavesPage",{ UserInfo: this.userInfo$[0]});
-    // page-search-leaves
+  bindLeaveCarosol(){
+    this.leaves$ = this.leaveService.getAllLeaves();
   }
+
+  ionViewDidLoad() {
+    this.badgeCount = 0;
+  }
+
   openNotifications() {
     this.navCtrl.push("NotificationsPage",{ name: this.userInfo$[0].name, photoUrl:this.userInfo$[0].photoUrl });
   }
@@ -77,16 +68,10 @@ export class HomePage implements OnInit{
                       })
                       .subscribe(members=>{
                         this.teamInfo$.forEach(member=>{
-                          this.leaveService.getLeaveListByUID(member)
-                                           .snapshotChanges()
-                                           .map(changes=>{
-                                             return changes.map(c=>{
-                                              this.teamLeaves$.push(c.payload.val())
-                                             })
-                                          })
-                                          .subscribe(()=>{
-                                            this.filterLeavesByDate();
-                                          });
+                          this.leaveService.getLeavesByUser(member)
+                                            .subscribe(()=>{
+                                              this.filterLeavesByDate();
+                                            });
                   
                         });
                       });
@@ -102,9 +87,21 @@ export class HomePage implements OnInit{
     return "";
   }
 
-  ngOnInit(){
-    if(this.loggedInUserId === "" || this.loggedInUserId === null){
-      this.loggedInUserId = this.user.uid;
-    }
+  async ngOnInit(){
+    await this.leaveService
+              .getBadgeCount(this.loggedInUserId)
+              .subscribe(result=>{
+                  let record_count:Leave[] = _.filter(result, { 
+                                                        status: 0 ,
+                                                        requestor : this.loggedInUserId,
+                                                        isRead: false
+                                                    });                                            
+              this.badgeCount = record_count.length;
+      });
+  }
+
+  SearchRecords(){
+    this.navCtrl.push("SearchLeavesPage",{ UserInfo: this.userInfo$[0]});
+    // page-search-leaves
   }
 }
