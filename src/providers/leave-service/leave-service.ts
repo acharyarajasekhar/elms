@@ -6,6 +6,7 @@ import { LeaveStatus } from '../../models/leavestatus.enum';
 import { UserServiceProvider } from '../user-service/user-service';
 import { convertDataToISO } from 'ionic-angular/util/datetime-util';
 import { AuthServiceProvider } from '../auth-service/auth-service';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class LeaveServiceProvider {
