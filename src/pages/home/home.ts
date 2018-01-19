@@ -8,6 +8,7 @@ import * as _ from "lodash";
 import * as firebase from "firebase";
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { User } from '../../models/user.model';
+import { Team } from '../../models/team.model';
 @IonicPage()
 @Component({
   selector: 'page-home',
@@ -17,9 +18,12 @@ export class HomePage implements OnInit{
   cards: any;
   leaves$:Observable<Leave[]>;
   userInfo$:User;
+  managerInfo$:User;
   teamInfo$:User[]= [];
   teamLeaves$:any[] = [];
   loggedInUserId:string;
+  teamDetails$:Team;
+
   constructor(
     public navCtrl: NavController,
     private authService: AuthServiceProvider,
@@ -57,8 +61,16 @@ export class HomePage implements OnInit{
       this.userInfo$ = _.filter(result, { uid : this.loggedInUserId});
       let isManager = this.userInfo$[0].isManagerRole;
       let myTeam = this.userInfo$[0].team;
+      localStorage.setItem('loggedInUser',JSON.stringify(this.userInfo$[0]));      
       localStorage.setItem('isManagerRole',''+isManager+'');
       localStorage.setItem('myTeam',myTeam);
+      localStorage.setItem('managerId',this.userInfo$[0].manager);   
+
+      this.userService.getUsersInfo()
+      .subscribe(manager=>{
+        this.managerInfo$ = _.filter(manager, { uid : localStorage.getItem('managerId')});      
+        localStorage.setItem('managerName', this.managerInfo$[0].name);
+      });
     });
   }
 

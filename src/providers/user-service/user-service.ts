@@ -19,8 +19,8 @@ export class UserServiceProvider {
     this.users.push(user);
   }
 
-  updateUser(data){
-    
+  updateUser(user: User){
+    return this.users.update(user.key, user)
   }
 
   getUsersInfo():any{
@@ -34,4 +34,14 @@ export class UserServiceProvider {
           });
   }
 
+  getTeams():any{
+    return this.db.list('/teams')
+          .snapshotChanges()
+          .map(
+            changes=>{
+            return changes.map(c=>(
+              {key:c.payload.key,...c.payload.val()}
+            ))
+          });
+  }
 }
