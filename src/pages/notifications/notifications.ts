@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
 import { NotificationService } from '../../providers/notification-service/notification-service';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { Leave } from '../../models/leave.model';
 import * as _ from "lodash";
 import * as firebase from "firebase";
+import { DetailsviewPage } from '../detailsview/detailsview';
 
 @IonicPage()
 @Component({
@@ -27,7 +28,8 @@ export class NotificationsPage implements OnInit{
     private notificationService:NotificationService,
     public auth: AuthServiceProvider,
     private leaveService:LeaveServiceProvider,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public modalCtrl: ModalController
   ) {
     this.isManagerRole = localStorage.getItem('isManagerRole');
     this.bindNotificationList();
@@ -117,5 +119,11 @@ export class NotificationsPage implements OnInit{
       position: 'bottom'
     }); 
     toast.present(toast);
+  }
+
+  openModal(leave:Leave) {
+    let leaveObj = {key: leave.key, name: leave.name, from: leave.from, to: leave.to, reason: leave.reason, photoUrl:this.photoUrl};
+    let myModal = this.modalCtrl.create(DetailsviewPage,leaveObj);
+    myModal.present();
   }
 }

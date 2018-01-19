@@ -26,6 +26,7 @@ import { ReportTeamPage } from '../pages/report-team/report-team';
 import { ReportAnnualPage } from '../pages/report-annual/report-annual';
 import { ReportReporteePage } from '../pages/report-reportee/report-reportee';
 import { TeamServiceProvider } from '../providers/team-service/team-service';
+import { DetailsviewPage } from '../pages/detailsview/detailsview';
   
 // AF2 Settings
 const firebaseConfig = {
@@ -42,7 +43,8 @@ const firebaseConfig = {
     MyApp,
     ReportTeamPage,
     ReportAnnualPage,
-    ReportReporteePage
+    ReportReporteePage,
+    DetailsviewPage
   ],
   imports: [    
     BrowserModule,
@@ -58,6 +60,7 @@ const firebaseConfig = {
     ReportTeamPage,
     ReportAnnualPage,
     ReportReporteePage,
+    DetailsviewPage,
   ],
   providers: [
     StatusBar,
