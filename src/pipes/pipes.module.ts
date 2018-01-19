@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { TrimTextPipe } from './trim-text/trim-text';
 import { SummaryPipe } from '../helper/custom-pipe';
+import { NamePipe } from '../helper/name-pipe';
 @NgModule({
 	declarations: [
 		TrimTextPipe,
-		SummaryPipe
+		SummaryPipe,
+		NamePipe
 	],
 	imports: [],
 	exports: [
 		TrimTextPipe,
-		SummaryPipe
+		SummaryPipe,
+		NamePipe
 	]
 })
 export class PipesModule {}

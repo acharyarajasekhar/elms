@@ -16,6 +16,7 @@ import { HttpModule } from '@angular/http';
 // Import the AF2 Module
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
@@ -51,7 +52,8 @@ const firebaseConfig = {
     HttpModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule,
+    //AngularFireDatabaseModule,
+    AngularFirestoreModule,
     AngularFireAuthModule,
   ],
   bootstrap: [IonicApp],

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
 import { ToastController } from 'ionic-angular';
 import { UserServiceProvider } from '../user-service/user-service';
 import { User } from '../../models/user.model';
@@ -23,7 +23,7 @@ export class AuthServiceProvider {
       .then((data) => {        
         if (!firebase.auth().currentUser.emailVerified) {
           this.afAuth.auth.signOut();
-          return firebase.auth().currentUser.sendEmailVerification().then(() => {
+            return firebase.auth().currentUser.sendEmailVerification().then(() => {
             this.presentToast("Please verify your email before login... Verfication email sent... Please check your inbox...");
             return firebase.auth().currentUser;
           })
@@ -56,7 +56,8 @@ export class AuthServiceProvider {
                 photoUrl: firebase.auth().currentUser.photoURL,
                 phoneNumber: firebase.auth().currentUser.phoneNumber,
                 manager: "",
-                team: ""
+                team: "",
+                isManagerRole: false
               };
 
               this.userService.createUser(user);

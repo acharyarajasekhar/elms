@@ -18,7 +18,8 @@ export class NotificationsPage implements OnInit{
   photoUrl:string;
   UserContext:any;
   userId:string;
-  loggedInUserId:string = firebase.auth().currentUser.uid;
+  _gKey:string = firebase.auth().currentUser.uid;
+  uid:string = localStorage.getItem('myId');
   managerUserId:string;
   userName:string;
   isManagerRole:string;
@@ -37,53 +38,41 @@ export class NotificationsPage implements OnInit{
 
   bindNotificationList(){
     if((this.isManagerRole!= undefined || this.isManagerRole == "") && this.isManagerRole == "true")
-      this.managerLeaveView(this.loggedInUserId);
+      this.pendingLeavesView(this.uid,true);
     else
-      this.userLeaveView(this.loggedInUserId);
+      this.pendingLeavesView(this.uid,false);
   }
 
-  async userLeaveView(user:string){
+  async pendingLeavesView(user:string, isManager:boolean){
     await this.leaveService
-              .getLeavesByUser(user)
+              .getLeavesByUser(user,isManager)
               .subscribe(result=>{
-                  let unSorted:Leave[] = _.filter(result, { 
-                                                        status: 0 ,//pending leaves
-                                                        requestor : user,
-                                                        isRead: false
-                                                     });                                            
-                  this.leaves$ = _.orderBy(unSorted, ['from'], ['asc']); 
+              this.leaves$ = result;
         });
   }
 
-  managerLeaveView(managerId){
-   //to-do
-  }
-
   ionViewDidLoad() {
-    this.userName = this.navParams.get('name');
-    this.navParams.get('photoUrl') == ""?
-          this.photoUrl = "http://www.4akb.ru/default-icon.png": 
-          this.photoUrl = this.navParams.get('photoUrl');
   }
 
-  swipeEvent(event,keyObj){
+  swipeEvent(event,keyObj:string,managerId?:string){
     if (event.direction == 2){ //(2)swipe left direction ~ reject
       if(!this.isManagerRole && this.isManagerRole == 'true')
-        this.notificationService.declineLeave(keyObj,true);
+        this.notificationService.declineLeave(keyObj,true,managerId);
       else
         this.notificationService.declineLeave(keyObj,false);
     }
     if (event.direction == 4){ //(4)swipe right direction ~ accept
       if(!this.isManagerRole && this.isManagerRole == 'false')
-        this.notificationService.acceptleave(keyObj,true);
+        this.notificationService.acceptleave(keyObj,true,managerId);
       else
         this.notificationService.acceptleave(keyObj,false);
     } 
   }
 
-  rejectLeave(keyObj){
+  rejectLeave(keyObj:string){
     if(this.isManagerRole == 'true'){
-      this.notificationService.declineLeave(keyObj,true);
+      let managerId = localStorage.getItem('myManager');
+      this.notificationService.declineLeave(keyObj,true,managerId);
       this.showToast('Leave request rejected succesfully');
     }   
     else{
@@ -92,9 +81,10 @@ export class NotificationsPage implements OnInit{
     }
   }
 
-  acceptLeave(keyObj){
+  acceptLeave(keyObj:string){
     if(this.isManagerRole == 'true'){
-      this.notificationService.acceptleave(keyObj,true);
+      let managerId = localStorage.getItem('myManager');
+      this.notificationService.acceptleave(keyObj,true,managerId);
       this.showToast('Leave request accepted succesfully');
     }   
     else{
@@ -103,7 +93,7 @@ export class NotificationsPage implements OnInit{
     }
   }
 
-  readOnly(keyObj){
+  readOnly(keyObj,userId){
     this.notificationService.archieveLeave(keyObj);
     this.showToast('Archived');
   }
@@ -122,7 +112,14 @@ export class NotificationsPage implements OnInit{
   }
 
   openModal(leave:Leave) {
-    let leaveObj = {key: leave.key, name: leave.name, from: leave.from, to: leave.to, reason: leave.reason, photoUrl:this.photoUrl};
+    let leaveObj = { 
+                      key: leave.key, 
+                      name: leave.name, 
+                      from: leave.from, 
+                      to: leave.to, 
+                      reason: leave.reason, 
+                      photoUrl:leave.photoUrl
+                    };
     let myModal = this.modalCtrl.create(DetailsviewPage,leaveObj);
     myModal.present();
   }

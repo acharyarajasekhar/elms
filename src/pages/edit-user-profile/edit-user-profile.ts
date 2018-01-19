@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -12,7 +13,7 @@ import { UserServiceProvider } from '../../providers/user-service/user-service';
 export class EditUserProfilePage {
 
   profileForm: FormGroup;
-
+  loggedInUserId:string = firebase.auth().currentUser.uid;
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private formBuilder: FormBuilder,
@@ -26,6 +27,6 @@ export class EditUserProfilePage {
   }
   
   updateProfile(){
-    this.userService.updateUser(this.profileForm.value);
+    this.userService.updateUserByKey(this.loggedInUserId,this.profileForm.value);
   }
 }

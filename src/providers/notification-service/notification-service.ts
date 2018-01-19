@@ -1,38 +1,41 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase,AngularFireList } from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreCollection,AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Leave } from '../../models/leave.model';
 import { AuthServiceProvider } from '../auth-service/auth-service';
-import 'rxjs/add/operator/toPromise';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 import * as firebase from "firebase";
 
 @Injectable()
 export class NotificationService {
   uid: string = firebase.auth().currentUser.uid;
+  leaveCollection: AngularFirestoreCollection<Leave> = null;
+  leaveDocument: AngularFirestoreDocument<Leave>;
+  snapshot:any;
   constructor(
-    public db: AngularFireDatabase,
+    public afs: AngularFirestore,
     public auth: AuthServiceProvider,) {
   }
 
-  acceptleave(leaveId,isManager):void{
+  acceptleave(leaveId:string,isManager:boolean,managerId?:string):void{
+    this.leaveDocument = this.afs.doc('leaves/'+ leaveId);
     if(isManager)
-      this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 1,approver: this.uid, modifiedAt: new Date(),isRead: true});//~(1)accept
+      this.leaveDocument.update({status: 1, approver: managerId, modifiedAt: new Date() });//~(1)accept
     else
-      this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({isRead: true});//~(1)accept
+      this.leaveDocument.update({isRead: true});//~(1)accept
   }
   
-  declineLeave(leaveId,isManager):void{
+  declineLeave(leaveId:string,isManager:boolean,managerId?:string):void{
+    this.leaveDocument = this.afs.doc('leaves/'+ leaveId);
     if(isManager)
-      this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({status: 2,approver: this.uid, modifiedAt: new Date(),isRead: true});//~(2)decline
+      this.leaveDocument.update({status: 2, approver: managerId, modifiedAt: new Date() });//~(1)accept
     else
-      this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({isRead: true});//~(2)decline
+      this.leaveDocument.update({isRead: true});//~(1)accept
   }
 
-  archieveLeave(leaveId){
-    this.db.object('/leaves/'+ this.uid + '/' + leaveId).update({isRead: true});
-  }
-
-  duringThisTime(startDate,endDate){
-    
+  archieveLeave(leaveId:string){
+    this.leaveDocument = this.afs.doc('leaves/'+ leaveId);
+    this.leaveDocument.update({isRead: true});
   }
 }

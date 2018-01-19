@@ -28,12 +28,12 @@ export class HomePage implements OnInit{
     public auth: AuthServiceProvider,
     private userService:UserServiceProvider) {
     this.cards = new Array(10);
-    this.bindLeaveCarosol();
     this.getUserContext();
+    this.bindLeaveCarosol();
   }
 
   bindLeaveCarosol(){
-    this.leaves$ = this.leaveService.getAllLeaves();
+    //this.leaves$ = this.leaveService.getLeavesByUser(this.loggedInUserId);
   }
 
   ionViewDidLoad() {
@@ -41,41 +41,27 @@ export class HomePage implements OnInit{
   }
 
   openNotifications() {
-    this.navCtrl.push("NotificationsPage",{ name: this.userInfo$[0].name, photoUrl:this.userInfo$[0].photoUrl });
+    this.navCtrl.push("NotificationsPage");
   }
 
   openReports() {
-    this.navCtrl.push("ReportPage",{ userCtx: this.userInfo$[0] });
+    this.navCtrl.push("ReportPage",{ myId: localStorage.getItem('myId') });
   }
 
   openNewLeave() {
     this.navCtrl.push("NewLeavePage");
   }
 
-  getUserContext(){
-    this.userService.getUsersInfo()
+  async getUserContext(){
+    await this.userService.getLoggedInUsersMetaInfo(this.loggedInUserId)
     .subscribe(result=>{
-      this.userInfo$ = _.filter(result, { uid : this.loggedInUserId});
-      let isManager:boolean = this.userInfo$[0].isManagerRole;
-      let teamId:number = this.userInfo$[0].team;
-      localStorage.setItem('isManagerRole',isManager.toString());    
-      this.userService.getMyTeam(teamId)
-                      .snapshotChanges()
-                      .map(changes=>{
-                        return changes.map(c=>{
-                          this.teamInfo$.push(c.payload.val())
-                        })
-                      })
-                      .subscribe(members=>{
-                        this.teamInfo$.forEach(member=>{
-                          this.leaveService.getLeavesByUser(member)
-                                            .subscribe(()=>{
-                                              this.filterLeavesByDate();
-                                            });
-                  
-                        });
-                      });
-    }); 
+        localStorage.setItem('myId',result[0].id);
+        localStorage.setItem('myName',result[0].data.name);
+        localStorage.setItem('myphotoUrl',result[0].data.photoUrl);
+        localStorage.setItem('myTeam',result[0].data.team);
+        localStorage.setItem('myManager',result[0].data.manager);
+        localStorage.setItem('isManagerRole',result[0].data.isManagerRole);
+    });
   }
 
   filterLeavesByDate(startDt?:Date, endDate?:Date){
@@ -89,19 +75,13 @@ export class HomePage implements OnInit{
 
   async ngOnInit(){
     await this.leaveService
-              .getBadgeCount(this.loggedInUserId)
+              .getBadgeCount(localStorage.getItem('isManagerRole'))
               .subscribe(result=>{
-                  let record_count:Leave[] = _.filter(result, { 
-                                                        status: 0 ,
-                                                        requestor : this.loggedInUserId,
-                                                        isRead: false
-                                                    });                                            
-              this.badgeCount = record_count.length;
-      });
+                this.badgeCount = result.length;
+              });                                         
   }
 
   SearchRecords(){
     this.navCtrl.push("SearchLeavesPage",{ UserInfo: this.userInfo$[0]});
-    // page-search-leaves
   }
 }

@@ -1,16 +1,34 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase,AngularFireList } from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreCollection,AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Team } from '../../models/team.model';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class TeamServiceProvider {
-  teams: AngularFireList<Team> = null;
-  constructor(public db: AngularFireDatabase) {
-    this.getTeams();
+  teamCollection: AngularFirestoreCollection<Team> = null;
+  teamDocument: AngularFirestoreDocument<Team>;
+  snapshot:any;
+  constructor(public afs: AngularFirestore) {
   }
 
-  getTeams(){
-    return this.db.list<Team>('/teams');
+  getTeamsByManager(managerId:string){
+    this.teamCollection =  this.afs.collection('teams',ref=>{
+      return ref.where("manager","==", managerId);
+    });
+    return this.teamCollection.snapshotChanges()
+    .map( action =>{
+         return action.map(snap=>{
+           const data = snap.payload.doc.data() as Team;
+           const id = snap.payload.doc.id;
+           return {id, data };
+         })
+    });
   }
+
+  getTeamByKey(key:string):Observable<Team>{
+    this.teamDocument = this.afs.doc('teams/'+ key);
+    return this.teamDocument.valueChanges();
+  }
+
 }
