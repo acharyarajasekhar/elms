@@ -20,7 +20,7 @@ export class HomePage implements OnInit{
   userInfo$:User;
   teamInfo$:any[]= [];
   teamLeaves$:any[] = [];
-  loggedInUserId:string = firebase.auth().currentUser.uid; 
+  _authId:string = firebase.auth().currentUser.uid; 
   badgeCount:number;
   constructor(
     public navCtrl: NavController,
@@ -45,7 +45,7 @@ export class HomePage implements OnInit{
   }
 
   openReports() {
-    this.navCtrl.push("ReportPage",{ myId: localStorage.getItem('myId') });
+    this.navCtrl.push("ReportPage");
   }
 
   openNewLeave() {
@@ -53,7 +53,7 @@ export class HomePage implements OnInit{
   }
 
   async getUserContext(){
-    await this.userService.getLoggedInUsersMetaInfo(this.loggedInUserId)
+    await this.userService.getLoggedInUsersMetaInfo(this._authId)
     .subscribe(result=>{
         localStorage.setItem('myId',result[0].id);
         localStorage.setItem('myName',result[0].data.name);

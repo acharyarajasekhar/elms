@@ -9,7 +9,7 @@ import { Leave } from '../../models/leave.model';
 })
 export class DetailsviewPage {
 
-  key = this.navParams.get('key');
+  userId = this.navParams.get('userId');
   name = this.navParams.get('name');
   from = this.navParams.get('from');
   to = this.navParams.get('to');

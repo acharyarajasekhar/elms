@@ -1,17 +1,17 @@
 import { LeaveStatus } from "./leavestatus.enum";
 
 export interface Leave {
-    requestor: string,
-    from: Date,
-    to: Date,
-    isHalfDay: boolean,
-    reason: string,
-    approver: string,
-    status: LeaveStatus,
-    createdAt: any,
-    modifiedAt: Date,
-    isRead :boolean,
-    name?: string,
-    photoUrl?: string,
-    key:string
+    requestor: string;
+    from: any;
+    to: any;
+    isHalfDay: boolean;
+    reason: string;
+    manager: string;
+    status: LeaveStatus;
+    createdAt: any;
+    modifiedAt: any;
+    isRead :boolean;
+    name?: string;
+    photoUrl?: string;
+    userId:string;
   }

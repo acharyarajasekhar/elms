@@ -20,9 +20,9 @@ export class NewLeavePage {
     public toastCtrl: ToastController,
     public leaveService: LeaveServiceProvider) {
       this.LeaveForm = this.formBuilder.group({
-        isHalfDay: [true],
-        from: [this.myDate.toISOString(), Validators.required],
-        to: [this.myDate.toISOString(), Validators.required],
+        isHalfDay: [false],
+        from: [this.myDate, Validators.required],
+        to: [this.myDate, Validators.required],
         reason: ['', Validators.required]
       });
   }

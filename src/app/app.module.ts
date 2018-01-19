@@ -6,16 +6,13 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { UserProfilePage } from '../pages/user-profile/user-profile';
 import { MyLeavesPage } from '../pages/my-leaves/my-leaves';
-// import { CreateLeaveRequestPage } from '../pages/create-leave-request/create-leave-request';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
 import { HttpModule } from '@angular/http';
 
 // Import the AF2 Module
 import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
@@ -52,7 +49,6 @@ const firebaseConfig = {
     HttpModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    //AngularFireDatabaseModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
   ],

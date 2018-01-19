@@ -25,12 +25,11 @@ export class UserServiceProvider {
   }
 
   createUser(user: User) {
-    debugger;
     this.afs.collection('users').add(user);
   }
 
-  updateUserByKey(key,data){
-    this.userDocument = this.afs.doc('users/' + key);
+  updateUserById(userId,data){
+    this.userDocument = this.afs.doc('users/' + userId);
     this.userDocument.update(data);
   }
 
@@ -53,6 +52,11 @@ export class UserServiceProvider {
       return ref.orderBy('name','asc').where('team','==',teamId);
     });
     return this.userCollection.valueChanges();
+  }
+
+  getMyManager(userId:string){
+    this.userDocument = this.afs.doc('users/' + userId);
+    return this.userDocument.valueChanges();
   }
 
 }

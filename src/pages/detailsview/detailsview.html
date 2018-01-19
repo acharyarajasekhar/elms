@@ -8,6 +8,9 @@
     <ion-card class="leave-card">
     <div>
         <ion-item>
+            <span (click)="closeModal()" class="btn-close">
+              <ion-icon name="ios-close-circle-outline" item-end></ion-icon>
+            </span>
             <ion-avatar item-start>
               <img [src]="photoUrl" *ngIf="photoUrl">
             </ion-avatar>
@@ -27,9 +30,6 @@
             <ion-note>
                 12 Other leaves applied
             </ion-note>
-            <button ion-button icon-right (click)="closeModal()">
-                <ion-icon name="close"></ion-icon>
-              </button>
           </ion-col>
         </ion-row>
     </div>

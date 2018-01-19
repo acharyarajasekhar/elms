@@ -6,16 +6,22 @@ import { UserServiceProvider } from '../user-service/user-service';
 import { AuthServiceProvider } from '../auth-service/auth-service';
 import { TeamServiceProvider } from '../team-service/team-service';
 import { Observable } from 'rxjs/Observable';
+import { mergeMap } from 'rxjs/operators';
+import { forkJoin } from "rxjs/observable/forkJoin";
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 import * as firebase from 'firebase';
+import * as moment from 'moment';
+import { PipesModule } from '../../pipes/pipes.module';
+
 
 @Injectable()
 export class LeaveServiceProvider { 
-  _gid: string = firebase.auth().currentUser.uid;
   ukey:string = localStorage.getItem('myId');
   leaveCollection: AngularFirestoreCollection<Leave> = null;
   leaveDocument: AngularFirestoreDocument<Leave>;
   snapshot:any;
+  team$:any;
   constructor(
     public afs: AngularFirestore,
     public auth: AuthServiceProvider,
@@ -24,39 +30,37 @@ export class LeaveServiceProvider {
   }
 
   createLeave(leave:Leave){
-    leave.requestor = this._gid;
+    leave.requestor = this.ukey;
     leave.status = LeaveStatus.Requested;
     leave.createdAt = new Date().toISOString();
     leave.isRead = false;
-    leave.key = this.ukey;
+    leave.userId = this.ukey;
     leave.name = localStorage.getItem('myName');
     leave.photoUrl = localStorage.getItem('myphotoUrl');
-    leave.approver = "";
-    this.afs.collection('leaves').add(leave);
+    this.userService.getMyManager(this.ukey).subscribe(obj=>{
+      leave.manager = obj.manager;
+      this.afs.collection('leaves').add(leave);
+    });
+
   }
   
   getLeavesByUser(ukey:string,isManager:boolean) {
-    if(isManager){
-      this.teamService.getTeamsByManager(ukey)
-      .subscribe(result=>{
-        result.forEach(t=>{
-          this.leaveCollection = this.afs.collection('leaves',ref=>{
-            return ref.where('isRead','==',false)
-                      .where('team','==', t.id)
-                      .where('status','==',0)
-                      .orderBy('createdAt','desc');
-          });
-        });
+     if(isManager){
+      this.leaveCollection = this.afs.collection('leaves',ref=>{
+        return ref.where('manager','==', ukey)
+                  .where('status','==',0)
+                  .orderBy('createdAt','desc');
       });
     }
     else{
       this.leaveCollection = this.afs.collection('leaves',ref=>{
         return ref.where('isRead','==',false)
-                  .where('key','==', ukey)
+                  .where('userId','==', ukey)
                   .where('status','==',0)
                   .orderBy('createdAt','desc');
       });
     }
+    //return leavecollection as Observable
     return this.leaveCollection.snapshotChanges()
     .map( action =>{
          return action.map(snap=>{
@@ -69,7 +73,7 @@ export class LeaveServiceProvider {
 
   getLeavesByStatusForUser(userId:string,status:number) {
     this.leaveCollection = this.afs.collection('leaves', ref=>{
-       return ref.where('key','==',userId )
+       return ref.where('userId','==',userId )
                  .where('status','==',status )
                  .orderBy('from','desc');
     });

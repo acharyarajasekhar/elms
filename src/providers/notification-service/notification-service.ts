@@ -9,7 +9,6 @@ import * as firebase from "firebase";
 
 @Injectable()
 export class NotificationService {
-  uid: string = firebase.auth().currentUser.uid;
   leaveCollection: AngularFirestoreCollection<Leave> = null;
   leaveDocument: AngularFirestoreDocument<Leave>;
   snapshot:any;
@@ -21,7 +20,7 @@ export class NotificationService {
   acceptleave(leaveId:string,isManager:boolean,managerId?:string):void{
     this.leaveDocument = this.afs.doc('leaves/'+ leaveId);
     if(isManager)
-      this.leaveDocument.update({status: 1, approver: managerId, modifiedAt: new Date() });//~(1)accept
+      this.leaveDocument.update({status: 1, manager: managerId, modifiedAt: new Date() });//~(1)accept
     else
       this.leaveDocument.update({isRead: true});//~(1)accept
   }
@@ -29,7 +28,7 @@ export class NotificationService {
   declineLeave(leaveId:string,isManager:boolean,managerId?:string):void{
     this.leaveDocument = this.afs.doc('leaves/'+ leaveId);
     if(isManager)
-      this.leaveDocument.update({status: 2, approver: managerId, modifiedAt: new Date() });//~(1)accept
+      this.leaveDocument.update({status: 2, manager: managerId, modifiedAt: new Date() });//~(1)accept
     else
       this.leaveDocument.update({isRead: true});//~(1)accept
   }

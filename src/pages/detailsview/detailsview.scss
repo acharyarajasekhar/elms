@@ -7,4 +7,12 @@ page-detailsview {
         position: relative;
         box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     }
+    .btn-close{
+        size:15px;
+        margin-top: 1px;
+        margin-right: 2px;
+        position:absolute;
+        top:0;
+        right:0;
+    }
 }

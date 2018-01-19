@@ -13,7 +13,7 @@ import * as firebase from 'firebase';
 export class EditUserProfilePage {
 
   profileForm: FormGroup;
-  loggedInUserId:string = firebase.auth().currentUser.uid;
+  uid:string = localStorage.getItem('myId');
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private formBuilder: FormBuilder,
@@ -27,6 +27,6 @@ export class EditUserProfilePage {
   }
   
   updateProfile(){
-    this.userService.updateUserByKey(this.loggedInUserId,this.profileForm.value);
+    this.userService.updateUserById(this.uid,this.profileForm.value);
   }
 }

@@ -4,8 +4,6 @@ import { NotificationService } from '../../providers/notification-service/notifi
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { Leave } from '../../models/leave.model';
-import * as _ from "lodash";
-import * as firebase from "firebase";
 import { DetailsviewPage } from '../detailsview/detailsview';
 
 @IonicPage()
@@ -18,7 +16,6 @@ export class NotificationsPage implements OnInit{
   photoUrl:string;
   UserContext:any;
   userId:string;
-  _gKey:string = firebase.auth().currentUser.uid;
   uid:string = localStorage.getItem('myId');
   managerUserId:string;
   userName:string;
@@ -113,7 +110,7 @@ export class NotificationsPage implements OnInit{
 
   openModal(leave:Leave) {
     let leaveObj = { 
-                      key: leave.key, 
+                      userId: leave.userId, 
                       name: leave.name, 
                       from: leave.from, 
                       to: leave.to, 
