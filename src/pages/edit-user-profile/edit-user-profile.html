@@ -14,17 +14,13 @@
       <ion-card-content>
         <ion-list no-line>
           <ion-item>
-            <ion-input type="text" formControlName="name" placeholder="Name" [(ngModel)]="user.name"></ion-input>
+            <ion-input type="text" formControlName="name" placeholder="Name"></ion-input>
           </ion-item>
-          <ion-item>            
-            <ion-select [(ngModel)]="user.manager" formControlName="manager">
-              <ion-option *ngFor="let manager of managers" [value] = "manager.uid">{{manager.name}}</ion-option>
-            </ion-select>
+          <ion-item>
+            <ion-input type="text" formControlName="manager" placeholder="Manager"></ion-input>
           </ion-item>
-          <ion-item>            
-            <ion-select [(ngModel)]="user.team" formControlName="team">
-              <ion-option *ngFor="let team of teams" [value] = "team.key">{{team.team}}</ion-option>
-            </ion-select>
+          <ion-item>
+            <ion-input type="password" formControlName="team" placeholder="Team"></ion-input>
           </ion-item>
           <button ion-button type="submit" [disabled]="!profileForm.valid" block outline color="dark">Update</button>
         </ion-list>
