@@ -54,7 +54,8 @@ export class AuthServiceProvider {
                 photoUrl: firebase.auth().currentUser.photoURL,
                 phoneNumber: firebase.auth().currentUser.phoneNumber,
                 manager: "",
-                team: ""
+                team: "",
+                key:""
               };
 
               this.userService.createUser(user);
