@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
-import { Observable } from 'rxjs/Observable';
 import { Leave } from '../../models/leave.model';
-import * as _ from "lodash";
+import { Observable } from 'rxjs/Observable';
 import * as firebase from "firebase";
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { User } from '../../models/user.model';
@@ -20,7 +19,8 @@ export class HomePage implements OnInit{
   userInfo$:User;
   teamInfo$:any[]= [];
   teamLeaves$:any[] = [];
-  _authId:string = firebase.auth().currentUser.uid; 
+  _authId:string = firebase.auth().currentUser.uid;
+  _authEmail:string = "NA";//firebase.auth().currentUser.email; 
   badgeCount:number;
   constructor(
     public navCtrl: NavController,
@@ -59,18 +59,11 @@ export class HomePage implements OnInit{
         localStorage.setItem('myName',result[0].data.name);
         localStorage.setItem('myphotoUrl',result[0].data.photoUrl);
         localStorage.setItem('myTeam',result[0].data.team);
+        localStorage.setItem('myEmail',result[0].data.email);
+        localStorage.setItem('myMobile',result[0].data.phoneNumber);
         localStorage.setItem('myManager',result[0].data.manager);
         localStorage.setItem('isManagerRole',result[0].data.isManagerRole);
     });
-  }
-
-  filterLeavesByDate(startDt?:Date, endDate?:Date){
-    if(this.teamLeaves$.length > 0){
-      //fetch only approved leaves of my team memebers
-      let filteredResult =  _.filter(this.teamLeaves$,{ status: 1 });
-      return filteredResult;
-    }
-    return "";
   }
 
   async ngOnInit(){
@@ -78,7 +71,7 @@ export class HomePage implements OnInit{
               .getBadgeCount(localStorage.getItem('isManagerRole'))
               .subscribe(result=>{
                 this.badgeCount = result.length;
-              });                                         
+    });                                         
   }
 
   SearchRecords(){

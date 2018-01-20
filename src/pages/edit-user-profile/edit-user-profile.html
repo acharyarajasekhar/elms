@@ -9,18 +9,22 @@
 
 
 <ion-content padding class="background">
-  <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+  <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" >
     <ion-card>
       <ion-card-content>
         <ion-list no-line>
           <ion-item>
-            <ion-input type="text" formControlName="name" placeholder="Name"></ion-input>
+            <ion-input type="text" formControlName="name" placeholder="Name" [(ngModel)]="user.name"></ion-input>
           </ion-item>
-          <ion-item>
-            <ion-input type="text" formControlName="manager" placeholder="Manager"></ion-input>
+          <ion-item>            
+            <ion-select [(ngModel)]="user.manager" formControlName="manager" (ionChange)="onChange($event)">
+              <ion-option *ngFor="let mgr of managers$ " [value] = "mgr.id">{{mgr.data.name}}</ion-option>
+            </ion-select>
           </ion-item>
-          <ion-item>
-            <ion-input type="password" formControlName="team" placeholder="Team"></ion-input>
+          <ion-item>            
+            <ion-select [(ngModel)]="user.team" formControlName="team">
+              <ion-option *ngFor="let tm of teams$" [value] = "tm.id">{{tm.data.team}}</ion-option>
+            </ion-select>
           </ion-item>
           <button ion-button type="submit" [disabled]="!profileForm.valid" block outline color="dark">Update</button>
         </ion-list>

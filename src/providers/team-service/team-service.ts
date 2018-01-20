@@ -26,9 +26,9 @@ export class TeamServiceProvider {
     });
   }
 
-  getTeamByKey(key:string):Observable<Team>{
+  getTeamByKey(key:string):Observable<any>{
     this.teamDocument = this.afs.doc('teams/'+ key);
     return this.teamDocument.valueChanges();
   }
-
+  
 }

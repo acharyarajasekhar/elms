@@ -3,7 +3,7 @@ export interface User {
     name: string;
     email: string;
     photoUrl: string;
-    phoneNumber: string;
+    phoneNumber?: string;
     manager: string;
     team: string;
     isManagerRole?:boolean;

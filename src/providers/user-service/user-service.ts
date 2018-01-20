@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UserServiceProvider {
   userCollection: AngularFirestoreCollection<User> = null;
+  mgrCollection: AngularFirestoreCollection<User> = null;
   userDocument: AngularFirestoreDocument<User>;
   snapshot:any;
   constructor(public afs: AngularFirestore) {
@@ -17,6 +18,21 @@ export class UserServiceProvider {
       return ref.orderBy('name','asc');
     });
     return this.userCollection.valueChanges();
+  }
+
+  getManagers():Observable<{}[]>{
+    this.mgrCollection = this.afs.collection('users', ref=>{
+      return ref.where('isManagerRole','==',true)
+                .orderBy('name','asc');
+    });
+    return this.mgrCollection.snapshotChanges()
+                .map( action =>{
+                    return action.map(snap=>{
+                      const data = snap.payload.doc.data() as User;
+                      const id = snap.payload.doc.id;
+                      return {id, data };
+                })
+    });
   }
 
   getUserByKey(key:string):Observable<User>{
@@ -54,8 +70,8 @@ export class UserServiceProvider {
     return this.userCollection.valueChanges();
   }
 
-  getMyManager(userId:string){
-    this.userDocument = this.afs.doc('users/' + userId);
+  getMyManager(mgrId:string):Observable<any>{
+    this.userDocument = this.afs.doc('users/' + mgrId);
     return this.userDocument.valueChanges();
   }
 
