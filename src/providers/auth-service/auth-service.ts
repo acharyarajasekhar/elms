@@ -34,7 +34,12 @@ export class AuthServiceProvider {
 
   signOut() {
     this.afAuth.auth.signOut().then(()=>{
-      //to-do
+      localStorage.setItem('myId',"");
+      localStorage.setItem('myName',"");
+      localStorage.setItem('myphotoUrl',"");
+      localStorage.setItem('myTeam',"");
+      localStorage.setItem('myManager',"");
+      localStorage.setItem('isManagerRole',"");
     });
   }
 
