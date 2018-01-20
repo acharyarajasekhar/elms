@@ -7,12 +7,9 @@ import { TeamServiceProvider } from '../../providers/team-service/team-service';
 import { Observable } from 'rxjs/Observable';
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/mergeMap";
-import "rxjs/add/operator/switchmap";
 import "rxjs/add/observable/forkJoin";
-import { mergeMap } from 'rxjs/operators';
 import { User } from './../../models/user.model';
 import { Team } from '../../models/team.model';
-import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @IonicPage()
 @Component({
