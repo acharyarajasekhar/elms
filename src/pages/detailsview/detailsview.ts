@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ViewController  } from 'ionic-angular';
-import { Leave } from '../../models/leave.model';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
+import * as moment from 'moment';
 
 @IonicPage()
 @Component({
@@ -8,7 +9,7 @@ import { Leave } from '../../models/leave.model';
   templateUrl: 'detailsview.html',
 })
 export class DetailsviewPage {
-
+  otherLeaves$;
   userId = this.navParams.get('userId');
   name = this.navParams.get('name');
   from = this.navParams.get('from');
@@ -18,6 +19,7 @@ export class DetailsviewPage {
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
+    private leaveService:LeaveServiceProvider,
     public viewCtrl: ViewController) {
   }
 
@@ -27,5 +29,13 @@ export class DetailsviewPage {
 
   closeModal() {
     this.viewCtrl.dismiss();
+  }
+
+  getOverlappedLeaves(from,to){
+    this.leaveService.getLeaveByDuration(from.toISOString(),to.toISOString())
+    .subscribe(lv=>{
+       this.otherLeaves$ = lv;
+       console.log(this.otherLeaves$);
+    });
   }
 }

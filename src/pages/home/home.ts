@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
-import { Leave } from '../../models/leave.model';
-import { Observable } from 'rxjs/Observable';
-import * as firebase from "firebase";
 import { UserServiceProvider } from '../../providers/user-service/user-service';
+import { Leave } from '../../models/leave.model';
 import { User } from '../../models/user.model';
+import { Observable } from 'rxjs/Observable';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 @IonicPage()
 @Component({
@@ -19,15 +18,17 @@ export class HomePage implements OnInit{
   userInfo$:User;
   teamInfo$:any[]= [];
   teamLeaves$:any[] = [];
-  _authId:string = firebase.auth().currentUser.uid;
-  _authEmail:string = "NA";//firebase.auth().currentUser.email; 
+  _authId:string;
   badgeCount:number;
   constructor(
     public navCtrl: NavController,
+    private authService: AuthServiceProvider,
     public leaveService: LeaveServiceProvider,
-    public auth: AuthServiceProvider,
     private userService:UserServiceProvider) {
     this.cards = new Array(10);
+    if(this.authService.afAuth.auth.currentUser){
+      this._authId = this.authService.afAuth.auth.currentUser.uid;
+    }
     this.getUserContext();
     this.bindLeaveCarosol();
   }

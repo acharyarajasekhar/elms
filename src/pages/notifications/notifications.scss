@@ -44,5 +44,9 @@ page-notifications {
         text-align: right;
         display: block;
         float:right;
+        margin-top:6px;
+    }
+    .item-md [item-end]{
+        margin:2px 0px 0px 0px;
     }
 }

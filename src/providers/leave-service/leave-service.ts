@@ -10,10 +10,6 @@ import { mergeMap } from 'rxjs/operators';
 import { forkJoin } from "rxjs/observable/forkJoin";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
-import * as firebase from 'firebase';
-import * as moment from 'moment';
-import { PipesModule } from '../../pipes/pipes.module';
-
 
 @Injectable()
 export class LeaveServiceProvider { 
@@ -29,10 +25,16 @@ export class LeaveServiceProvider {
     private userService:UserServiceProvider) {
   }
 
+  ////Author (Asif Iqbal Khan)
+  ////All date data types are passed as locale date format.
+  ////And stored as timestamp in firestore DB
+  ////Any change in date formatting will cause break in behaviour
   createLeave(leave:Leave){
     leave.requestor = this.ukey;
     leave.status = LeaveStatus.Requested;
-    leave.createdAt = new Date().toISOString();
+    leave.createdAt = new Date();//-----------------> locale date format 
+    leave.from = new Date(leave.from);//------------> string ~ locale date format 
+    leave.to = new Date(leave.to);//----------------> string ~ locale date format
     leave.isRead = false;
     leave.userId = this.ukey;
     leave.name = localStorage.getItem('myName');
@@ -87,24 +89,26 @@ export class LeaveServiceProvider {
       return this.getLeavesByUser(this.ukey, false);
   }
 
-  getLeaveByDuration(userId:string,startDate?:string,endDate?:string){
-    if(!startDate){
-      this.leaveCollection = this.afs.collection('leaves/'+ userId, ref=>{
-        return ref.where('from','>=',startDate ).orderBy('from','desc');
-      });
-      return this.leaveCollection.valueChanges();
-    }
-    if(!endDate){
-      this.leaveCollection = this.afs.collection('leaves/'+ userId, ref=>{
-        return ref.where('to','<=',endDate ).orderBy('from','desc');
-      });
-      return this.leaveCollection.valueChanges();
-    } 
+  getLeaveByDuration(startDate,endDate,userId?:string){
+    debugger;
     if(!endDate && !startDate){
-      this.leaveCollection = this.afs.collection('leaves/'+ userId, ref=>{
-        return ref.where('from','>=',startDate ).where('to','<=',endDate).orderBy('from','desc');
+      this.leaveCollection = this.afs.collection('leaves', ref=>{
+        return ref.where('from','>',startDate)
+                  //.where('from','==',startDate)
+                  //.where('to','==',endDate)
+                  //.where('to','<',endDate)
+                  //.orderBy('from','desc');
       });
-      return this.leaveCollection.valueChanges();
+      return this.leaveCollection.snapshotChanges()
+      .map( action =>{
+           return action.map(snap=>{
+             const data = snap.payload.doc.data() as Leave;
+             const id = snap.payload.doc.id;
+             console.log(id);
+             console.log(data);
+             return {id, data};
+           })
+      }); 
     } 
   }
 

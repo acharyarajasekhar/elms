@@ -4,7 +4,7 @@ import { ReportAnnualPage } from '../report-annual/report-annual';
 import { ReportTeamPage } from '../report-team/report-team';
 import { ReportReporteePage } from '../report-reportee/report-reportee';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
-import * as moment from 'moment';
+import { buildChartData } from '../../helper/date-formatter';
 
 @IonicPage()
 @Component({
@@ -30,32 +30,14 @@ export class ReportPage implements OnInit{
       await this.leaveService
                 .getLeavesByUser(this.uid,true)
                 .subscribe(result=>{
-                  this.buildChartDAta(result);
+                  buildChartData(result);
       }); 
     else
       await this.leaveService
                 .getLeavesByUser(this.uid,false)
                 .subscribe(result=>{
-                  this.buildChartDAta(result);
+                  buildChartData(result);
       });                                       
-  }
-
-  calculateDays(startDate,endDate){
-      var ONE_DAY = 1000 * 60 * 60 * 24
-      var start_ms = moment(startDate,'MM/DD/YYYY').milliseconds();
-      var end_ms = moment(endDate,'MM/DD/YYYY').milliseconds();
-      var difference_ms = Math.abs(end_ms - start_ms)
-      return Math.round(difference_ms/ONE_DAY)
-  }
-
-  buildChartDAta(result:any[]){
-    let annualData:any[]= [];
-     if(result.length > 0){
-       result.forEach(lv=>{
-          let days= this.calculateDays(lv.data.from,lv.data.to);
-          annualData.push(days);
-       });
-     }
   }
 
 }

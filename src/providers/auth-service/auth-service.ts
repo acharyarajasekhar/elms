@@ -34,12 +34,15 @@ export class AuthServiceProvider {
 
   signOut() {
     this.afAuth.auth.signOut().then(()=>{
-      localStorage.setItem('myId',"");
-      localStorage.setItem('myName',"");
-      localStorage.setItem('myphotoUrl',"");
-      localStorage.setItem('myTeam',"");
-      localStorage.setItem('myManager',"");
-      localStorage.setItem('isManagerRole',"");
+      //localStorage.clear();
+      localStorage.removeItem('myId');
+      localStorage.removeItem('myName');
+      localStorage.removeItem('myphotoUrl');
+      localStorage.removeItem('myTeam');
+      localStorage.removeItem('myEmail');
+      localStorage.removeItem('myMobile');
+      localStorage.removeItem('myManager');
+      localStorage.removeItem('isManagerRole');
     });
   }
 
