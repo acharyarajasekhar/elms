@@ -56,7 +56,7 @@ export class LeaveServiceProvider {
       this.leaveCollection = this.afs.collection('leaves',ref=>{
         return ref.where('isRead','==',false)
                   .where('userId','==', ukey)
-                  .where('status','==',0)
+                  //.where('status','==',0)
                   .orderBy('createdAt','desc');
       });
     }
