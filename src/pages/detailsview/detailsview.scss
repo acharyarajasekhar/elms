@@ -15,4 +15,31 @@ page-detailsview {
         top:0;
         right:0;
     }
+    .ion-avatar{
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+    }
+    .ts-globe{
+        font-size:10px;
+    }
+    .event-time-style{
+        margin-bottom: -6px;
+    }
+    .label-md {
+        margin: 5px 8px 5px 0;
+    }
+    .container{
+        display:flex;
+        overflow: hidden;
+    }
+    .info1{
+        flex:3;
+        width: 66%;
+        display: block;
+        float:left;
+    }
+    .item-md [item-end]{
+        margin:2px 0px 0px 0px;
+    }
 }

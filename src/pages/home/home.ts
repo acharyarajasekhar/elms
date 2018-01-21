@@ -66,6 +66,7 @@ export class HomePage implements OnInit {
         localStorage.setItem('myManager', result[0].data.manager);
         localStorage.setItem('isManagerRole', result[0].data.isManagerRole);
       },err=>{
+        console.log(err);
         this.showToast(err);
       });
   }
@@ -76,6 +77,7 @@ export class HomePage implements OnInit {
       .subscribe(result => {
         this.badgeCount = result.length;
       },err=>{
+        console.log(err);
         this.showToast(err);
       });
   }

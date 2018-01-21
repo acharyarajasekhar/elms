@@ -46,6 +46,7 @@ export class NotificationsPage implements OnInit{
               .subscribe(result=>{
               this.leaves$ = result;
         },err=>{
+          console.log(err);
           this.showToast(err);
         });
   }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
-import { FormBuilder, FormGroup, FormsModule, NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { formatDateUsingMoment } from '../../helper/date-formatter';
 import * as _ from 'lodash';
 
@@ -92,6 +92,7 @@ export class SearchLeavesPage {
       this.leaveService.getLeaveByDuration(isManager,teamId,this.startDate, "").subscribe(result => {
         this.leaves$ = result;
       }, err => {
+        console.log(err);
         this.showToast(err);
       });
     }
@@ -105,6 +106,7 @@ export class SearchLeavesPage {
           return lv.unixToDate <= unixEndDt;
         });
       }, err => {
+        console.log(err);
         this.showToast(err);
       });
     }
@@ -120,6 +122,7 @@ export class SearchLeavesPage {
           return lv.unixFrDate >= unixStartDt && lv.unixToDate <= unixEndDt;
         });
       }, err => {
+        console.log(err);
         this.showToast(err);
       });
     }

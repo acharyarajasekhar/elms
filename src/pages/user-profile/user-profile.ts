@@ -4,7 +4,6 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { TeamServiceProvider } from '../../providers/team-service/team-service';
-import { Observable } from 'rxjs/Observable';
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/mergeMap";
 import "rxjs/add/observable/forkJoin";

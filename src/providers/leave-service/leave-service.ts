@@ -58,14 +58,14 @@ export class LeaveServiceProvider {
       this.leaveCollection = this.afs.collection('leaves', ref => {
         return ref.where('managerId', '==', ukey)
           .where('status', '==', 0)
-          .orderBy('unixFrDate', 'desc');
+          .orderBy('unixFrDate', 'asc');
       });
     }
     else {
       this.leaveCollection = this.afs.collection('leaves', ref => {
         return ref.where('isRead', '==', false)
           .where('userId', '==', ukey)
-          .orderBy('unixFrDate', 'desc');
+          .orderBy('unixFrDate', 'asc');
       });
     }
     //return leavecollection as Observable
@@ -102,12 +102,12 @@ export class LeaveServiceProvider {
         this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
           return ref.where('unixFrDate', '>=', unixFrmDt)
                     .where('managerId', '==', this.ukey)
-                    .orderBy('unixFrDate', 'desc');
+                    .orderBy('unixFrDate', 'asc');
         });
       }
       else{
         this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
-          return ref.where('managerId', '==', this.ukey).orderBy('unixFrDate', 'desc');
+          return ref.where('managerId', '==', this.ukey).orderBy('unixFrDate', 'asc');
         });    
       }
       return this.filteredLeaveCollection.valueChanges();
@@ -118,12 +118,12 @@ export class LeaveServiceProvider {
         this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
           return ref.where('unixFrDate', '>=', unixFrmDt)
                     .where('teamId', '==', teamId)
-                    .orderBy('unixFrDate', 'desc');
+                    .orderBy('unixFrDate', 'asc');
         });
       }
       else{
         this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
-          return ref.where('teamId', '==', teamId).orderBy('unixFrDate', 'desc');
+          return ref.where('teamId', '==', teamId).orderBy('unixFrDate', 'asc');
         });    
       }
       return this.filteredLeaveCollection.valueChanges();
