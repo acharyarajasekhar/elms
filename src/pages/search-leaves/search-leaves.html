@@ -1,20 +1,61 @@
-<!--
-  Generated template for the SearchLeavesPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   <ion-navbar>
-    <ion-title>SearchLeaves</ion-title>
+    <ion-title>Search Leave Applications</ion-title>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content padding class="has-header">
+  <ion-list>
+    <ion-item>
+      <ion-label>From Date</ion-label>
+      <ion-select (ionChange)="yearFromChange($event)" ngModel name="fromYr" #fromYr="ngModel">
+        <ion-option *ngFor="let y of year$" [value]="y">{{y}}</ion-option>
+      </ion-select>
+      <ion-select (ionChange)="dayFromChange($event)" ngModel name="fromDay" #fromDay="ngModel" >
+        <ion-option *ngFor="let d of day$" [value]="d">{{d}}</ion-option>
+      </ion-select>
+      <ion-select (ionChange)="monthFromChange($event)" ngModel name="fromMonth" #fromMonth="ngModel">
+        <ion-option *ngFor="let m of month$" [value]="m.value">{{m.text}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+        <ion-label>To Date</ion-label>
+        <ion-select (ionChange)="yearToChange($event)" ngModel name="toYr" #toYr="ngModel">
+          <ion-option *ngFor="let y of year$" [value]="y">{{y}}</ion-option>
+        </ion-select>
+        <ion-select (ionChange)="dayToChange($event)" ngModel name="toDay" #toDay="ngModel">
+          <ion-option *ngFor="let d of day$" [value]="d">{{d}}</ion-option>
+        </ion-select>
+        <ion-select (ionChange)="monthToChange($event)" ngModel name="toMonth" #toMonth="ngModel">
+          <ion-option *ngFor="let m of month$" [value]="m.value">{{m.text}}</ion-option>
+        </ion-select>
+      </ion-item>
+  </ion-list>
+  <ion-item-divider color="primary">
+    <button ion-button item-end outline color="light" (click)="searchLeave()" class="btn_search">Search</button>
+  </ion-item-divider>
+  <ion-list>
+    <ion-item-sliding #item *ngFor="let leave of leaves$">
+        <ion-item>
+            <ion-avatar item-start>
+                <img [src]="leave.photoUrl" *ngIf="leave.photoUrl">
+            </ion-avatar>
+            <div *ngIf="leave.status == 0;then pendingBlock" class="container"></div>
+            <ng-template #pendingBlock>
+                <div class="info1">
+                    <h2>{{ leave.name }}</h2>
+                    <span style="clear:both"></span>
+                    <p>
+                        <ion-icon name="alarm"></ion-icon> {{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to| date:"yyyy"}}</p>
+                </div>
+                <div class="info2">
+                    <p item-content item-end class="ts-globe">{{leave.createdAt | date: "MMM/dd/yyyy"}}
+                        <ion-icon name="md-globe"></ion-icon>
+                    </p>
+                </div>
+            </ng-template>
+        </ion-item>
+    </ion-item-sliding>
+</ion-list>
 </ion-content>
-
-
-
-

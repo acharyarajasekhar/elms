@@ -18,8 +18,39 @@ function buildChartData(result:any[]){
    }
 }
 
-function searchLeaveBYDateRange(startDate,endate){
-  
+function formatDateUsingMoment(dateVal,formatSig:string){
+  let result;
+  switch(formatSig){
+    case 'L':
+      result = moment(dateVal).format("L");//09/04/1986
+      break;
+    case 'LL':
+      result = moment(dateVal).format("LL");//September 4, 1986
+      break;  
+    case 'll':
+      result = moment(dateVal).format("ll");//Sep 4, 1986
+      break;   
+    case 'MM/DD/YYYY':
+      result = moment(dateVal).format("MM/DD/YYYY");//09/04/1986
+      break;  
+    case 'X':
+      result = moment(dateVal).format("X");//Unix format ~3212312
+      break;  
+    case 'U':
+      result = moment(dateVal).unix();//Unix format ~3212312
+      break;
+  }
+
+  return result;
 }
 
-export {calculateDays,buildChartData}
+function diffOfDaysOfDateRange(startdDate,endDate){
+  let startDtObject = moment(startdDate).toObject();
+  let endDtObject = moment(endDate).toObject();
+
+  let endArr = moment([endDtObject.years, endDtObject.months, endDtObject.date]);
+  let startArr = moment([startDtObject.years, startDtObject.months, startDtObject.date]);
+  return endArr.diff(startArr, 'days')
+}
+
+export {calculateDays,buildChartData, formatDateUsingMoment ,diffOfDaysOfDateRange}

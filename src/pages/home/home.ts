@@ -12,28 +12,28 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage implements OnInit{  
+export class HomePage implements OnInit {
   cards: any;
-  leaves$:Observable<Leave[]>;
-  userInfo$:User;
-  teamInfo$:any[]= [];
-  teamLeaves$:any[] = [];
-  _authId:string;
-  badgeCount:number;
+  leaves$: Observable<Leave[]>;
+  userInfo$: User;
+  teamInfo$: any[] = [];
+  teamLeaves$: any[] = [];
+  _authId: string;
+  badgeCount: number;
   constructor(
     public navCtrl: NavController,
     private authService: AuthServiceProvider,
     public leaveService: LeaveServiceProvider,
-    private userService:UserServiceProvider) {
+    private userService: UserServiceProvider) {
     this.cards = new Array(10);
-    if(this.authService.afAuth.auth.currentUser){
+    if (this.authService.afAuth.auth.currentUser) {
       this._authId = this.authService.afAuth.auth.currentUser.uid;
     }
     this.getUserContext();
     this.bindLeaveCarosol();
   }
 
-  bindLeaveCarosol(){
+  bindLeaveCarosol() {
     //this.leaves$ = this.leaveService.getLeavesByUser(this.loggedInUserId);
   }
 
@@ -53,29 +53,29 @@ export class HomePage implements OnInit{
     this.navCtrl.push("NewLeavePage");
   }
 
-  async getUserContext(){
+  async getUserContext() {
     await this.userService.getLoggedInUsersMetaInfo(this._authId)
-    .subscribe(result=>{
-        localStorage.setItem('myId',result[0].id);
-        localStorage.setItem('myName',result[0].data.name);
-        localStorage.setItem('myphotoUrl',result[0].data.photoUrl);
-        localStorage.setItem('myTeam',result[0].data.team);
-        localStorage.setItem('myEmail',result[0].data.email);
-        localStorage.setItem('myMobile',result[0].data.phoneNumber);
-        localStorage.setItem('myManager',result[0].data.manager);
-        localStorage.setItem('isManagerRole',result[0].data.isManagerRole);
-    });
+      .subscribe(result => {
+        localStorage.setItem('myId', result[0].id);
+        localStorage.setItem('myName', result[0].data.name);
+        localStorage.setItem('myphotoUrl', result[0].data.photoUrl);
+        localStorage.setItem('myTeam', result[0].data.team);
+        localStorage.setItem('myEmail', result[0].data.email);
+        localStorage.setItem('myMobile', result[0].data.phoneNumber);
+        localStorage.setItem('myManager', result[0].data.manager);
+        localStorage.setItem('isManagerRole', result[0].data.isManagerRole);
+      });
   }
 
-  async ngOnInit(){
+  async ngOnInit() {
     await this.leaveService
-              .getBadgeCount(localStorage.getItem('isManagerRole'))
-              .subscribe(result=>{
-                this.badgeCount = result.length;
-    });                                         
+      .getBadgeCount(localStorage.getItem('isManagerRole'))
+      .subscribe(result => {
+        this.badgeCount = result.length;
+      });
   }
 
-  SearchRecords(){
-    this.navCtrl.push("SearchLeavesPage",{ UserInfo: this.userInfo$[0]});
+  openSearch() {
+    this.navCtrl.push("SearchLeavesPage");
   }
 }
