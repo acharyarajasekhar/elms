@@ -83,11 +83,13 @@ export class SearchLeavesPage {
   }
 
   searchLeave() {
+    let teamId = localStorage.getItem('myTeam');
+    let isManager = localStorage.getItem('isManagerRole');
     if ((this.fromMonth != "" && this.fromDay != "" && this.fromYr != "") &&
       (this.toMonth == "" || this.toDay == "" || this.toYr == "")
     ) {
       this.startDate = this.fromMonth + "/" + this.fromDay + "/" + this.fromYr;
-      this.leaveService.getLeaveByDuration(this.startDate, "").subscribe(result => {
+      this.leaveService.getLeaveByDuration(isManager,teamId,this.startDate, "").subscribe(result => {
         this.leaves$ = result;
       }, err => {
         this.showToast(err);
@@ -98,7 +100,7 @@ export class SearchLeavesPage {
     ) {
       this.endDate = this.toMonth + "/" + this.toDay + "/" + this.toYr;
       let unixEndDt = formatDateUsingMoment(this.endDate, 'U');
-      this.leaveService.getLeaveByDuration("", this.endDate).subscribe(result => {
+      this.leaveService.getLeaveByDuration(isManager,teamId,"", this.endDate).subscribe(result => {
         this.leaves$ = _.filter(result, function (lv) {
           return lv.unixToDate <= unixEndDt;
         });
@@ -113,7 +115,7 @@ export class SearchLeavesPage {
       this.endDate = this.toMonth + "/" + this.toDay + "/" + this.toYr;
       let unixStartDt = formatDateUsingMoment(this.startDate, 'U');
       let unixEndDt = formatDateUsingMoment(this.endDate, 'U');
-      this.leaveService.getLeaveByDuration(this.startDate, this.endDate).subscribe(result => {
+      this.leaveService.getLeaveByDuration(isManager,teamId,this.startDate, this.endDate).subscribe(result => {
         this.leaves$ = _.filter(result, function (lv) {
           return lv.unixFrDate >= unixStartDt && lv.unixToDate <= unixEndDt;
         });
@@ -121,10 +123,6 @@ export class SearchLeavesPage {
         this.showToast(err);
       });
     }
-  }
-
-  pendingLeavesView(startDate: string, endDate: string) {
-    this.leaveService.getLeaveByDuration(startDate, endDate).subscribe()
   }
 
   showToast(alert_message: string) {

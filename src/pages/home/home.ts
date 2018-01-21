@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { Leave } from '../../models/leave.model';
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 @IonicPage()
 @Component({
@@ -24,6 +24,7 @@ export class HomePage implements OnInit {
     public navCtrl: NavController,
     private authService: AuthServiceProvider,
     public leaveService: LeaveServiceProvider,
+    public toastCtrl: ToastController,
     private userService: UserServiceProvider) {
     this.cards = new Array(10);
     if (this.authService.afAuth.auth.currentUser) {
@@ -64,6 +65,8 @@ export class HomePage implements OnInit {
         localStorage.setItem('myMobile', result[0].data.phoneNumber);
         localStorage.setItem('myManager', result[0].data.manager);
         localStorage.setItem('isManagerRole', result[0].data.isManagerRole);
+      },err=>{
+        this.showToast(err);
       });
   }
 
@@ -72,10 +75,21 @@ export class HomePage implements OnInit {
       .getBadgeCount(localStorage.getItem('isManagerRole'))
       .subscribe(result => {
         this.badgeCount = result.length;
+      },err=>{
+        this.showToast(err);
       });
   }
 
   openSearch() {
     this.navCtrl.push("SearchLeavesPage");
+  }
+
+  showToast(alert_message:string){
+    let toast = this.toastCtrl.create({
+      message: alert_message,
+      duration: 2000,
+      position: 'bottom'
+    }); 
+    toast.present(toast);
   }
 }

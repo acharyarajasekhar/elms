@@ -45,6 +45,8 @@ export class NotificationsPage implements OnInit{
               .getLeavesByUser(user,isManager)
               .subscribe(result=>{
               this.leaves$ = result;
+        },err=>{
+          this.showToast(err);
         });
   }
 

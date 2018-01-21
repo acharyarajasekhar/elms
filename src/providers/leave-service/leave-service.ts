@@ -46,8 +46,9 @@ export class LeaveServiceProvider {
     leave.userId = this.ukey;
     leave.name = localStorage.getItem('myName');
     leave.photoUrl = localStorage.getItem('myphotoUrl');
+    leave.teamId = localStorage.getItem('myTeam');
     this.userService.getMyManager(this.ukey).subscribe(obj => {
-      leave.manager = obj.manager;
+      leave.managerId = obj.manager;
       this.afs.collection('leaves').add(leave);
     });
   }
@@ -55,7 +56,7 @@ export class LeaveServiceProvider {
   getLeavesByUser(ukey: string, isManager: boolean) {
     if (isManager) {
       this.leaveCollection = this.afs.collection('leaves', ref => {
-        return ref.where('manager', '==', ukey)
+        return ref.where('managerId', '==', ukey)
           .where('status', '==', 0)
           .orderBy('unixFrDate', 'desc');
       });
@@ -94,28 +95,39 @@ export class LeaveServiceProvider {
       return this.getLeavesByUser(this.ukey, false);
   }
 
-  getLeaveByDuration(startDate?, endDate?, userId?: string) {
-    if (startDate !="" && endDate == "") {
-      let unixFrmDt = formatDateUsingMoment(startDate, 'U');
-      this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
-        return ref.where('unixFrDate', '>=', unixFrmDt)
-                  .orderBy('unixFrDate', 'desc');
-      });
+  getLeaveByDuration(isManager:string,teamId:string,startDate?, endDate?, userId?: string) {
+    if(isManager == 'true'){
+      if (startDate !="" && endDate == "") {
+        let unixFrmDt = formatDateUsingMoment(startDate, 'U');
+        this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
+          return ref.where('unixFrDate', '>=', unixFrmDt)
+                    .where('managerId', '==', this.ukey)
+                    .orderBy('unixFrDate', 'desc');
+        });
+      }
+      else{
+        this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
+          return ref.where('managerId', '==', this.ukey).orderBy('unixFrDate', 'desc');
+        });    
+      }
+      return this.filteredLeaveCollection.valueChanges();
     }
     else{
-      this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
-        return ref.orderBy('unixFrDate', 'desc');
-      });    
+      if (startDate !="" && endDate == "") {
+        let unixFrmDt = formatDateUsingMoment(startDate, 'U');
+        this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
+          return ref.where('unixFrDate', '>=', unixFrmDt)
+                    .where('teamId', '==', teamId)
+                    .orderBy('unixFrDate', 'desc');
+        });
+      }
+      else{
+        this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
+          return ref.where('teamId', '==', teamId).orderBy('unixFrDate', 'desc');
+        });    
+      }
+      return this.filteredLeaveCollection.valueChanges();
     }
-    return this.filteredLeaveCollection.valueChanges();
-    // return this.filteredLeaveCollection.snapshotChanges()
-    // .map(action => {
-    //   return action.map(snap => {
-    //     const data = snap.payload.doc.data() as Leave;
-    //     const id = snap.payload.doc.id;
-    //     return { id, data };
-    //   })
-    // });
   }
 
 }

@@ -6,7 +6,6 @@ export interface Leave {
     to: any;
     isHalfDay: boolean;
     reason: string;
-    manager?: string;
     status: LeaveStatus;
     createdAt: any;
     modifiedAt: any;
@@ -14,6 +13,8 @@ export interface Leave {
     name?: string;
     photoUrl?: string;
     userId:string;
+    teamId?:string;
+    managerId?: string;
     unixFrDate?:any; //~>change in name will break indexing,sorting & searching
     unixToDate?:any; //~>change in name will break indexing,sorting & searching
   }
