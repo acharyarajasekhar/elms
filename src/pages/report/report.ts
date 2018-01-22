@@ -25,19 +25,7 @@ export class ReportPage implements OnInit{
   ionViewDidLoad() {
   }
 
-  async ngOnInit(){
-    if(localStorage.getItem('isManagerRole') == "true")
-      await this.leaveService
-                .getLeavesByUser(this.uid,true)
-                .subscribe(result=>{
-                  buildChartData(result);
-      }); 
-    else
-      await this.leaveService
-                .getLeavesByUser(this.uid,false)
-                .subscribe(result=>{
-                  buildChartData(result);
-      });                                       
+  ngOnInit(){                                    
   }
 
 }

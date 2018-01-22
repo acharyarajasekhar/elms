@@ -55,10 +55,6 @@ export class DetailsviewPage {
     }
   }
 
-  bindOtherLeaves(){
-
-  }
-
   showToast(alert_message: string) {
     let toast = this.toastCtrl.create({
       message: alert_message,

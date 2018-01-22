@@ -38,14 +38,13 @@ export class HomePage implements OnInit {
     this.bindSlider();
   }
 
-  async bindLeaveCarosol() {
+  bindLeaveCarosol() {
     let isManager = localStorage.getItem('isManagerRole');
     let myTeam = localStorage.getItem('myTeam');
     let today = formatDateUsingMoment(new Date(), "L");
     let myId = localStorage.getItem('myId');
-    await this.leaveService.getLeaveByDuration(isManager, myTeam, today, today, myId)
+    this.leaveService.getLeaveByDuration(isManager, myTeam, today, today, myId)
       .subscribe(result => {
-        console.log(result);
         this.leavesToday$ = result;
         // this.leavesToday$ = _.filter(result, function (lv) {
         //   return lv.unixToDate <= today;
@@ -80,8 +79,8 @@ export class HomePage implements OnInit {
     this.navCtrl.push("NewLeavePage");
   }
 
-  async getUserContext() {
-    await this.userService.getLoggedInUsersMetaInfo(this._authId)
+  getUserContext() {
+    this.userService.getLoggedInUsersMetaInfo(this._authId)
       .subscribe(result => {
         localStorage.setItem('myId', result[0].id);
         localStorage.setItem('myName', result[0].data.name);
