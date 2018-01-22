@@ -11,18 +11,18 @@ export class NotificationService {
     public afs: AngularFirestore) {
   }
 
-  acceptleave(leaveId:string,isManager:boolean,managerId?:string):void{
+  acceptleave(leaveId:string,isManager:boolean,mgrId?:string):void{
     this.leaveDocument = this.afs.doc('leaves/'+ leaveId);
     if(isManager)
-      this.leaveDocument.update({status: 1, managerId: managerId, modifiedAt: new Date() });
+      this.leaveDocument.update({status: 1, managerId: mgrId, modifiedAt: new Date() });
     else
       this.leaveDocument.update({isRead: true});
   }
   
-  declineLeave(leaveId:string,isManager:boolean,managerId?:string):void{
+  declineLeave(leaveId:string,isManager:boolean,mgrId?:string):void{
     this.leaveDocument = this.afs.doc('leaves/'+ leaveId);
     if(isManager)
-      this.leaveDocument.update({status: 2, managerId: managerId, modifiedAt: new Date() });
+      this.leaveDocument.update({status: 2, managerId: mgrId, modifiedAt: new Date() });
     else
       this.leaveDocument.update({isRead: true});
   }
