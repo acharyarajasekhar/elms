@@ -71,8 +71,8 @@ export class NotificationsPage implements OnInit{
 
   rejectLeave(keyObj:string){
     if(this.isManagerRole == 'true'){
-      let managerId = localStorage.getItem('myManager');
-      this.notificationService.declineLeave(keyObj,true,managerId);
+      //let managerId = localStorage.getItem('myManager');
+      this.notificationService.declineLeave(keyObj,true,this.uid);
       this.showToast('Leave request rejected succesfully');
     }   
     else{
@@ -83,8 +83,8 @@ export class NotificationsPage implements OnInit{
 
   acceptLeave(keyObj:string){
     if(this.isManagerRole == 'true'){
-      let managerId = localStorage.getItem('myManager');
-      this.notificationService.acceptleave(keyObj,true,managerId);
+      //let managerId = localStorage.getItem('myManager');
+      this.notificationService.acceptleave(keyObj,true,this.uid);
       this.showToast('Leave request accepted succesfully');
     }   
     else{
