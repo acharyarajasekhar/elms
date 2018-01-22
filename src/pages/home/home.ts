@@ -6,6 +6,8 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { Leave } from '../../models/leave.model';
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
+import { formatDateUsingMoment } from '../../helper/date-formatter';
+import * as _ from 'lodash';
 
 @IonicPage()
 @Component({
@@ -17,8 +19,9 @@ export class HomePage implements OnInit {
   leaves$: Observable<Leave[]>;
   userInfo$: User;
   teamInfo$: any[] = [];
-  teamLeaves$: any[] = [];
+  leavesToday$: any[] = [];
   _authId: string;
+  sliderImg$: any[] = [];
   badgeCount: number;
   constructor(
     public navCtrl: NavController,
@@ -32,10 +35,33 @@ export class HomePage implements OnInit {
     }
     this.getUserContext();
     this.bindLeaveCarosol();
+    this.bindSlider();
   }
 
-  bindLeaveCarosol() {
-    //this.leaves$ = this.leaveService.getLeavesByUser(this.loggedInUserId);
+  async bindLeaveCarosol() {
+    let isManager = localStorage.getItem('isManagerRole');
+    let myTeam = localStorage.getItem('myTeam');
+    let today = formatDateUsingMoment(new Date(), "L");
+    let myId = localStorage.getItem('myId');
+    await this.leaveService.getLeaveByDuration(isManager, myTeam, today, today, myId)
+      .subscribe(result => {
+        console.log(result);
+        this.leavesToday$ = result;
+        // this.leavesToday$ = _.filter(result, function (lv) {
+        //   return lv.unixToDate <= today;
+        // });
+      },err=>{
+        console.log(err);
+        this.showToast(err);
+      });
+  }
+
+  bindSlider() {
+    this.sliderImg$ = [
+      "assets/imgs/LMS1.jpg",
+      "assets/imgs/LMS2.jpg",
+      "assets/imgs/LMS3.jpg"
+    ];
   }
 
   ionViewDidLoad() {
@@ -65,7 +91,7 @@ export class HomePage implements OnInit {
         localStorage.setItem('myMobile', result[0].data.phoneNumber);
         localStorage.setItem('myManager', result[0].data.manager);
         localStorage.setItem('isManagerRole', result[0].data.isManagerRole);
-      },err=>{
+      }, err => {
         console.log(err);
         this.showToast(err);
       });
@@ -76,7 +102,7 @@ export class HomePage implements OnInit {
       .getBadgeCount(localStorage.getItem('isManagerRole'))
       .subscribe(result => {
         this.badgeCount = result.length;
-      },err=>{
+      }, err => {
         console.log(err);
         this.showToast(err);
       });
@@ -86,12 +112,12 @@ export class HomePage implements OnInit {
     this.navCtrl.push("SearchLeavesPage");
   }
 
-  showToast(alert_message:string){
+  showToast(alert_message: string) {
     let toast = this.toastCtrl.create({
       message: alert_message,
       duration: 2000,
       position: 'bottom'
-    }); 
+    });
     toast.present(toast);
   }
 }

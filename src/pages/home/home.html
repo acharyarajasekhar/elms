@@ -20,15 +20,9 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-slides pager="true" id="cover">
-    <ion-slide>
-      <img src="https://media.istockphoto.com/photos/wooden-table-texture-background-picture-id486764801?s=2048x2048" />
-    </ion-slide>
-    <ion-slide>
-      <img src="https://media.istockphoto.com/photos/wooden-table-texture-background-picture-id486764801?s=2048x2048" />
-    </ion-slide>
-    <ion-slide>
-      <img src="https://media.istockphoto.com/photos/wooden-table-texture-background-picture-id486764801?s=2048x2048" />
+  <ion-slides pager="true" id="cover" slidesPerView=1>
+    <ion-slide *ngFor="let img of sliderImg$">
+      <img [src]="img"/>
     </ion-slide>
   </ion-slides>
 
@@ -36,59 +30,37 @@
   <h1>Who is on leave</h1>
   <h3>Today</h3>
   <ion-slides pager="false" id="today" slidesPerView=1>
-    <ion-slide *ngFor="let leave of leaves$ | async">
+    <ion-slide *ngFor="let leave of leavesToday$">
       <ion-card>
         <ion-item>
           <ion-avatar item-start>
-            <img [src]="">
+            <img [src]="leave.photoUrl">
           </ion-avatar>
-          <h2>{{leave.requestor}}</h2>
+          <h2>{{leave.name}}</h2>
           <p>{{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}</p>
         </ion-item>
 
         <ion-card-content>
           <p>{{leave.reason }}</p>
         </ion-card-content>
-
-        <ion-row>
-          <ion-col>
-            <button ion-button icon-left clear small>
-              <ion-icon name="people"></ion-icon>
-            </button>
-            <ion-note>
-              12 Other leaves applied
-            </ion-note>
-          </ion-col>
-        </ion-row>
       </ion-card>
     </ion-slide>
   </ion-slides>
   <h3>Tomorrow</h3>
   <ion-slides pager="false" id="today" slidesPerView=1>
-    <ion-slide *ngFor="let leave of leaves$ | async">
+    <ion-slide *ngFor="let leave of leavesToday$">
       <ion-card>
         <ion-item>
           <ion-avatar item-start>
-            <img [src]="">
+            <img [src]="leave.photoUrl">
           </ion-avatar>
-          <h2>{{leave.requestor}}</h2>
+          <h2>{{leave.name}}</h2>
           <p>{{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}</p>
         </ion-item>
 
         <ion-card-content>
           <p>{{leave.reason }}</p>
         </ion-card-content>
-
-        <ion-row>
-          <ion-col>
-            <button ion-button icon-left clear small>
-              <ion-icon name="people"></ion-icon>
-            </button>
-            <ion-note>
-              12 Other leaves applied
-            </ion-note>
-          </ion-col>
-        </ion-row>
       </ion-card>
     </ion-slide>
   </ion-slides>
