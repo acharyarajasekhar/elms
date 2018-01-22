@@ -28,12 +28,14 @@ export class MyLeavesPage {
       "title": "Sick leave",
       "startTime": new Date("01-05-2018 00:00:00"),
       "endTime": new Date("01-10-2018 00:00:00"),
-      "allDay": true
+      "allDay": true,
+      "status": 1
     },{
       "title": "Cousin marriage leave",
       "startTime": new Date("02-15-2018 00:00:00"),
       "endTime": new Date("02-17-2018 00:00:00"),
-      "allDay": true
+      "allDay": true,
+      "status": 0
     }];
   }
 
