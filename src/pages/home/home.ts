@@ -45,7 +45,7 @@ export class HomePage implements OnInit {
     let myId = localStorage.getItem('myId');
     await this.leaveService.getLeaveByDuration(isManager, myTeam, today, today, myId)
       .subscribe(result => {
-        console.log(result);
+       // console.log(result);
         this.leavesToday$ = result;
         // this.leavesToday$ = _.filter(result, function (lv) {
         //   return lv.unixToDate <= today;
