@@ -31,12 +31,23 @@ page-search-leaves {
         display: block;
         float:left;
     }
+    .info2{
+        flex:1;
+        width:33%;
+        text-align: right;
+        display: block;
+        float:right;
+    }
+    .info3{
+        flex:1;
+        width:33%;
+        text-align: right;
+        display: block;
+        float:right;
+        margin-top:6px;
+    }
     .item-md [item-end]{
         margin:2px 0px 0px 0px;
-    }
-    .btn_search{
-        color:white;
-        background-color: black;
     }
 }
 
