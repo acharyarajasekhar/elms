@@ -1,3 +1,4 @@
+import { PipesModule } from './../../pipes/pipes.module';
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
@@ -8,6 +9,7 @@ import { User } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import { formatDateUsingMoment } from '../../helper/date-formatter';
 import * as _ from 'lodash';
+
 
 @IonicPage()
 @Component({
