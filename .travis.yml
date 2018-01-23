@@ -16,5 +16,6 @@ script:
 
 after_success:
   - firebase deploy --token "${FIREBASE_TOKEN}"
-  - ionic push ionic HEAD:master
+  - ionic login
+  - git push ionic HEAD:master
   - ionic monitoring syncmaps
