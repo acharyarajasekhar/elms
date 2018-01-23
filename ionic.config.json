@@ -1,6 +1,6 @@
 {
   "name": "elms",
-  "app_id": "",
+  "app_id": "d215c909",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
