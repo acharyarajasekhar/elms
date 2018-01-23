@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import * as moment from 'moment';
+import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
+import { IEvent} from '../../components/leave-calendar/calendar';
+import { LeaveStatus } from '../../models/leavestatus.enum';
 
 @IonicPage()
 @Component({
@@ -12,31 +15,20 @@ export class MyLeavesPage {
   eventSource = [];
   viewTitle: string;
   selectedDay = new Date();
- 
+  uid:string = localStorage.getItem('myId');
   calendar = {
     mode: 'month',
     currentDate: new Date()
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, 
+    private leaveService: LeaveServiceProvider,
+    public toastCtrl: ToastController,
+    public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MyLeavesPage');
-
-    this.eventSource = [{
-      "title": "Sick leave",
-      "startTime": new Date("01-05-2018 00:00:00"),
-      "endTime": new Date("01-10-2018 00:00:00"),
-      "allDay": true,
-      "status": 1
-    },{
-      "title": "Cousin marriage leave",
-      "startTime": new Date("02-15-2018 00:00:00"),
-      "endTime": new Date("02-17-2018 00:00:00"),
-      "allDay": true,
-      "status": 0
-    }];
+    this.bindCalender();
   }
 
   openNewLeave() {
@@ -50,17 +42,37 @@ export class MyLeavesPage {
   onEventSelected(event) {
     let start = moment(event.startTime).format('LLLL');
     let end = moment(event.endTime).format('LLLL');
-    
-    // let alert = this.alertCtrl.create({
-    //   title: '' + event.title,
-    //   subTitle: 'From: ' + start + '<br>To: ' + end,
-    //   buttons: ['OK']
-    // })
-    // alert.present();
   }
  
   onTimeSelected(ev) {
     this.selectedDay = ev.selectedTime;
   }
 
+  bindCalender(){
+    this.leaveService.getMyLeaveHistory(this.uid)
+    .subscribe(history=>{
+        history.forEach(lv=>{
+          this.eventSource.push({
+            "allDay": !lv.isHalfDay,
+            startTime: lv.from,
+            endTime: moment(lv.to).add(1,'days').toDate(),
+            status: (LeaveStatus[(Number(lv.status))]).toString(),
+            title: lv.reason
+          })
+        });
+    },err=>{
+      this.showToast(err);
+    });
+  }
+
+  showToast(alert_message:string){
+    let toast = this.toastCtrl.create({
+      message: alert_message,
+      duration: 2000,
+      position: 'bottom'
+    }); 
+    toast.present(toast);
+  }
+
 }
+

@@ -176,7 +176,7 @@ import { IMonthViewDisplayEventTemplateContext } from "./calendar";
 
         .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th,
         .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
-          border: 1px solid #ddd;
+          border: 1px solid #9c8080;
         }
 
         .table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
@@ -193,17 +193,17 @@ import { IMonthViewDisplayEventTemplateContext } from "./calendar";
         }
 
         .monthview-approved-leave {
-            background-color: #06ad0c;
+            background-color: #5db561;
             color: white;
         }
 
         .monthview-rejected-leave {
-            background-color: #f21818;
+            background-color: #f1458e;
             color: white;
         }
 
         .monthview-requested-leave {
-            background-color: #1f1ced;
+            background-color: #45bff7;
             color: white;
         }
 
@@ -467,19 +467,18 @@ export class MonthViewComponent implements ICalendarComponent, OnInit, OnChanges
 
     getHighlightClass(date:IMonthViewRow):string {
         let className = '';
-
         if (date.hasEvent) {
             if(date.events.length == 1) {
-                if(date.events[0].status == "0") {
+                if(date.events[0].status == "Requested") {
                     className = 'monthview-requested-leave';
                 }
-                else if(date.events[0].status == "1") {
+                else if(date.events[0].status == "Accepted") {
                     className = 'monthview-approved-leave';
                 }
-                else if(date.events[0].status == "2") {
+                else if(date.events[0].status == "Declined") {
                     className = 'monthview-rejected-leave';
                 }
-                else if(date.events[0].status == "3") {
+                else if(date.events[0].status == "Cancelled") {
                     className = 'monthview-cancelled-leave';
                 }
             }

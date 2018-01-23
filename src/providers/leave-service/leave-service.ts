@@ -95,6 +95,13 @@ export class LeaveServiceProvider {
       return this.getLeavesByUser(this.ukey, false);
   }
 
+  getMyLeaveHistory(ukey:string){
+    this.leaveCollection = this.afs.collection('leaves', ref => {
+      return ref.where('userId', '==', ukey);
+    });
+    return this.leaveCollection.valueChanges();
+  }
+
   getLeaveByDuration(isManager:string,teamId:string,startDate?, endDate?, userId?: string) {
     if(isManager == 'true'){
       if (startDate !="" && endDate == "") {

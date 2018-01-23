@@ -4,11 +4,11 @@ import { Subscription } from 'rxjs/Subscription';
 import { CalendarService } from './calendar.service';
 
 export interface IEvent {
-    allDay: boolean;
-    endTime: Date;
-    startTime: Date;
-    title: string;
-    status: string;
+    allDay?: boolean;
+    endTime?: Date;
+    startTime?: Date;
+    title?: string;
+    status?: string;
 }
 
 export interface IRange {
