@@ -70,6 +70,10 @@ export class HomePage implements OnInit {
     this.badgeCount = 0;
   }
 
+  openSearch() {
+    this.navCtrl.push("SearchLeavesPage");
+  }
+  
   openNotifications() {
     this.navCtrl.push("NotificationsPage");
   }
@@ -110,9 +114,7 @@ export class HomePage implements OnInit {
       });
   }
 
-  openSearch() {
-    this.navCtrl.push("SearchLeavesPage");
-  }
+
 
   showToast(alert_message: string) {
     let toast = this.toastCtrl.create({

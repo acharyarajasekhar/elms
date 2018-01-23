@@ -1,53 +1,18 @@
-page-search-leaves {
-    .ion-avatar{
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-    }
-    .leave-card {
-        background:#fff;
-        border-radius: 2px;
-        display: inline-block;
-        margin: 1rem;
-        position: relative;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-    }
-    .ts-globe{
-        font-size:10px;
-    }
-    .event-time-style{
-        margin-bottom: -6px;
-    }
-    .label-md {
-        margin: 5px 8px 5px 0;
-    }
-    .container{
-        display:flex;
-        overflow: hidden;
-    }
-    .info1{
-        flex:3;
-        width: 66%;
-        display: block;
-        float:left;
-    }
-    .info2{
-        flex:1;
-        width:33%;
-        text-align: right;
-        display: block;
-        float:right;
-    }
-    .info3{
-        flex:1;
-        width:33%;
-        text-align: right;
-        display: block;
-        float:right;
-        margin-top:6px;
-    }
-    .item-md [item-end]{
-        margin:2px 0px 0px 0px;
-    }
+.contentStyle
+{
+    position: relative;
+    font-family: g_light;
 }
 
+.itemStyle
+{
+    font-family: g_bold;
+}
+
+
+
+.FontAvatar
+{
+    font-weight: bolder;
+    color:#488aff;
+}

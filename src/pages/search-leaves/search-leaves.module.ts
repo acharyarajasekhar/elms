@@ -1,20 +1,19 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { SearchLeavesPage } from './search-leaves';
-//import { TimeAgoPipe } from 'time-ago-pipe';
 import { PipesModule } from '../../pipes/pipes.module';
+import {commonMethods} from '../../helper/common-methods'
 
 @NgModule({
   declarations: [
-    SearchLeavesPage,
-    //TimeAgoPipe
+    SearchLeavesPage
   ],
   imports: [
     IonicPageModule.forChild(SearchLeavesPage),
     PipesModule,
   ],
   exports:[
-    //TimeAgoPipe
-  ]
+  ],
+  providers:[commonMethods]
 })
 export class SearchLeavesPageModule {}
