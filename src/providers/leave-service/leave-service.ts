@@ -1,4 +1,4 @@
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Leave } from '../../models/leave.model';
 import { LeaveStatus } from '../../models/leavestatus.enum';
@@ -32,16 +32,16 @@ export class LeaveServiceProvider {
   ////Any change in date formatting will cause break in behaviour
   createLeave(leave: Leave) {
     let frDt = leave.from;//-------------------------------------> original string format (2018-03-17)
-    let localeFrmDt = formatDateUsingMoment(frDt,"L");//---------> ~> MM/DD/YYYY
+    let localeFrmDt = formatDateUsingMoment(frDt, "L");//---------> ~> MM/DD/YYYY
     let toDt = leave.to;
-    let localeToDt = formatDateUsingMoment(toDt,"L");//----------> ~> MM/DD/YYYY
+    let localeToDt = formatDateUsingMoment(toDt, "L");//----------> ~> MM/DD/YYYY
     leave.requestor = this.ukey;
     leave.status = LeaveStatus.Requested;
     leave.createdAt = new Date();//------------------------------> locale date format 
     leave.from = new Date(leave.from);//-------------------------> string ~> locale date format 
     leave.to = new Date(leave.to);//-----------------------------> string ~> locale date format
-    leave.unixFrDate = formatDateUsingMoment(localeFrmDt,"U");//-> string ~> unix date format
-    leave.unixToDate = formatDateUsingMoment(localeToDt,"U");//--> string ~> unix date format
+    leave.unixFrDate = formatDateUsingMoment(localeFrmDt, "U");//-> string ~> unix date format
+    leave.unixToDate = formatDateUsingMoment(localeToDt, "U");//--> string ~> unix date format
     leave.isRead = false;
     leave.userId = this.ukey;
     leave.name = localStorage.getItem('myName');
@@ -95,46 +95,63 @@ export class LeaveServiceProvider {
       return this.getLeavesByUser(this.ukey, false);
   }
 
-  getMyLeaveHistory(ukey:string){
+  getMyLeaveHistory(ukey: string) {
     this.leaveCollection = this.afs.collection('leaves', ref => {
       return ref.where('userId', '==', ukey);
     });
     return this.leaveCollection.valueChanges();
   }
 
-  getLeaveByDuration(isManager:string,teamId:string,startDate?, endDate?, userId?: string) {
-    if(isManager == 'true'){
-      if (startDate !="" && endDate == "") {
+  getLeaveByDuration(isManager: string, teamId: string, startDate?, endDate?, userId?: string) {
+    if (isManager == 'true') {
+      if (startDate != "" && endDate == "") {
         let unixFrmDt = formatDateUsingMoment(startDate, 'U');
         this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
           return ref.where('unixFrDate', '>=', unixFrmDt)
-                    .where('managerId', '==', this.ukey)
-                    .orderBy('unixFrDate', 'asc');
+            .where('managerId', '==', this.ukey)
+            .orderBy('unixFrDate', 'asc');
         });
       }
-      else{
+      else {
         this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
           return ref.where('managerId', '==', this.ukey).orderBy('unixFrDate', 'asc');
-        });    
+        });
       }
       return this.filteredLeaveCollection.valueChanges();
     }
-    else{
-      if (startDate !="" && endDate == "") {
+    else {
+      if (startDate != "" && endDate == "") {
         let unixFrmDt = formatDateUsingMoment(startDate, 'U');
         this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
           return ref.where('unixFrDate', '>=', unixFrmDt)
-                    .where('teamId', '==', teamId)
-                    .orderBy('unixFrDate', 'asc');
+            .where('teamId', '==', teamId)
+            .orderBy('unixFrDate', 'asc');
         });
       }
-      else{
+      else {
         this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
           return ref.where('teamId', '==', teamId).orderBy('unixFrDate', 'asc');
-        });    
+        });
       }
       return this.filteredLeaveCollection.valueChanges();
     }
   }
 
+  getLeaveByDateRange(isManager: boolean, teamId: string, startDate: Date, endDate: Date, userId: string) {
+    if (isManager && startDate != null && endDate != null) {
+      this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
+        return ref.where('from', '>=', startDate)
+          .where('managerId', '==', userId)
+          .orderBy('from', 'asc');
+      });
+    }
+    else {
+      this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
+        return ref.where('from', '>=', startDate)
+          .where('teamId', '==', teamId)
+          .orderBy('from', 'asc');
+      });
+    }
+    return this.filteredLeaveCollection.valueChanges();
+  }
 }

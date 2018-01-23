@@ -12,7 +12,7 @@ function buildChartData(result:any[]){
   let annualData:any[]= [];
    if(result.length > 0){
      result.forEach(lv=>{
-        let days= this.calculateDays(lv.data.from,lv.data.to);
+        let days= calculateDays(lv.data.from,lv.data.to);
         annualData.push(days);
      });
    }

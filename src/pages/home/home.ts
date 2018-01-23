@@ -43,14 +43,13 @@ export class HomePage implements OnInit {
   async bindLeaveCarosol() {
     let isManager = localStorage.getItem('isManagerRole');
     let myTeam = localStorage.getItem('myTeam');
-    let today = formatDateUsingMoment(new Date(), "L");
     let myId = localStorage.getItem('myId');
-    await this.leaveService.getLeaveByDuration(isManager, myTeam, today, today, myId)
+    await this.leaveService.getLeaveByDateRange(false, myTeam, new Date(), new Date(), myId)
       .subscribe(result => {
-       // console.log(result);
+        console.log(result);
         this.leavesToday$ = result;
-        // this.leavesToday$ = _.filter(result, function (lv) {
-        //   return lv.unixToDate <= today;
+        // this.leavesToday$ = _.filter(result, function (query) {
+        //   return query.to <= new Date();
         // });
       },err=>{
         console.log(err);

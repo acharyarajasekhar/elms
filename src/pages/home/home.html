@@ -22,40 +22,58 @@
 <ion-content padding>
   <ion-slides pager="true" id="cover" slidesPerView=1 style="height: 230px;">
     <ion-slide *ngFor="let img of sliderImg$" style="height: 220px;">
-      <img [src]="img"/>
+      <img [src]="img" />
     </ion-slide>
   </ion-slides>
   <h3>Who is on leave</h3>
   <h6>Today</h6>
   <ion-slides pager="false" id="today" slidesPerView=1 style="height: 160px;">
     <ion-slide *ngFor="let leave of leavesToday$" style="height: 150px;">
-      <ion-card style="height: 150px;">
+      <ion-card>
+        <div class="itemStyle">
           <ion-item>
-              <ion-avatar item-start>
-                <img [src]="leave.photoUrl">
-              </ion-avatar>
-              <h2>{{leave.name}}</h2>
-              <p>{{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}</p>
-            </ion-item>   
-            <ion-card-content>
-              <p>{{leave.reason |summary :70}}</p>
-            </ion-card-content>
+            <ion-avatar item-start>
+              <img [src]="leave.photoUrl ? leave.photoUrl : '../../assets/imgs/user.png'">
+            </ion-avatar>
+            <h2>{{leave.name }}</h2>
+            <p>{{leave.createdAt | date : "MMM d, y" }}</p>
+          </ion-item>
+        </div>
+        <hr>
+        <ion-card-content style="background-color:#f5f8fb;">
+          <div class="contentStyle">
+            <p> Hey!!! I will be on leave from
+              <span style="color:#488aff;">{{leave.from | date : "MMM d, y"}}</span> to
+              <span style="color:#488aff;">{{leave.to | date : "MMM d, y"}}</span> due to
+              <span class="FontAvatar">{{leave.reason }}</span>
+            </p>
+          </div>
+        </ion-card-content>
       </ion-card>
     </ion-slide>
   </ion-slides>
   <h6>Tomorrow</h6>
   <ion-slides pager="false" id="tomorrow" slidesPerView=1 style="height: 160px;">
     <ion-slide *ngFor="let leave of leavesToday$" style="height: 150px;">
-      <ion-card style="height: 150px;">
-        <ion-item>
-          <ion-avatar item-start>
-            <img [src]="leave.photoUrl">
-          </ion-avatar>
-          <h2>{{leave.name}}</h2>
-          <p>{{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to | date:"yyyy"}}</p>
-        </ion-item>
-        <ion-card-content>
-          <p>{{leave.reason  |summary :70}}</p>
+      <ion-card>
+        <div class="itemStyle">
+          <ion-item>
+            <ion-avatar item-start>
+              <img [src]="leave.photoUrl ? leave.photoUrl : '../../assets/imgs/user.png'">
+            </ion-avatar>
+            <h2>{{leave.name }}</h2>
+            <p>{{leave.createdAt | date : "MMM d, y" }}</p>
+          </ion-item>
+        </div>
+        <hr>
+        <ion-card-content style="background-color:#f5f8fb;">
+          <div class="contentStyle">
+            <p> Hey!!! I will be on leave from
+              <span style="color:#488aff;">{{leave.from | date : "MMM d, y"}}</span> to
+              <span style="color:#488aff;">{{leave.to | date : "MMM d, y"}}</span> due to
+              <span class="FontAvatar">{{leave.reason }}</span>
+            </p>
+          </div>
         </ion-card-content>
       </ion-card>
     </ion-slide>

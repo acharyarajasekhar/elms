@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormsModule, NgForm } from '@angular/forms';
-import {commonMethods} from '../../helper/common-methods'
+import { commonMethods } from '../../helper/common-methods'
 import * as _ from 'lodash';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import {serachservice} from '../../providers/search-service/search-service';
+import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 
 @IonicPage()
 @Component({
@@ -14,19 +14,19 @@ import {serachservice} from '../../providers/search-service/search-service';
 export class SearchLeavesPage {
   uid: string;
   Results;
-  SearchResults:FormGroup;
-  GetCurrentDate:Date=new Date();
-  
+  SearchResults: FormGroup;
+  GetCurrentDate: Date = new Date();
+
   constructor(public navCtrl: NavController,
-    private _searchService:serachservice,
-    private formgroup:FormBuilder,
-    private _cmnMethods:commonMethods,
+    private _searchService: LeaveServiceProvider,
+    private formgroup: FormBuilder,
+    private _cmnMethods: commonMethods,
     public navParams: NavParams) {
     this.uid = localStorage.getItem('myId');
-    this.SearchResults=this.formgroup.group(
+    this.SearchResults = this.formgroup.group(
       {
-         from:[this.GetCurrentDate,Validators.required],
-         to:[this.GetCurrentDate,Validators.required],
+        from: [this.GetCurrentDate, Validators.required],
+        to: [this.GetCurrentDate, Validators.required],
       }
     );
   }
@@ -35,24 +35,34 @@ export class SearchLeavesPage {
   }
 
   searchLeave() {
-    let from:Date = new Date(this.SearchResults.value['from']);
-    let to:Date = new Date(this.SearchResults.value['to']);
+    let from: Date = new Date(this.SearchResults.value['from']);
+    let to: Date = new Date(this.SearchResults.value['to']);
     let teamId = localStorage.getItem('myTeam');
     let isManager = localStorage.getItem('isManagerRole');
-    if ((from != null && to !=null)) 
-    {
+    if (isManager == 'true' && (from != null && to != null)) {
       this._cmnMethods.InitializeLoader();
-      this._searchService.getSearchresults(true,teamId,from,to).subscribe(result => {
-        this.Results = _.filter(result,function(query){
-          return query.to<=to;
+      this._searchService.getLeaveByDateRange(true, teamId, from, to,this.uid).subscribe(result => {
+        this.Results = _.filter(result, function (query) {
+          return query.to <= to || query.to == from;
         });
-        console.log(this.Results);
         this._cmnMethods.loader.dismiss();
       }, err => {
         console.log(err);
         this._cmnMethods.showToast(err);
-        
+      });
+    }
+    else if (isManager == 'false' && (from != null && to != null)) {
+      this._cmnMethods.InitializeLoader();
+      this._searchService.getLeaveByDateRange(false, teamId, from, to,this.uid).subscribe(result => {
+        this.Results = _.filter(result, function (query) {
+          return (query.from == to || query.to <= to);
+        });
+        this._cmnMethods.loader.dismiss();
+      }, err => {
+        console.log(err);
+        this._cmnMethods.showToast(err);
       });
     }
   }
+
 }
