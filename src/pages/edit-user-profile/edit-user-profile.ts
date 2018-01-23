@@ -16,7 +16,7 @@ import { TeamServiceProvider } from '../../providers/team-service/team-service';
 export class EditUserProfilePage {
 
   profileForm: FormGroup;
-  user: User;  
+  user:any = {};
   managers$: any[]=[];
   teams$: any[]=[];
   uid:string = localStorage.getItem('myId');
@@ -34,16 +34,21 @@ export class EditUserProfilePage {
   }
   
   updateProfile(){
-    this.userService.updateUserById(this.uid,this.profileForm.value);
+    this.userService.updateUserById(localStorage.getItem('myId'),this.user);
+    this.navCtrl.push("UserProfilePage",{user: this.user});
   }
 
   ionViewDidLoad() {
   }
 
   ngOnInit(){ 
-    this.userService.getManagers().subscribe(mgrs=>{
-      this.managers$ = mgrs;
+    this.user = this.navParams.get('user');
+    this.userService.getManagers().subscribe(mgrs=>{      
+      this.managers$ = mgrs;      
     });
+    this.teamService.getTeamsByManager(this.user.manager).subscribe(team=>{
+      this.teams$ = team;              
+  });
   }
 
   onChange(mgrId){

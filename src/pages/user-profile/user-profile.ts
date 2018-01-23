@@ -21,6 +21,8 @@ export class UserProfilePage {
   uid:string = localStorage.getItem('myId');
   user:any = {};
   userCtx:User;
+  teamName:string;
+  managerName:string;
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private formBuilder: FormBuilder,
@@ -35,30 +37,33 @@ export class UserProfilePage {
       });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad UserProfilePage');
+  ionViewDidLoad() {    
   }
 
   editProfile(){
-    this.navCtrl.push("EditUserProfilePage",{userCtx: this.user});
+    this.navCtrl.push("EditUserProfilePage",{user: this.user});
   }
 
-  async ngOnInit(){    
-  let teamId = localStorage.getItem('myTeam');
-  this.user = {
-    name: (localStorage.getItem('myName')!= "" || localStorage.getItem('myName') == 'null') ?localStorage.getItem('myName') : "N.A",
-    photoUrl: (localStorage.getItem('myphotoUrl') != "" || localStorage.getItem('myphotoUrl') == 'null') ?localStorage.getItem('myphotoUrl') : "N.A",
-    email: (localStorage.getItem('myEmail') !="" || localStorage.getItem('myEmail') == 'null') ?localStorage.getItem('myEmail'): "N.A",
-    mobile: (localStorage.getItem('myMobile') !="" || localStorage.getItem('myMobile') == 'null') ? localStorage.getItem('myMobile'): "N.A"
-  };
+  async ngOnInit(){          
+  if(this.navParams.get('user') != null){
+    this.user = this.navParams.get('user');
+  }
+  else{
+    this.user = {    
+      name: (localStorage.getItem('myName')!= "" || localStorage.getItem('myName') == 'null') ?localStorage.getItem('myName') : "N.A",
+      photoUrl: (localStorage.getItem('myphotoUrl') != "" || localStorage.getItem('myphotoUrl') == 'null') ?localStorage.getItem('myphotoUrl') : "N.A",
+      email: (localStorage.getItem('myEmail') !="" || localStorage.getItem('myEmail') == 'null') ?localStorage.getItem('myEmail'): "N.A",
+      phoneNumber: (localStorage.getItem('myMobile') !="" || localStorage.getItem('myMobile') == 'null') ? localStorage.getItem('myMobile'): "N.A",
+      team: (localStorage.getItem('myTeam') !="" || localStorage.getItem('myTeam') == 'null') ? localStorage.getItem('myTeam'): "N.A"
+    };
+  }  
 
-  await this.getTeam$(teamId)
+  await this.getTeam$(this.user.team)
     .subscribe((tm=>{ this.getManager$(tm.manager)
-      .subscribe(mgr=>{
-          localStorage.setItem('teamName',tm.name);
-          localStorage.setItem('managerName',mgr.name);
-          this.user.managerName = mgr.name;
-          this.user.teamName = tm.name;
+      .subscribe(mgr=>{          
+          this.managerName = mgr.name;
+          this.teamName = tm.name;   
+          this.user.manager =  tm.manager;          
       })
     }))
   }
