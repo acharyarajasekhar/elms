@@ -18,4 +18,4 @@ after_success:
   - firebase deploy --token "${FIREBASE_TOKEN}"
   - ionic monitoring syncmaps
   - ionic login ${IONIC_EMAIL} ${IONIC_PASSWORD}
-  - git push git@git.ionicjs.com:acharya/elms.git
+  - git push git@git.ionicjs.com:acharya/elms.git HEAD:master
