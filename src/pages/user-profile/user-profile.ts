@@ -9,6 +9,8 @@ import "rxjs/add/operator/mergeMap";
 import "rxjs/add/observable/forkJoin";
 import { User } from './../../models/user.model';
 import { Team } from '../../models/team.model';
+import { Camera , CameraOptions} from '@ionic-native/camera';
+import { ImageProvider } from '../../providers/image-service/image-service';
 
 @IonicPage()
 @Component({
@@ -22,14 +24,24 @@ export class UserProfilePage {
   user:any = {};
   userCtx:User;
   teamName:string;
-  managerName:string;
+  managerName:string;  
+  cameraOptions: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE
+  };
+  private images = [];
+
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private formBuilder: FormBuilder,
     private teamService: TeamServiceProvider,
     public userService: UserServiceProvider,
     public toastCtrl: ToastController,
-    public authService: AuthServiceProvider) {      
+    public authService: AuthServiceProvider,
+    private camera: Camera,
+    private imageSrv: ImageProvider) {      
   }
 
   ionViewDidLoad() {    
@@ -82,5 +94,17 @@ export class UserProfilePage {
       position: 'bottom'
     }); 
     toast.present(toast);
+  }
+
+  takePicture() {
+    this.camera.getPicture(this.cameraOptions)
+      .then(data => {
+        let base64Image = 'data:image/jpeg;base64,' + data;
+        return this.imageSrv.uploadImage(base64Image);
+      })
+      .then(data => {
+        this.images.push(data.a.name);
+        localStorage.setItem('images', JSON.stringify(this.images));
+      });
   }
 }

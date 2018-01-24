@@ -4,6 +4,6 @@ export const FirebaseConfig = {
   authDomain: "ee-lms.firebaseapp.com",
   databaseURL: "https://ee-lms.firebaseio.com",
   projectId: "ee-lms",
-  storageBucket: "",
+  storageBucket: "ee-lms.appspot.com",
   messagingSenderId: "750036322505"
 };

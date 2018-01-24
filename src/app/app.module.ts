@@ -30,7 +30,8 @@ import { DetailsviewPage } from '../pages/detailsview/detailsview';
 
 import { FirebaseConfig } from '../app/firebase.config';
 import { IonicProConfig } from '../app/ionic.pro.config';
-
+import { Camera } from '@ionic-native/camera';
+import { ImageProvider } from '../providers/image-service/image-service';
   
 @NgModule({
   declarations: [
@@ -67,6 +68,8 @@ import { IonicProConfig } from '../app/ionic.pro.config';
     serachservice,
     IonicErrorHandler,
     [{provide: ErrorHandler, useClass: AppErrorHandlerProvider}],
+    Camera,
+    ImageProvider,
   ]
 })
 export class AppModule {}
