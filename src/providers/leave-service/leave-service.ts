@@ -30,7 +30,7 @@ export class LeaveServiceProvider {
   ////And stored as timestamp in firestore DB
   ////(unixFrDate) && (unixToDate) are used for sorting and searching 
   ////Any change in date formatting will cause break in behaviour
-  createLeave(leave: Leave) {
+  async createLeave(leave: Leave) {
     let frDt = leave.from;//-------------------------------------> original string format (2018-03-17)
     let localeFrmDt = formatDateUsingMoment(frDt, "L");//---------> ~> MM/DD/YYYY
     let toDt = leave.to;
@@ -47,7 +47,7 @@ export class LeaveServiceProvider {
     leave.name = localStorage.getItem('myName');
     leave.photoUrl = localStorage.getItem('myphotoUrl');
     leave.teamId = localStorage.getItem('myTeam');
-    this.userService.getMyManager(this.ukey).subscribe(obj => {
+    await this.userService.getMyManager(this.ukey).subscribe(obj => {
       leave.managerId = obj.manager;
       this.afs.collection('leaves').add(leave);
     });

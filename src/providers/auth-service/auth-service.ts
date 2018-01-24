@@ -20,8 +20,8 @@ export class AuthServiceProvider {
   signIn(credentials) {
     return this.afAuth.auth.signInWithEmailAndPassword(credentials.userid, credentials.password)
       .catch(err => { this.presentToast(err); })
-      .then((data) => {        
-        if (!firebase.auth().currentUser.emailVerified) {
+      .then((data) => {  
+        if (firebase.auth().currentUser != null && !firebase.auth().currentUser.emailVerified) {
             this.signOut();
               return firebase.auth().currentUser.sendEmailVerification().then(() => {
             this.presentToast("Please verify your email before login... Verfication email sent... Please check your inbox...");

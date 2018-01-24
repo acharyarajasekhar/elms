@@ -58,13 +58,13 @@ export class NotificationsPage implements OnInit{
   //right drag ~> negative value
   dragEvent(item,leaveId:string,mgrId?:string) {
     let percent = item.getOpenAmount();
-    if (percent < -170) {
+    if (percent < -130) {
       if(this.isManagerRole != "" && this.isManagerRole == 'true')
         this.notificationService.acceptleave(leaveId,true,mgrId);
       else
         this.notificationService.archieveLeave(leaveId);
     }
-    if (percent > 170) {
+    if (percent > 130) {
       if(this.isManagerRole != "" && this.isManagerRole == 'true')
         this.notificationService.declineLeave(leaveId,true,mgrId);
       else

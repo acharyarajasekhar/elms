@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, ToastController,NavParams } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, NavParams } from 'ionic-angular';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
@@ -27,18 +27,18 @@ export class HomePage implements OnInit {
   badgeCount: number;
   d: Date = new Date(new Date().setHours(0, 0, 0, 0));
   t: Date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-  tdydate : any =  this.d.getFullYear()+"-"+ this.d.getMonth()+1 +"-"+  this.d.getDate();
-  tmrdate : any =  this.t.getFullYear()+"-"+ this.t.getMonth()+1 +"-"+  this.t.getDate();
-  tdate : Date;
-  tmdate : Date;
+  tdydate: any = this.d.getFullYear() + "-" + this.d.getMonth() + 1 + "-" + this.d.getDate();
+  tmrdate: any = this.t.getFullYear() + "-" + this.t.getMonth() + 1 + "-" + this.t.getDate();
+  tdate: Date;
+  tmdate: Date;
   constructor(
     public navCtrl: NavController,
     private authService: AuthServiceProvider,
     public leaveService: LeaveServiceProvider,
     public toastCtrl: ToastController,
     private userService: UserServiceProvider) {
-      this.tdate =  new Date(this.tdydate);
-      this.tmdate =  new Date(this.tmrdate);
+    this.tdate = new Date(this.tdydate);
+    this.tmdate = new Date(this.tmrdate);
     this.cards = new Array(10);
     if (this.authService.afAuth.auth.currentUser) {
       this._authId = this.authService.afAuth.auth.currentUser.uid;
@@ -48,35 +48,49 @@ export class HomePage implements OnInit {
     this.bindSlider();
   }
 
-  async bindLeaveCarosol() {
+  bindLeaveCarosol() {
     let isManager = localStorage.getItem('isManagerRole');
     let myTeam = localStorage.getItem('myTeam');
     let myId = localStorage.getItem('myId');
-    await this.leaveService.getLeavelstByDateRange(isManager, myTeam, this.tdate, this.tdate, myId)
+    // await this.leaveService.getLeavelstByDateRange(isManager, myTeam, this.tdate, this.tdate, myId)
+    //   .subscribe(result => {
+    //     console.log(result);
+    //     let tDate = this.tdate;
+    //     this.leavesToday$ = _.filter(result, function (query) {
+    //       return query.to >= tDate;
+    //     });
+    //   }, err => {
+    //     console.log(err);
+    //     this.showToast(err);
+    //   });
+
+    // await this.leaveService.getLeavelstByDateRange(isManager, myTeam, this.tmdate, this.tmdate, myId)
+    //   .subscribe(results => {
+    //     console.log(results);
+    //     let tmDate = this.tmdate;
+    //     this.leavesTmrw$ = _.filter(results, function (query) {
+    //       return query.to >= tmDate;
+    //     });
+
+    //   }, err => {
+    //     console.log(err);
+    //     this.showToast(err);
+    //   });
+
+    this.leaveService.getLeavelstByDateRange(isManager, myTeam, this.tdate, this.tdate, myId)
       .subscribe(result => {
-        console.log(result);
         let tDate = this.tdate;
         this.leavesToday$ = _.filter(result, function (query) {
           return query.to >= tDate;
-         
-       });
-      },err=>{
-        console.log(err);
-        this.showToast(err);
+        });
+        this.leaveService.getLeavelstByDateRange(isManager, myTeam, this.tmdate, this.tmdate, myId)
+        .subscribe(tmr=>{
+          let tmDate = this.tmdate;
+          this.leavesTmrw$ = _.filter(tmr, function (query) {
+            return query.to >= tmDate;
+          });
       });
-
-      await this.leaveService.getLeavelstByDateRange(isManager, myTeam, this.tmdate, this.tmdate, myId)
-      .subscribe(results => {
-        console.log(results);
-        let tmDate =this.tmdate;
-        this.leavesTmrw$ = _.filter(results, function (query) {
-          return query.to >= tmDate;
-       });
-
-      },err=>{
-        console.log(err);
-        this.showToast(err);
-      });
+    });
   }
 
   bindSlider() {
@@ -94,7 +108,7 @@ export class HomePage implements OnInit {
   openSearch() {
     this.navCtrl.push("SearchLeavesPage");
   }
-  
+
   openNotifications() {
     this.navCtrl.push("NotificationsPage");
   }

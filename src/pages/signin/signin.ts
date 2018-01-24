@@ -32,8 +32,11 @@ export class SigninPage {
 
   signIn() {
     this.authService.signIn(this.signInForm.value).then((user) => {
-      if(this.authService.user) {
+      if(user) {
         this.navCtrl.setRoot("HomePage");
+      }
+      else{
+        this.navCtrl.push('SigninPage');
       }
     })
   }
