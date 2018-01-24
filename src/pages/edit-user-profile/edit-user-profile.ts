@@ -28,8 +28,9 @@ export class EditUserProfilePage {
     public authService: AuthServiceProvider) {
       this.profileForm = this.formBuilder.group({
         name: ['', Validators.required],
-        manager: ['', Validators.required],
-        team: ['', Validators.required]
+        manager: [''],
+        team: [''],
+        phoneNumber: ['']
       });
   }
   
@@ -55,6 +56,5 @@ export class EditUserProfilePage {
     this.teamService.getTeamsByManager(mgrId).subscribe(team=>{
         this.teams$ = team;  
     });
-  } 
-
+  }
 }

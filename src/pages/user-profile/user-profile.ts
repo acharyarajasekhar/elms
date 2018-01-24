@@ -29,12 +29,7 @@ export class UserProfilePage {
     private teamService: TeamServiceProvider,
     public userService: UserServiceProvider,
     public toastCtrl: ToastController,
-    public authService: AuthServiceProvider) {
-      this.profileForm = this.formBuilder.group({
-        name: ['', Validators.required],
-        manager: ['', Validators.required],
-        team: ['', Validators.required]
-      });
+    public authService: AuthServiceProvider) {      
   }
 
   ionViewDidLoad() {    
@@ -54,18 +49,22 @@ export class UserProfilePage {
       photoUrl: (localStorage.getItem('myphotoUrl') != "" || localStorage.getItem('myphotoUrl') == 'null') ?localStorage.getItem('myphotoUrl') : "N.A",
       email: (localStorage.getItem('myEmail') !="" || localStorage.getItem('myEmail') == 'null') ?localStorage.getItem('myEmail'): "N.A",
       phoneNumber: (localStorage.getItem('myMobile') !="" || localStorage.getItem('myMobile') == 'null') ? localStorage.getItem('myMobile'): "N.A",
-      team: (localStorage.getItem('myTeam') !="" || localStorage.getItem('myTeam') == 'null') ? localStorage.getItem('myTeam'): "N.A"
+      team: (localStorage.getItem('myTeam') !="" || localStorage.getItem('myTeam') == 'null') ? localStorage.getItem('myTeam'): "",
+      manager: (localStorage.getItem('myManager') !="" || localStorage.getItem('myManager') == 'null') ? localStorage.getItem('myManager'): ""
     };
   }  
 
-  await this.getTeam$(this.user.team)
-    .subscribe((tm=>{ this.getManager$(tm.manager)
-      .subscribe(mgr=>{          
-          this.managerName = mgr.name;
-          this.teamName = tm.name;   
-          this.user.manager =  tm.manager;          
-      })
-    }))
+  if(this.user.team != ""){
+    await this.getTeam$(this.user.team)
+    .subscribe(tm=>{ 
+      this.teamName = tm.name;
+    })}
+
+  if(this.user.manager != ""){
+    await this.getManager$(this.user.manager)
+    .subscribe(mgr=>{ 
+      this.managerName = mgr.name;
+    })}
   }
 
   getManager$(uid:string){
