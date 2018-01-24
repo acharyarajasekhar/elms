@@ -34,7 +34,7 @@ export class NotificationsPage implements OnInit{
   }
 
   bindNotificationList(){
-    if((this.isManagerRole!= undefined || this.isManagerRole == "") && this.isManagerRole == "true")
+    if((this.isManagerRole!= undefined || this.isManagerRole != "") && this.isManagerRole == "true")
       this.pendingLeavesView(this.uid,true);
     else
       this.pendingLeavesView(this.uid,false);
@@ -54,6 +54,24 @@ export class NotificationsPage implements OnInit{
   ionViewDidLoad() {
   }
 
+  //left drag ~> positive value
+  //right drag ~> negative value
+  dragEvent(item,leaveId:string,mgrId?:string) {
+    let percent = item.getOpenAmount();
+    if (percent < -170) {
+      if(this.isManagerRole != "" && this.isManagerRole == 'true')
+        this.notificationService.acceptleave(leaveId,true,mgrId);
+      else
+        this.notificationService.archieveLeave(leaveId);
+    }
+    if (percent > 170) {
+      if(this.isManagerRole != "" && this.isManagerRole == 'true')
+        this.notificationService.declineLeave(leaveId,true,mgrId);
+      else
+        this.notificationService.archieveLeave(leaveId);
+    }
+  }
+
   swipeEvent(event,keyObj:string,managerId?:string){
     if (event.direction == 2){ //(2)swipe left direction ~ reject
       if(!this.isManagerRole && this.isManagerRole == 'true')
@@ -71,7 +89,6 @@ export class NotificationsPage implements OnInit{
 
   rejectLeave(keyObj:string){
     if(this.isManagerRole == 'true'){
-      //let managerId = localStorage.getItem('myManager');
       this.notificationService.declineLeave(keyObj,true,this.uid);
       this.showToast('Leave request rejected succesfully');
     }   
@@ -83,7 +100,6 @@ export class NotificationsPage implements OnInit{
 
   acceptLeave(keyObj:string){
     if(this.isManagerRole == 'true'){
-      //let managerId = localStorage.getItem('myManager');
       this.notificationService.acceptleave(keyObj,true,this.uid);
       this.showToast('Leave request accepted succesfully');
     }   
@@ -95,7 +111,6 @@ export class NotificationsPage implements OnInit{
 
   readOnly(keyObj,userId){
     this.notificationService.archieveLeave(keyObj);
-    this.showToast('Archived');
   }
 
   ngOnInit(){

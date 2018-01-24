@@ -1,14 +1,13 @@
-import { PipesModule } from './../../pipes/pipes.module';
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, ToastController,NavParams } from 'ionic-angular';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { Leave } from '../../models/leave.model';
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
-import { formatDateUsingMoment } from '../../helper/date-formatter';
 import * as _ from 'lodash';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 
 @IonicPage()
@@ -27,6 +26,7 @@ export class HomePage implements OnInit {
   badgeCount: number;
   constructor(
     public navCtrl: NavController,
+    public navParams: NavParams,
     private authService: AuthServiceProvider,
     public leaveService: LeaveServiceProvider,
     public toastCtrl: ToastController,
@@ -40,13 +40,12 @@ export class HomePage implements OnInit {
     this.bindSlider();
   }
 
-  async bindLeaveCarosol() {
+  bindLeaveCarosol() {
     let isManager = localStorage.getItem('isManagerRole');
     let myTeam = localStorage.getItem('myTeam');
     let myId = localStorage.getItem('myId');
-    await this.leaveService.getLeaveByDateRange(false, myTeam, new Date(), new Date(), myId)
+    this.leaveService.getLeaveByDateRange(false, myTeam, new Date(), new Date(), myId)
       .subscribe(result => {
-        console.log(result);
         this.leavesToday$ = result;
         // this.leavesToday$ = _.filter(result, function (query) {
         //   return query.to <= new Date();
@@ -85,8 +84,8 @@ export class HomePage implements OnInit {
     this.navCtrl.push("NewLeavePage");
   }
 
-  async getUserContext() {
-    await this.userService.getLoggedInUsersMetaInfo(this._authId)
+  getUserContext() {
+    this.userService.getLoggedInUsersMetaInfo(this._authId)
       .subscribe(result => {
         localStorage.setItem('myId', result[0].id);
         localStorage.setItem('myName', result[0].data.name);
@@ -96,6 +95,15 @@ export class HomePage implements OnInit {
         localStorage.setItem('myMobile', result[0].data.phoneNumber);
         localStorage.setItem('myManager', result[0].data.manager);
         localStorage.setItem('isManagerRole', result[0].data.isManagerRole);
+
+        console.log(localStorage.getItem('myId'));
+        console.log(localStorage.getItem('myName'));
+        console.log(localStorage.getItem('myphotoUrl'));
+        console.log(localStorage.getItem('myTeam'));
+        console.log(localStorage.getItem('myEmail'));
+        console.log(localStorage.getItem('myMobile'));
+        console.log(localStorage.getItem('myManager'));
+        console.log(localStorage.getItem('isManagerRole'));
       }, err => {
         console.log(err);
         this.showToast(err);

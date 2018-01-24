@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { MyLeavesPage } from "../my-leaves/my-leaves"
 
 @IonicPage()
 @Component({

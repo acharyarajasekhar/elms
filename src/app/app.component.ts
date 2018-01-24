@@ -2,12 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
-import { HomePage } from '../pages/home/home';
-import { UserProfilePage } from '../pages/user-profile/user-profile';
-import { MyLeavesPage } from '../pages/my-leaves/my-leaves';
-// import { CreateLeaveRequestPage } from '../pages/create-leave-request/create-leave-request';
-
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
 @Component({
@@ -29,9 +23,10 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: "HomePage" },
-      { title: 'My Profile', component: "UserProfilePage" },
-      { title: 'My Leaves', component: "MyLeavesPage" },
-      // { title: 'New Leave', component: CreateLeaveRequestPage }
+      { title: 'Profile', component: "UserProfilePage" },
+      { title: 'Leaves', component: "MyLeavesPage" },
+      { title: 'Reports', component: "ReportPage" },
+      { title: 'Feedback', component: "FeedbackPage" }
     ];
 
   }

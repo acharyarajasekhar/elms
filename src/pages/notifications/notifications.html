@@ -5,7 +5,7 @@
 </ion-header>
 <ion-content class="has-header">
     <ion-list>
-        <ion-item-sliding #item *ngFor="let leave of leaves$">
+        <ion-item-sliding  (ionDrag)="dragEvent($event,leave.id)" *ngFor="let leave of leaves$">
             <ion-item (click)="openModal(leave.data)">
                 <ion-avatar item-start>
                     <img [src]="leave.data.photoUrl" *ngIf="leave.data.photoUrl">
@@ -63,13 +63,13 @@
                 </ng-template>
             </ion-item>
             <ion-item-options side="left">
-                <button ion-button color="danger" (click)="rejectLeave(leave.id)" *ngIf="isManagerRole == 'true'">Reject</button>
-                <button ion-button color="light" (click)="readOnly(leave.id)" *ngIf="isManagerRole == 'false'">Archive</button>
+                <!-- <button ion-button color="danger" (click)="rejectLeave(leave.id)" *ngIf="isManagerRole == 'true'">Reject</button>
+                <button ion-button color="light" (click)="readOnly(leave.id)" *ngIf="isManagerRole == 'false'">Archive</button> -->
             </ion-item-options>
 
             <ion-item-options side="right">
-                <button ion-button color="secondary" (click)="acceptLeave(leave.id)" *ngIf="isManagerRole == 'true'">Accept</button>
-                <button ion-button color="light" (click)="readOnly(leave.id)" *ngIf="isManagerRole == 'false'">Archive</button>
+                <!-- <button ion-button color="secondary" (click)="acceptLeave(leave.id)" *ngIf="isManagerRole == 'true'">Accept</button>
+                <button ion-button color="light" (click)="readOnly(leave.id)" *ngIf="isManagerRole == 'false'">Archive</button> -->
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>

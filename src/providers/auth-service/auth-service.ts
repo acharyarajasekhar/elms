@@ -22,10 +22,10 @@ export class AuthServiceProvider {
       .catch(err => { this.presentToast(err); })
       .then((data) => {        
         if (!firebase.auth().currentUser.emailVerified) {
-          this.afAuth.auth.signOut();
-            return firebase.auth().currentUser.sendEmailVerification().then(() => {
+            this.signOut();
+              return firebase.auth().currentUser.sendEmailVerification().then(() => {
             this.presentToast("Please verify your email before login... Verfication email sent... Please check your inbox...");
-            return firebase.auth().currentUser;
+              return this.afAuth.auth.currentUser;//firebase.auth().currentUser;
           })
             .catch(err => { this.presentToast(err); return err; });
         }
@@ -33,8 +33,8 @@ export class AuthServiceProvider {
   }
 
   signOut() {
-    this.afAuth.auth.signOut().then(()=>{
-      //localStorage.clear();
+    firebase.auth().signOut().then(()=>{
+      localStorage.removeItem('authId');
       localStorage.removeItem('myId');
       localStorage.removeItem('myName');
       localStorage.removeItem('myphotoUrl');
@@ -43,6 +43,7 @@ export class AuthServiceProvider {
       localStorage.removeItem('myMobile');
       localStorage.removeItem('myManager');
       localStorage.removeItem('isManagerRole');
+      localStorage.clear();
     });
   }
 

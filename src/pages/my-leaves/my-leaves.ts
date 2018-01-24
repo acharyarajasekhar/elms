@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import * as moment from 'moment';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
-import { IEvent} from '../../components/leave-calendar/calendar';
 import { LeaveStatus } from '../../models/leavestatus.enum';
 
 @IonicPage()
@@ -40,8 +39,6 @@ export class MyLeavesPage {
   }
  
   onEventSelected(event) {
-    let start = moment(event.startTime).format('LLLL');
-    let end = moment(event.endTime).format('LLLL');
   }
  
   onTimeSelected(ev) {
