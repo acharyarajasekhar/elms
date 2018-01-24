@@ -1,24 +1,29 @@
-<ion-content padding class="background">
+<ion-content padding class="img">
+    <div class="formcontent">
   <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
-    <ion-card>
+    <ion-card text-center>
       <ion-card-header>
-        Registration
+        <span class="fontbolder"> Registration</span>
       </ion-card-header>
       <ion-card-content>
         <ion-list no-line>
           <ion-item>
+              <ion-label><ion-icon name="person"></ion-icon></ion-label>
             <ion-input type="text" formControlName="name" placeholder="Name"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input type="text" formControlName="email" placeholder="EmailID"></ion-input>
+              <ion-label> <ion-icon name="mail"></ion-icon> </ion-label>
+            <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
           </ion-item>
           <ion-item>
+              <ion-label> <ion-icon name="eye"></ion-icon> </ion-label>
             <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
           </ion-item>
-          <button ion-button type="submit" [disabled]="!signUpForm.valid" block outline color="dark">Sign Up</button>
+          <button ion-button style="background-color:#3a8286" type="submit" [disabled]="!signUpForm.valid" block>Sign Up</button>
         </ion-list>
       </ion-card-content>
     </ion-card>
   </form>
   <button class="signup-btn" ion-button clear full color="dark" (tap)="navToSignin()">Already have an account? Sign in</button>
+</div>
 </ion-content>

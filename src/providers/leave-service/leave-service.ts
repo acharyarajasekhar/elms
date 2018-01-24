@@ -148,11 +148,19 @@ export class LeaveServiceProvider {
     else {
       this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
         return ref.where('from', '>=', startDate)
-          .where('teamId', '==', teamId)
+          //.where('teamId', '==', teamId)
           .orderBy('from', 'asc');
       });
     }
-    return this.filteredLeaveCollection.valueChanges();
+        return this.filteredLeaveCollection.snapshotChanges()
+      .map(action => {
+        return action.map(snap => {
+          const data = snap.payload.doc.data() as Leave;
+          const id = snap.payload.doc.id;
+          return { id, data };
+        })
+    });
+
   }
 
   getLeavelstByDateRange(isManager: string, teamId: string, startDate: Date, endDate: Date, userId: string) {

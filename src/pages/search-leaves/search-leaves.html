@@ -16,42 +16,70 @@
         <ion-list no-line>
           <ion-item>
             <ion-label>From</ion-label>
-            <ion-datetime displayFormat="MM/DD/YYYY"  [(ngModel)]="myDate" formControlName="from"></ion-datetime>
+            <ion-datetime displayFormat="MM/DD/YYYY"   [(ngModel)]="myDate" formControlName="from"></ion-datetime>
           </ion-item>
           <ion-item>
             <ion-label>To</ion-label>
-            <ion-datetime displayFormat="MM/DD/YYYY" formControlName="to"></ion-datetime>
+            <ion-datetime displayFormat="MM/DD/YYYY" formControlName="ToDate"></ion-datetime>
           </ion-item>
 
           <ion-item>
-            <button ion-button full  (click)="searchLeave()">Search</button>
+            <button ion-button full [disabled]="!SearchResults.valid"  (click)="searchLeave()">Search</button>
           </ion-item>
         </ion-list>
       </ion-card-content>
     </ion-card>
   </form>
 <br/>
+
+
 <div *ngIf="Results">
-  <ion-card *ngFor="let data of Results">
+  <ion-card *ngFor="let res of Results">
     <!-- <img src="img/nin-live.png"/> -->
+
     <div class="itemStyle">
     <ion-item>
         <ion-avatar item-start>
-          <img [src]="data.photoUrl ? data.photoUrl : '../../assets/imgs/user.png'">
+          <img [src]="res.data.photoUrl ? res.data.photoUrl : '../../assets/imgs/user.png'">
           <!-- <ion-icon style="font-size:2.2em" name="md-contact"></ion-icon> -->
         </ion-avatar>
-        <h2>{{data.name }}</h2>
-        <p>{{data.createdAt | date :  "MMM d, y" }}</p>
+        <h2>{{res.data.name }}</h2>
+        <p>{{res.data.createdAt | date :  "MMM d, y" }}</p>
       </ion-item>
     </div>
     <hr>
       <ion-card-content style="background-color:#f5f8fb;">
          <!-- <h3> Reason For Leave:</h3><p>{{data.reason }}</p> -->
          <div class="contentStyle">
-           <p> Hey!!! I will be on leave from <span style="color:#488aff;">{{data.from | date : "MMM d, y"}}</span> to  <span style="color:#488aff;">{{data.to | date : "MMM d, y"}}</span> due to <span class="FontAvatar">{{data.reason }}</span></p>
+           <p> Hey!!! I will be on leave from <span class="FontAvatar">{{res.data.from | date : "MMM d, y"}}</span> to  <span class="FontAvatar">{{res.data.to | date : "MMM d, y"}}</span> due to <span class="FontAvatar">{{res.data.reason }}</span></p>
          </div>
         </ion-card-content>
+        <hr>
+        <ion-row *ngIf="isManager">
+<ion-col item-start style="text-align: center;">
+    <!-- <button ion-button style="background-color:#66BB6A" (click)=acceptLeave(res.id)><ion-icon style="font-size:2em;color:white;" name="checkmark" isActive="false"></ion-icon></button> -->
+    <button ion-button icon-left clear small (click)=acceptLeave(res.id)>
+        <ion-icon style="font-size:2em;color:#66BB6A;" name="checkmark" isActive="true"></ion-icon>
+       <div class="actionAavatar">Approve</div>
+      </button>
+<!-- <ion-badge item-end>From : {{data.from | date : "MMM/dd"}}</ion-badge> -->
+</ion-col>
+<ion-col item-end  style="text-align: center;">
+    <!-- <button ion-button style="background-color:#E57373 "><ion-icon style="font-size:2em; color:white;" name="close"></ion-icon></button> -->
+    <button ion-button icon-left clear small (click)=rejectLeave(res.id) >
+        <ion-icon style="font-size:2em; color:#E57373;" name="close"></ion-icon>
+        <div class="actionRavatar">Reject</div>
+      </button>
+<!-- <ion-badge item-end>To : {{data.to | date : "MMM/dd"}}</ion-badge> -->
+</ion-col>
+
+<ion-col item-end  style="text-align: center;">
+    <!-- <ion-icon style="font-size:2em;" name="information-circle"></ion-icon> -->
+</ion-col>
+        </ion-row>
   </ion-card>
 </div>
+
+
   <br/>
 </ion-content>

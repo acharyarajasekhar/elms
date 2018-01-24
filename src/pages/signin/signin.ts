@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import {commonMethods} from '../../helper/common-methods';
 
 @IonicPage()
 @Component({
@@ -13,12 +14,12 @@ export class SigninPage {
   signInForm: FormGroup;  
 
   constructor(public navCtrl: NavController, 
-    public navParams: NavParams, 
+    public navParams: NavParams, private _Cmmethods:commonMethods,
     private formBuilder: FormBuilder,
     private authService: AuthServiceProvider) {
     this.signInForm = this.formBuilder.group({
-      userid: ['', Validators.required],
-      password: ['', Validators.required]
+      userid: [null, ([Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'),Validators.required])],
+      password: [null, Validators.compose ( [ Validators.required ])]
     });
   }
 
@@ -31,8 +32,10 @@ export class SigninPage {
   }
 
   signIn() {
+    this._Cmmethods.InitializeLoader();
     this.authService.signIn(this.signInForm.value).then((user) => {
-      if(user) {
+      if(this.authService.user) {
+        this._Cmmethods.loader.dismiss();
         this.navCtrl.setRoot("HomePage");
       }
       else{

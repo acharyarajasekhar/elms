@@ -1,19 +1,25 @@
-page-signup {
-    .background {
-		background-color: #f2f2f2;
-    }
+.fontbolder
+{
+	font-family: g_bold;
+	font-weight: 500;
+}
 
-    .scroll-content {
-			align-content: center!important;
-			display: flex;
-			flex-direction: column;
-			justify-content: center!important;
-			text-align: center;
-			max-width: 400px;
-			margin: auto;
-			vertical-align: middle;
-    }
-    
+.img
+{
+	min-width: 100%;
+	min-height: 100%;
+	background-image: url('../../assets/imgs/bg4.png');
+	background-color: #637778;
+}
+
+.formcontent
+{
+ position: relative;
+ top:10em;
+}
+
+
+
     ion-card.card {
 		box-shadow: none;
 		background: #fff;
@@ -21,16 +27,9 @@ page-signup {
 		border-style: solid;
 		border-width: 1px;
 		border-color: #cacaca;
+		height: auto;
     }
     
-    a, p,
-	ion-card-header.card-header {
-		color: #000!important;
-    }
-    
-    // .list > .item-block:first-child {
-	// 	border: medium none;
-	// }
 
 	.item {
 		margin-bottom: 10px;
@@ -43,23 +42,23 @@ page-signup {
 		}
 
 		input::-moz-placeholder  {
-			color: #000!important;
+			color: rgb(90, 88, 88)!important;
 		}
 
 		input:-moz-placeholder {
-			color: #000!important;
+			color: rgb(90, 88, 88) !important;
 		}
 
 		*::-webkit-input-placeholder  {
-			color: #000!important;
+			color:rgb(90, 88, 88)!important;
 		}
 
 		*:-ms-input-placeholder  {
-			color: #000!important;
+			color:rgb(90, 88, 88)!important;
 		}
 
 		*:-moz-placeholder  {
-			color: #000!important;
+			color:rgb(90, 88, 88)!important;
 		}
 	}
 
@@ -68,18 +67,17 @@ page-signup {
     }
 
     ion-card {
-        height: auto;
+      
     }
 
-    .icon {
-		padding-right: 10px;
-	}
+
 
 	.signup-btn {
 		margin-top: 20px;
+		color:white;
 	}
 
 	.item-input {
 		border: 1px solid #cacaca;
 	  }   
-}
+

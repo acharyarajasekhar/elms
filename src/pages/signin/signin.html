@@ -1,21 +1,27 @@
-<ion-content padding class="background">
-  <form id="signInForm" [formGroup]="signInForm" (ngSubmit)="signIn()">
-    <ion-card>
-      <ion-card-header>
-        <span class="fontbolder">Please Sign in</span>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list no-line>
-          <ion-item>
-            <ion-input type="text" formControlName="userid" placeholder="EmailID"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
-          </ion-item>
-          <button ion-button type="submit" [disabled]="!signInForm.valid" block outline color="dark">Sign In</button>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
-  </form>
-  <button class="signup-btn" ion-button clear full color="dark" (tap)="navToSignup()">Don't have an account? Sign up</button>
-</ion-content>
+
+  <ion-content padding class="img">
+    <div class="formcontent">
+    <form id="signInForm" [formGroup]="signInForm" (ngSubmit)="signIn()">
+      <ion-card text-center>
+        <ion-card-header>
+          <span class="fontbolder"> Sign In</span>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list no-line>
+            <ion-item>
+                <ion-label> <ion-icon name="mail"></ion-icon> </ion-label>
+              <ion-input type="text" formControlName="userid" placeholder="Email"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label> <ion-icon name="eye"></ion-icon> </ion-label>
+              <ion-input type="password" formControlName="password" placeholder="Password">
+              </ion-input>
+            </ion-item>
+            <button ion-button type="submit" style="background-color:#3a8286" [disabled]="!signInForm.valid" block>Sign In</button>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </form>
+    <button class="signup-btn" ion-button clear full color="dark" (tap)="navToSignup()">Not a member yet? Create your account</button>
+  </div>
+  </ion-content>
