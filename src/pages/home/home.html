@@ -25,11 +25,11 @@
       <img [src]="img" />
     </ion-slide>
   </ion-slides>
-  <h3>Who is on leave</h3>
-  <h6>Today</h6>
-  <ion-slides pager="false" id="today" slidesPerView=1 style="height: 160px;">
+  <h3 align="center" style="font-family: Comic Sans MS"><i>Who is Off </i></h3>
+  <h6  style="font-family: Comic Sans MS">Today</h6>
+  <ion-slides pager="false" id="today" slidesPerView=3 style="height: 160px;">
     <ion-slide *ngFor="let leave of leavesToday$" style="height: 150px;">
-      <ion-card>
+      <!-- <ion-card>
         <div class="itemStyle">
           <ion-item>
             <ion-avatar item-start>
@@ -49,13 +49,21 @@
             </p>
           </div>
         </ion-card-content>
+      </ion-card> -->
+
+      <ion-card>
+        <img [src]="leave.photoUrl ? leave.photoUrl : '../../assets/imgs/user.png'">
+        <ion-card-content style="background-color:#f5f8fb;">
+            <span>{{leave.name | nametrim : 8}}</span>
+        </ion-card-content>
       </ion-card>
+    
     </ion-slide>
   </ion-slides>
-  <h6>Tomorrow</h6>
-  <ion-slides pager="false" id="tomorrow" slidesPerView=1 style="height: 160px;">
-    <ion-slide *ngFor="let leave of leavesToday$" style="height: 150px;">
-      <ion-card>
+  <h6  style="font-family: Comic Sans MS">Tomorrow</h6>
+  <ion-slides pager="false" id="tomorrow" slidesPerView=3 style="height: 160px;">
+    <ion-slide *ngFor="let leavetmr of leavesTmrw$" style="height: 150px;">
+      <!-- <ion-card>
         <div class="itemStyle">
           <ion-item>
             <ion-avatar item-start>
@@ -74,6 +82,12 @@
               <span class="FontAvatar">{{leave.reason }}</span>
             </p>
           </div>
+        </ion-card-content>
+      </ion-card> -->
+      <ion-card>
+        <img [src]="leavetmr.photoUrl ? leavetmr.photoUrl : '../../assets/imgs/user.png'">
+        <ion-card-content style="background-color:#f5f8fb;">
+            <span>{{leavetmr.name | nametrim : 8}}</span>
         </ion-card-content>
       </ion-card>
     </ion-slide>

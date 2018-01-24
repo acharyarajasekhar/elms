@@ -11,7 +11,19 @@ page-home {
     .scroll-zoom-wrapper {
         white-space: nowrap;
     }
-
+    ion-card {
+        position: relative;
+        //text-align: center;
+      }
+    
+      .card-title {
+        position: absolute;
+        top: 26%;
+        font-size: 1.0em;
+        width: 100%;
+        font-weight: bold;
+        color: #fff;
+      }
     #itemCount {
         position: absolute;
         display: none;

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-
+import { PipesModule } from './../../pipes/pipes.module';
 @IonicPage()
 @Component({
   selector: 'page-home',
@@ -21,16 +21,24 @@ export class HomePage implements OnInit {
   userInfo$: User;
   teamInfo$: any[] = [];
   leavesToday$: any[] = [];
+  leavesTmrw$: any[] = [];
   _authId: string;
   sliderImg$: any[] = [];
   badgeCount: number;
+  d: Date = new Date(new Date().setHours(0, 0, 0, 0));
+  t: Date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+  tdydate : any =  this.d.getFullYear()+"-"+ this.d.getMonth()+1 +"-"+  this.d.getDate();
+  tmrdate : any =  this.t.getFullYear()+"-"+ this.t.getMonth()+1 +"-"+  this.t.getDate();
+  tdate : Date;
+  tmdate : Date;
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     private authService: AuthServiceProvider,
     public leaveService: LeaveServiceProvider,
     public toastCtrl: ToastController,
     private userService: UserServiceProvider) {
+      this.tdate =  new Date(this.tdydate);
+      this.tmdate =  new Date(this.tmrdate);
     this.cards = new Array(10);
     if (this.authService.afAuth.auth.currentUser) {
       this._authId = this.authService.afAuth.auth.currentUser.uid;
@@ -40,16 +48,31 @@ export class HomePage implements OnInit {
     this.bindSlider();
   }
 
-  bindLeaveCarosol() {
+  async bindLeaveCarosol() {
     let isManager = localStorage.getItem('isManagerRole');
     let myTeam = localStorage.getItem('myTeam');
     let myId = localStorage.getItem('myId');
-    this.leaveService.getLeaveByDateRange(false, myTeam, new Date(), new Date(), myId)
+    await this.leaveService.getLeavelstByDateRange(isManager, myTeam, this.tdate, this.tdate, myId)
       .subscribe(result => {
-        this.leavesToday$ = result;
-        // this.leavesToday$ = _.filter(result, function (query) {
-        //   return query.to <= new Date();
-        // });
+        console.log(result);
+        let tDate = this.tdate;
+        this.leavesToday$ = _.filter(result, function (query) {
+          return query.to >= tDate;
+         
+       });
+      },err=>{
+        console.log(err);
+        this.showToast(err);
+      });
+
+      await this.leaveService.getLeavelstByDateRange(isManager, myTeam, this.tmdate, this.tmdate, myId)
+      .subscribe(results => {
+        console.log(results);
+        let tmDate =this.tmdate;
+        this.leavesTmrw$ = _.filter(results, function (query) {
+          return query.to >= tmDate;
+       });
+
       },err=>{
         console.log(err);
         this.showToast(err);

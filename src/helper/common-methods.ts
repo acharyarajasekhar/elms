@@ -1,4 +1,4 @@
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { Loading } from 'ionic-angular/components/loading/loading';
 import { LoadingController } from 'ionic-angular';

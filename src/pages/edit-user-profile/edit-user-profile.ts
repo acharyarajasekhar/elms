@@ -3,9 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
-import * as firebase from 'firebase';
-import { User } from '../../models/user.model';
-import { Team } from '../../models/team.model';
 import { TeamServiceProvider } from '../../providers/team-service/team-service';
 
 @IonicPage()

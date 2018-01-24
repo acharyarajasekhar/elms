@@ -154,4 +154,26 @@ export class LeaveServiceProvider {
     }
     return this.filteredLeaveCollection.valueChanges();
   }
+
+  getLeavelstByDateRange(isManager: string, teamId: string, startDate: Date, endDate: Date, userId: string) {
+
+    if (isManager == 'true' && startDate != null && endDate != null) {
+      this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
+        return ref.where('from', '<=', startDate)
+        .where('managerId', '==', userId)
+        .where('status','==',1);
+         
+      });
+    }
+    else {
+      this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
+        return ref.where('from', '<=', startDate)
+        .where('teamId', '==', teamId)
+        .where('status','==',1);
+
+      });
+    }
+    return this.filteredLeaveCollection.valueChanges();
+  }
+  
 }
