@@ -24,5 +24,6 @@ after_success:
   - ionic monitoring syncmaps
   - ionic login ${IONIC_EMAIL} ${IONIC_PASSWORD}
   - ionic link --pro-id d215c909
+  - ionic setup ssh
   - ionic git remote
   - git push ionic HEAD:master
