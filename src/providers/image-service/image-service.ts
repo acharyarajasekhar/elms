@@ -101,10 +101,10 @@ export class ImageProvider {
       alert(storageRef);
       // Create a timestamp as filename
       const filename = Math.floor(Date.now() / 1000);
-  
+      alert(filename);
       // Create a reference to 'images/todays-date.jpg'
       const imageRef = storageRef.child(`photos/${filename}.jpg`);
-  
+      alert(imageRef);  
       imageRef.putString(this.captureDataUrl, firebase.storage.StringFormat.DATA_URL).then((snapshot)=> {
        alert("photo uploaded" + snapshot.downloadURL);
       });
