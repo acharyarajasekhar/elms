@@ -71,6 +71,7 @@ export class ImageProvider {
       });
     }, (err) => {
       // Handle error
+      alert(err);
     });
   }
 
@@ -93,6 +94,7 @@ export class ImageProvider {
     this.camera.getPicture(this.galleryOptions).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
+      alert(imageData);
       this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;
       let storageRef = firebase.storage().ref();
       // Create a timestamp as filename
@@ -105,7 +107,7 @@ export class ImageProvider {
        alert("photo uploaded" + snapshot.downloadURL);
       });
     }, (err) => {
-      // Handle error
+      alert(err);
     });
   }
 
