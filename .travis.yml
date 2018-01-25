@@ -19,11 +19,13 @@ before_script:
 script:
   - ionic build --platform browser
 
-after_success:
-  - firebase deploy --token "${FIREBASE_TOKEN}"
+after_success:  
   - ionic monitoring syncmaps
   - ionic login ${IONIC_EMAIL} ${IONIC_PASSWORD}
   - ionic link --pro-id d215c909
-  - ionic setup ssh
+  - ionic ssh setup
   - ionic git remote
+  
+deploy:
+  - firebase deploy --token "${FIREBASE_TOKEN}"
   - git push ionic HEAD:master
