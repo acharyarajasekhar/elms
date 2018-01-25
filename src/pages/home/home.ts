@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, ToastController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, NavParams, Slides } from 'ionic-angular';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
@@ -17,6 +17,7 @@ import { PipesModule } from './../../pipes/pipes.module';
 })
 export class HomePage implements OnInit {
   cards: any;
+  slides: Slides;
   leaves$: Observable<Leave[]>;
   userInfo$: User;
   teamInfo$: any[] = [];
@@ -24,6 +25,7 @@ export class HomePage implements OnInit {
   leavesTmrw$: any[] = [];
   _authId: string;
   sliderImg$: any[] = [];
+  sliderImgurl$ : any[]= [];
   badgeCount: number;
   d: Date = new Date(new Date().setHours(0, 0, 0, 0));
   t: Date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
@@ -52,31 +54,7 @@ export class HomePage implements OnInit {
     let isManager = localStorage.getItem('isManagerRole');
     let myTeam = localStorage.getItem('myTeam');
     let myId = localStorage.getItem('myId');
-    // await this.leaveService.getLeavelstByDateRange(isManager, myTeam, this.tdate, this.tdate, myId)
-    //   .subscribe(result => {
-    //     console.log(result);
-    //     let tDate = this.tdate;
-    //     this.leavesToday$ = _.filter(result, function (query) {
-    //       return query.to >= tDate;
-    //     });
-    //   }, err => {
-    //     console.log(err);
-    //     this.showToast(err);
-    //   });
-
-    // await this.leaveService.getLeavelstByDateRange(isManager, myTeam, this.tmdate, this.tmdate, myId)
-    //   .subscribe(results => {
-    //     console.log(results);
-    //     let tmDate = this.tmdate;
-    //     this.leavesTmrw$ = _.filter(results, function (query) {
-    //       return query.to >= tmDate;
-    //     });
-
-    //   }, err => {
-    //     console.log(err);
-    //     this.showToast(err);
-    //   });
-
+   
     this.leaveService.getLeavelstByDateRange(isManager, myTeam, this.tdate, this.tdate, myId)
       .subscribe(result => {
         let tDate = this.tdate;
@@ -147,8 +125,8 @@ export class HomePage implements OnInit {
       });
   }
 
-  async ngOnInit() {
-    await this.leaveService
+  ngOnInit() {
+    this.leaveService
       .getBadgeCount(localStorage.getItem('isManagerRole'))
       .subscribe(result => {
         this.badgeCount = result.length;
