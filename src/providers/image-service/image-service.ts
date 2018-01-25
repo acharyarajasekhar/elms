@@ -58,8 +58,8 @@ export class ImageProvider {
     this.camera.getPicture(this.takePictureOptions).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
-      this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;
-      let storageRef = firebase.storage().ref();
+      this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;      
+      let storageRef = firebase.storage().ref();      
       // Create a timestamp as filename
       const filename = Math.floor(Date.now() / 1000);
   
@@ -96,7 +96,9 @@ export class ImageProvider {
       // If it's base64:
       alert(imageData);
       this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;
+      alert(this.captureDataUrl);
       let storageRef = firebase.storage().ref();
+      alert(storageRef);
       // Create a timestamp as filename
       const filename = Math.floor(Date.now() / 1000);
   
