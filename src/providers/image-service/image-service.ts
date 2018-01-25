@@ -13,6 +13,7 @@ export class ImageProvider {
   private basePath: string = '/avatarPicture';
   objectToSave: Array<any> = new Array;
   captureDataUrl: string;
+  file: File;
 
   private takePictureOptions: CameraOptions = {
     allowEdit: false,
@@ -105,10 +106,10 @@ export class ImageProvider {
       // Create a reference to 'images/todays-date.jpg'
       const imageRef = storageRef.child(`${filename}.jpg`);
       alert(imageRef);  
-      //imageRef.putString(this.captureDataUrl, 'data_url');
-      imageRef.putString(this.captureDataUrl, firebase.storage.StringFormat.DATA_URL).then((snapshot)=> {
-       alert("photo uploaded" + snapshot.downloadURL);
-      });
+      imageRef.putString(this.captureDataUrl, 'data_url');
+      //imageRef.putString(this.captureDataUrl, firebase.storage.StringFormat.DATA_URL).then((snapshot)=> {
+       //alert("photo uploaded" + snapshot.downloadURL);
+      //});
     }, (err) => {
       alert(err);
     });
