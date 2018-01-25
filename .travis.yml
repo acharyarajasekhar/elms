@@ -1,13 +1,15 @@
 language: node_js
 node_js:
   - "stable"
+    
+addons:
+  ssh_known_hosts: git.ionicjs.com
+  
+sudo: required
 
 branches:
   only:
     - firestore
-    
-addons:
-  ssh_known_hosts: git.ionicjs.com
 
 before_script:
   - npm install -g firebase-tools
