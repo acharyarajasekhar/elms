@@ -20,7 +20,10 @@
         <img #avatar id="avatar" [src]="user.photoUrl" *ngIf="user.photoUrl" avatar/>
         <h1 class="card-title">{{ user.name }}</h1>        
       </ion-card>
-      <button ion-button full (click)="takePicture()">Take Picture</button>
+      <button ion-button icon-right color="dark" (click)="changePicture()">
+        Upload picture
+        <ion-icon name="images"></ion-icon>
+      </button>
     </ion-card-header>
     <ion-card-content>
       <ion-list inset>

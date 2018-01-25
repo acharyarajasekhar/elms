@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { IonicPage, NavController, NavParams, ToastController, ActionSheetController } from 'ionic-angular';
+import { FormGroup } from '@angular/forms';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { TeamServiceProvider } from '../../providers/team-service/team-service';
@@ -8,8 +8,6 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/mergeMap";
 import "rxjs/add/observable/forkJoin";
 import { User } from './../../models/user.model';
-import { Team } from '../../models/team.model';
-import { Camera , CameraOptions} from '@ionic-native/camera';
 import { ImageProvider } from '../../providers/image-service/image-service';
 
 @IonicPage()
@@ -24,24 +22,16 @@ export class UserProfilePage {
   user:any = {};
   userCtx:User;
   teamName:string;
-  managerName:string;  
-  cameraOptions: CameraOptions = {
-    quality: 100,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE
-  };
-  private images = [];
+  managerName:string;   
 
   constructor(public navCtrl: NavController, 
-    public navParams: NavParams,
-    private formBuilder: FormBuilder,
+    public navParams: NavParams,    
     private teamService: TeamServiceProvider,
     public userService: UserServiceProvider,
     public toastCtrl: ToastController,
-    public authService: AuthServiceProvider,
-    private camera: Camera,
-    private imageSrv: ImageProvider) {      
+    public authService: AuthServiceProvider,    
+    private imageSrv: ImageProvider,
+    private actionSheetCtrl: ActionSheetController) {      
   }
 
   ionViewDidLoad() {    
@@ -94,17 +84,27 @@ export class UserProfilePage {
       position: 'bottom'
     }); 
     toast.present(toast);
-  }
+  }  
 
-  takePicture() {
-    this.camera.getPicture(this.cameraOptions)
-      .then(data => {
-        let base64Image = 'data:image/jpeg;base64,' + data;
-        return this.imageSrv.uploadImage(base64Image);
-      })
-      .then(data => {
-        this.images.push(data.a.name);
-        localStorage.setItem('images', JSON.stringify(this.images));
-      });
+  changePicture(): void {
+    let actionSheet = this.actionSheetCtrl.create({
+      enableBackdropDismiss: true,
+      buttons: [
+        {
+          text: 'Take a picture',
+          icon: 'camera',
+          handler: () => {
+            this.imageSrv.uploadFromCamera();
+          }
+        }, {
+          text: 'From gallery',
+          icon: 'images',
+          handler: () => {
+            this.imageSrv.uploadFromGallery();
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 }
