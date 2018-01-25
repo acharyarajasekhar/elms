@@ -20,16 +20,16 @@
     
               <ion-item>
                 <ion-label>From</ion-label>
-                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="from"></ion-datetime>
+                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="from" [min]="minDate" [max]="maxDate" [(ngModel)]="FrmDate"></ion-datetime>
               </ion-item>
     
               <ion-item>
                 <ion-label>To</ion-label>
-                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="to"></ion-datetime>
+                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="to" [min]="minDate" [max]="maxDate"  [(ngModel)]="ToDate"></ion-datetime>
               </ion-item>
     
               <ion-item>
-                <ion-textarea placeholder="Reason for leave" formControlName="reason"></ion-textarea>
+                <ion-textarea placeholder="Reason for leave" maxlength="100" formControlName="reason"></ion-textarea>
               </ion-item>
     
               <ion-item>
