@@ -12,6 +12,7 @@ declare var window: any;
 export class ImageProvider {
   private basePath: string = '/avatarPicture';
   objectToSave: Array<any> = new Array;
+  captureDataUrl: string;
 
   private takePictureOptions: CameraOptions = {
     allowEdit: false,
@@ -40,7 +41,7 @@ export class ImageProvider {
 
   //Take a picture and return a promise with the image data
   uploadFromCamera() {
-    this.camera.getPicture(this.takePictureOptions).then((imagePath) => {
+    /*this.camera.getPicture(this.takePictureOptions).then((imagePath) => {
       alert('got image path ' + imagePath);
       return this.makeFileIntoBlob(imagePath);//convert picture to blob
     }).then((imageBlob) => {
@@ -53,12 +54,29 @@ export class ImageProvider {
       alert('file saved to asset catalog successfully  ');
     }, (_error) => {
       alert('Error ' + (_error.message || _error));
+    });*/
+    this.camera.getPicture(this.takePictureOptions).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64:
+      this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;
+      let storageRef = firebase.storage().ref();
+      // Create a timestamp as filename
+      const filename = Math.floor(Date.now() / 1000);
+  
+      // Create a reference to 'images/todays-date.jpg'
+      const imageRef = storageRef.child(`photos/${filename}.jpg`);
+  
+      imageRef.putString(this.captureDataUrl, firebase.storage.StringFormat.DATA_URL).then((snapshot)=> {
+       alert("photo uploaded" + snapshot.downloadURL);
+      });
+    }, (err) => {
+      // Handle error
     });
   }
 
   //open the gallery and Return a promise with the image data
   uploadFromGallery() {
-    this.camera.getPicture(this.galleryOptions).then((imagePath) => {
+    /*this.camera.getPicture(this.galleryOptions).then((imagePath) => {
       alert('got image path ' + imagePath);
       return this.makeFileIntoBlob(imagePath);//convert picture to blob
     }).then((imageBlob) => {
@@ -71,6 +89,23 @@ export class ImageProvider {
       alert('file saved to asset catalog successfully  ');
     }, (_error) => {
       alert('Error ' + (_error.message || _error));
+    });*/
+    this.camera.getPicture(this.galleryOptions).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64:
+      this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;
+      let storageRef = firebase.storage().ref();
+      // Create a timestamp as filename
+      const filename = Math.floor(Date.now() / 1000);
+  
+      // Create a reference to 'images/todays-date.jpg'
+      const imageRef = storageRef.child(`photos/${filename}.jpg`);
+  
+      imageRef.putString(this.captureDataUrl, firebase.storage.StringFormat.DATA_URL).then((snapshot)=> {
+       alert("photo uploaded" + snapshot.downloadURL);
+      });
+    }, (err) => {
+      // Handle error
     });
   }
 
@@ -131,7 +166,7 @@ export class ImageProvider {
   }
 
   saveToDatabase(uploadSnapshot) {
-    var ref = firebase.database().ref('assets');
+    var ref = firebase.database().ref('photos');
 
     return new Promise((resolve, reject) => {
 
