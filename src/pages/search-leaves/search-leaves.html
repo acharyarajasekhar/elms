@@ -58,7 +58,8 @@
     <!-- <button ion-button style="background-color:#66BB6A" (click)=acceptLeave(res.id)><ion-icon style="font-size:2em;color:white;" name="checkmark" isActive="false"></ion-icon></button> -->
     <button class="child" ion-button icon-left clear small>
         <!-- <ion-icon style="font-size:2em;color:#66BB6A;" name="checkmark" isActive="true"></ion-icon> -->
-        <img  [@popOverState]="stateNhame" src="../../assets/imgs/happy (3).png"/>
+        <!-- <img  [@popOverState]="stateNhame" src="../../assets/imgs/happy (3).png"/> -->
+        <img src="../../assets/imgs/happy (3).png"/>
        <!-- <div class="actionAavatar">Approve</div> -->
       </button>
 <!-- <ion-badge item-end>From : {{data.from | date : "MMM/dd"}}</ion-badge> -->
@@ -67,14 +68,14 @@
     <!-- <button ion-button style="background-color:#E57373 "><ion-icon style="font-size:2em; color:white;" name="close"></ion-icon></button> -->
     <button ion-button icon-left clear small>
         <!-- <ion-icon style="font-size:2em; color:#E57373;" name="close"></ion-icon> -->
-        <img [@popOverState]="stadteName" src="../../assets/imgs/angryblack.png"/>
+        <img src="../../assets/imgs/angryblack.png"/>
         <!-- <div class="actionRavatar">Reject</div> -->
       </button>
 <!-- <ion-badge item-end>To : {{data.to | date : "MMM/dd"}}</ion-badge> -->
 </ion-col>
 <ion-col item-end  style="text-align: center;">
     <button ion-button icon-left clear small>
-    <ion-icon [@popOverState]="statseName" style="font-size:2em;" name="information-circle"></ion-icon>
+    <ion-icon style="font-size:2em;" name="information-circle"></ion-icon>
     </button>
     <!-- <div class="actionRavatar">More Info</div> -->
 </ion-col>

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -45,7 +45,7 @@ import { ImageProvider } from '../providers/image-service/image-service';
   imports: [    
     BrowserModule,
     HttpModule,
-    BrowserAnimationsModule,
+   // BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FirebaseConfig),
     AngularFirestoreModule,

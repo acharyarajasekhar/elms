@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { NotificationService } from '../../providers/notification-service/notification-service';
-import {trigger, transition, style,state, animate} from "@angular/animations";
+//import {trigger, transition, style,state, animate} from "@angular/animations";
 //import {NotificationsPage} from '../notifications/notifications';
 import { DetailsviewPage } from '../detailsview/detailsview';
 
@@ -15,19 +15,19 @@ import { DetailsviewPage } from '../detailsview/detailsview';
 @IonicPage()
 @Component({
   selector: 'page-search-leaves',
-  templateUrl: 'search-leaves.html',
-  animations: [
-    trigger('popOverState', [
-      state('show', style({
-        transform: 'scale(1.0)'
-      })),
-      state('hide',   style({
-        transform: 'scale(1.5)'
-      })),
-      transition('show => hide', animate('600ms ease-out')),
-      transition('hide => show', animate('1000ms ease-in'))
-    ])
-  ]
+  templateUrl: 'search-leaves.html'
+  // animations: [
+  //   trigger('popOverState', [
+  //     state('show', style({
+  //       transform: 'scale(1.0)'
+  //     })),
+  //     state('hide',   style({
+  //       transform: 'scale(1.5)'
+  //     })),
+  //     transition('show => hide', animate('600ms ease-out')),
+  //     transition('hide => show', animate('1000ms ease-in'))
+  //   ])
+  // ]
 })
 export class SearchLeavesPage {
   uid: string;
