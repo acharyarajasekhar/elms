@@ -18,7 +18,7 @@ export class SignupPage {
     public authService: AuthServiceProvider) {
     this.signUpForm = this.formBuilder.group({
       name: [null, ([Validators.maxLength(50), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
-      email: [null, ([Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'),Validators.required])],
+      email: [null, ([Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'),Validators.required])],
       password: [null, Validators.compose ( [ Validators.required ])]
     });
   }

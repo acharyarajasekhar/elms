@@ -40,9 +40,33 @@ $colors: (
   light:      #f4f4f4,
   dark:       #222,
   pending :  rgb(248, 193, 12),
+  lms:    	#eeeeee
 );
 
-
+.content
+{
+  background-color:#e7e1e1 !important;
+}
+.toolbar-background
+{
+  background-color:#039be5 !important;
+}
+.toolbar-title
+{
+color:white !important;
+}
+.bar-button
+{
+color:#ffff !important;
+}
+.item {
+  background: #f5f5f5 !important;
+  border: medium none !important;
+}
+/*.scroll-content
+{
+background-color:#eeeeee !important;
+}*/
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here

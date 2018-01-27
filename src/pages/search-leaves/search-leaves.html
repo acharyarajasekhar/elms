@@ -8,8 +8,7 @@
 </ion-header>
 
 
-<ion-content padding class="has-header">
-  
+<ion-content padding>
   <form [formGroup]="SearchResults" class="list">
     <ion-card>
       <ion-card-content>
@@ -31,10 +30,8 @@
     </ion-card>
   </form>
 <br/>
-
-
 <div *ngIf="Results">
-  <ion-card *ngFor="let res of Results">
+  <ion-card class="cardBorder" [ngStyle]="{'border-left-color':getColor(res.data.status)}" *ngFor="let res of Results">
     <!-- <img src="img/nin-live.png"/> -->
 
     <div class="itemStyle">
@@ -48,33 +45,56 @@
       </ion-item>
     </div>
     <hr>
-      <ion-card-content style="background-color:#f5f8fb;">
+      <ion-card-content>
          <!-- <h3> Reason For Leave:</h3><p>{{data.reason }}</p> -->
          <div class="contentStyle">
            <p> Hey!!! I will be on leave from <span class="FontAvatar">{{res.data.from | date : "MMM d, y"}}</span> to  <span class="FontAvatar">{{res.data.to | date : "MMM d, y"}}</span> due to <span class="FontAvatar">{{res.data.reason }}</span></p>
          </div>
         </ion-card-content>
         <hr>
-        <ion-row *ngIf="isManager">
+        <ion-row style="position: relative;top:10px;" *ngIf="isManager=='true' && res.data.status=='0'">
+            <!-- && res.data.status=='0'"> -->
 <ion-col item-start style="text-align: center;">
     <!-- <button ion-button style="background-color:#66BB6A" (click)=acceptLeave(res.id)><ion-icon style="font-size:2em;color:white;" name="checkmark" isActive="false"></ion-icon></button> -->
-    <button ion-button icon-left clear small (click)=acceptLeave(res.id)>
-        <ion-icon style="font-size:2em;color:#66BB6A;" name="checkmark" isActive="true"></ion-icon>
-       <div class="actionAavatar">Approve</div>
+    <button class="child" ion-button icon-left clear small>
+        <!-- <ion-icon style="font-size:2em;color:#66BB6A;" name="checkmark" isActive="true"></ion-icon> -->
+        <img  [@popOverState]="stateNhame" src="../../assets/imgs/happy (3).png"/>
+       <!-- <div class="actionAavatar">Approve</div> -->
       </button>
 <!-- <ion-badge item-end>From : {{data.from | date : "MMM/dd"}}</ion-badge> -->
 </ion-col>
 <ion-col item-end  style="text-align: center;">
     <!-- <button ion-button style="background-color:#E57373 "><ion-icon style="font-size:2em; color:white;" name="close"></ion-icon></button> -->
-    <button ion-button icon-left clear small (click)=rejectLeave(res.id) >
-        <ion-icon style="font-size:2em; color:#E57373;" name="close"></ion-icon>
-        <div class="actionRavatar">Reject</div>
+    <button ion-button icon-left clear small>
+        <!-- <ion-icon style="font-size:2em; color:#E57373;" name="close"></ion-icon> -->
+        <img [@popOverState]="stadteName" src="../../assets/imgs/angryblack.png"/>
+        <!-- <div class="actionRavatar">Reject</div> -->
       </button>
 <!-- <ion-badge item-end>To : {{data.to | date : "MMM/dd"}}</ion-badge> -->
 </ion-col>
-
 <ion-col item-end  style="text-align: center;">
-    <!-- <ion-icon style="font-size:2em;" name="information-circle"></ion-icon> -->
+    <button ion-button icon-left clear small>
+    <ion-icon [@popOverState]="statseName" style="font-size:2em;" name="information-circle"></ion-icon>
+    </button>
+    <!-- <div class="actionRavatar">More Info</div> -->
+</ion-col>
+        </ion-row>
+        <ion-row *ngIf="isManager=='true' && res.data.status=='0'">
+            <!-- && res.data.status=='0'"> -->
+<ion-col  item-start style="text-align: center;">
+    <button ion-button icon-left clear small (click)=acceptLeave(res.id)>
+       <div class="actionAavatar">Approve</div>
+    </button>
+</ion-col>
+<ion-col item-end  style="text-align: center;">
+    <button ion-button icon-left clear small (click)=rejectLeave(res.id) >
+        <div class="actionRavatar">Reject</div>
+        </button>
+</ion-col>
+<ion-col item-end  style="text-align: center;">
+    <button ion-button icon-left clear small (click)=MoreInfo(res.data) >
+    <div class="actionIavatar">More Info</div>
+    </button>
 </ion-col>
         </ion-row>
   </ion-card>

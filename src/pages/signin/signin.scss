@@ -2,21 +2,15 @@
 .fontbolder
 {
 	font-family: g_bold;
-	font-weight: 500;
+	font-weight: 800;
 }
 
 .img
 {
 	min-width: 100%;
 	min-height: 100%;
-	background-image: url('../../assets/imgs/bg4.png');
-	background-color: #637778;
-}
-
-.formcontent
-{
- position: relative;
- top:10em;
+	background-image: url('../../assets/imgs/bg4.png') !important;
+	background-color: #1d3e40 !important;
 }
 
 ion-card.card {
@@ -28,19 +22,19 @@ ion-card.card {
 	border-color: #cacaca;
 	height: auto;
 } 
-   
 
-    
+.formcontent
+{
+ position: relative;
+ top:10em;
+}
 
+.ionitems
+{
+	//margin-top: 10px;
+	border: 1px solid #c2bdbd
+}
 	.item {
-		//margin-bottom: 10px;
-		// background: rgba(255, 255, 255, 0.5);
-		background: #f2f2f2;
-		border: medium none;
-
-		.text-input, {
-			color: #000;
-		}
 
 		input::-moz-placeholder  {
 			color: rgb(90, 88, 88)!important;
@@ -63,13 +57,14 @@ ion-card.card {
 		}
 	}
 
-
+	.btnlogin
+	{
+		margin-top: 10px;
+		background-color:#18494c
+	}
 	.signup-btn {
 		margin-top: 20px;
 		color:white;
 	}
 
-	.item-input {
-		border: 1px solid #cacaca;
-	  }
 

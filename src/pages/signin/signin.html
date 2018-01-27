@@ -8,16 +8,16 @@
         </ion-card-header>
         <ion-card-content>
           <ion-list no-line>
-            <ion-item>
+            <ion-item class="ionitems">
                 <ion-label> <ion-icon name="mail"></ion-icon> </ion-label>
               <ion-input type="text" formControlName="userid" placeholder="Email"></ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item class="ionitems" style="margin-top: 10px;">
                 <ion-label> <ion-icon name="eye"></ion-icon> </ion-label>
               <ion-input type="password" formControlName="password" placeholder="Password">
               </ion-input>
             </ion-item>
-            <button ion-button type="submit" style="background-color:#3a8286" [disabled]="!signInForm.valid" block>Sign In</button>
+            <button class="btnlogin" ion-button type="submit" [disabled]="!signInForm.valid" block>Sign In</button>
           </ion-list>
         </ion-card-content>
       </ion-card>

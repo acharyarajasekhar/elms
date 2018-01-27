@@ -141,7 +141,7 @@ export class LeaveServiceProvider {
     if (isManager && startDate != null && endDate != null) {
       this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
         return ref.where('from', '>=', startDate)
-          .where('managerId', '==', userId)
+          //.where('managerId', '==', userId)
           .orderBy('from', 'asc');
       });
     }
