@@ -119,7 +119,7 @@ export class ImageProvider {
     });
   }
 
-  makeFileIntoBlob(_imagePath) {
+ /* makeFileIntoBlob(_imagePath) {
     return new Promise((resolve, reject) => {
       window.resolveLocalFileSystemURL(_imagePath, (fileEntry) => {
 
@@ -191,7 +191,7 @@ export class ImageProvider {
         resolve(response);
       });
     });
-  }
+  }*/
 
 
 }
