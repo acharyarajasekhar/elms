@@ -59,9 +59,10 @@ export class ImageProvider {
     try{
       const result = await this.camera.getPicture(this.takePictureOptions);
       const image = `data:image/jpeg:base64,${result}`;
+      alert(image);
       const pictures = storage().ref('pictures');
       pictures.putString(image, 'data_url');
-      alert("photo uploaded");
+      alert("photo uploaded successfully");
     }
     catch(e){
       console.error(e);
