@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
-import { AngularFireAuth } from 'angularfire2/auth'
-import * as firebase from 'firebase/app';
-import 'firebase/storage';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { storage } from 'firebase';
 
 declare var window: any;
 
@@ -34,10 +31,8 @@ export class ImageProvider {
     correctOrientation: true
   }
 
-  constructor(
-    public afAuth: AngularFireAuth,    
+  constructor( 
     private camera: Camera) {
-
   }
 
   //Take a picture and return a promise with the image data
@@ -59,17 +54,22 @@ export class ImageProvider {
     this.camera.getPicture(this.takePictureOptions).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
-      this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;      
-      let storageRef = firebase.storage().ref();      
+      const image = `data:image/jpeg:base64,${imageData}`;
+      //this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;      
+      //let storageRef = firebase.storage().ref();      
+      const pictures = storage().ref('pictures');
+
       // Create a timestamp as filename
-      const filename = Math.floor(Date.now() / 1000);
+      //const filename = Math.floor(Date.now() / 1000);
   
       // Create a reference to 'images/todays-date.jpg'
-      const imageRef = storageRef.child(`photos/${filename}.jpg`);
+      //const imageRef = storageRef.child(`photos/${filename}.jpg`);
   
-      imageRef.putString(this.captureDataUrl, firebase.storage.StringFormat.DATA_URL).then((snapshot)=> {
-       alert("photo uploaded" + snapshot.downloadURL);
-      });
+      pictures.putString(image, 'data_url');
+      alert("photo uploaded");
+      //.then((snapshot)=> {
+       //alert("photo uploaded" + snapshot.downloadURL);
+      //});
     }, (err) => {
       // Handle error
       alert(err);
@@ -95,7 +95,7 @@ export class ImageProvider {
     this.camera.getPicture(this.galleryOptions).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
-      alert(imageData);
+      /*alert(imageData);
       this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;
       alert(this.captureDataUrl);
       let storageRef = firebase.storage().ref();
@@ -106,7 +106,11 @@ export class ImageProvider {
       // Create a reference to 'images/todays-date.jpg'
       const imageRef = storageRef.child(`${filename}.jpg`);
       alert(imageRef);  
-      imageRef.putString(this.captureDataUrl, 'data_url');
+      imageRef.putString(this.captureDataUrl, 'data_url');*/
+      const image = `data:image/jpeg:base64,${imageData}`;          
+      const pictures = storage().ref('pictures');  
+      pictures.putString(image, 'data_url');
+      alert("photo uploaded");
       //imageRef.putString(this.captureDataUrl, firebase.storage.StringFormat.DATA_URL).then((snapshot)=> {
        //alert("photo uploaded" + snapshot.downloadURL);
       //});
