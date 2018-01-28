@@ -19,13 +19,17 @@ export class ImageProvider {
     targetHeight: 720,
     cameraDirection: this.camera.Direction.BACK,
     sourceType: this.camera.PictureSourceType.CAMERA,
-    destinationType: this.camera.DestinationType.FILE_URI,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE
   }
 
   private galleryOptions: CameraOptions = {
     allowEdit: true,
-    destinationType: this.camera.DestinationType.FILE_URI,
+    destinationType: this.camera.DestinationType.DATA_URL,
     sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE,
     targetWidth: 720,
     targetHeight: 720,
     correctOrientation: true
