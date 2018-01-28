@@ -13,12 +13,13 @@ export class ImageProvider {
   file: File;
 
   private takePictureOptions: CameraOptions = {
-    allowEdit: false,
-    saveToPhotoAlbum: true,
-    targetWidth: 720,
-    targetHeight: 720,
-    cameraDirection: this.camera.Direction.BACK,
-    sourceType: this.camera.PictureSourceType.CAMERA,
+    quality: 50,
+    //allowEdit: false,
+    //saveToPhotoAlbum: true,
+    targetWidth: 600,
+    targetHeight: 600,
+    //cameraDirection: this.camera.Direction.BACK,
+    //sourceType: this.camera.PictureSourceType.CAMERA,
     destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE
@@ -40,7 +41,7 @@ export class ImageProvider {
   }
 
   //Take a picture and return a promise with the image data
-  uploadFromCamera() {
+ async uploadFromCamera() {
     /*this.camera.getPicture(this.takePictureOptions).then((imagePath) => {
       alert('got image path ' + imagePath);
       return this.makeFileIntoBlob(imagePath);//convert picture to blob
@@ -55,29 +56,16 @@ export class ImageProvider {
     }, (_error) => {
       alert('Error ' + (_error.message || _error));
     });*/
-    this.camera.getPicture(this.takePictureOptions).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64:
-      const image = `data:image/jpeg:base64,${imageData}`;
-      //this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;      
-      //let storageRef = firebase.storage().ref();      
+    try{
+      const result = await this.camera.getPicture(this.takePictureOptions);
+      const image = `data:image/jpeg:base64,${result}`;
       const pictures = storage().ref('pictures');
-
-      // Create a timestamp as filename
-      //const filename = Math.floor(Date.now() / 1000);
-  
-      // Create a reference to 'images/todays-date.jpg'
-      //const imageRef = storageRef.child(`photos/${filename}.jpg`);
-  
       pictures.putString(image, 'data_url');
       alert("photo uploaded");
-      //.then((snapshot)=> {
-       //alert("photo uploaded" + snapshot.downloadURL);
-      //});
-    }, (err) => {
-      // Handle error
-      alert(err);
-    });
+    }
+    catch(e){
+      console.error(e);
+    }
   }
 
   //open the gallery and Return a promise with the image data
