@@ -18,16 +18,19 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content>
-<ion-slides pager="true" loop="true" id="cover" slidesPerView=1 autoplay="5000" loop="true" style="height: 230px;">
+<ion-content  style="background-color:aliceblue">
+<ion-slides pager="true" loop="true" id="cover" slidesPerView=1 autoplay="5000" loop="true" style="height: 240px;">
   <ion-slide style="height: 220px;" *ngFor="let img of sliderImg$">
     <img [src]="img"/>
   </ion-slide>
 </ion-slides>
-  <h3 align="center" style="font-family: Comic Sans MS">
-    <i>Who is Off </i>
+<div align="center">
+  <h3 style="font-size: 16px; font-weight:600; display: inline-block; color: #333;">
+  Who is Off
   </h3>
-  <h6 style="font-family: Comic Sans MS">Today</h6>
+</div> 
+<div><p style="margin: 0;padding: 0;font-size: 16px;font-weight: 600;display: inline-block;color: #333;">Today</p>
+  <p style="margin: 0;color: #ed1d25;font-weight: 400;padding: 3px 10px;font-size: 13px!important;text-transform: none;float:right" (click)="openSeealltdy()">See All</p></div>
   <ion-slides pager="false" id="today" slidesPerView=3 style="height: 160px;">
     <ion-slide *ngFor="let leave of leavesToday$" style="height: 150px;">
       <ion-card>
@@ -38,7 +41,8 @@
       </ion-card>
     </ion-slide>
   </ion-slides>
-  <h6 style="font-family: Comic Sans MS">Tomorrow</h6>
+  <div><p style="margin: 0; padding: 0;font-size: 16px;font-weight: 600;display: inline-block;color: #333;">Tomorrow</p>
+    <p style="margin: 0;color: #ed1d25;font-weight: 400;padding: 3px 10px;font-size: 13px!important;text-transform: none;float:right" (click)="openSeealltmrw()">See All</p></div>
   <ion-slides pager="false" id="tomorrow" slidesPerView=3 style="height: 160px;">
     <ion-slide *ngFor="let leavetmr of leavesTmrw$" style="height: 150px;">
       <ion-card>

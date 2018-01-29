@@ -22,6 +22,7 @@ export class LeaveServiceProvider {
   constructor(
     public afs: AngularFirestore,
     public auth: AuthServiceProvider,
+    public db: AngularFirestore,
     private userService: UserServiceProvider) {
   }
 
@@ -184,4 +185,48 @@ export class LeaveServiceProvider {
     return this.filteredLeaveCollection.valueChanges();
   }
   
+
+  getleavelistnewDB()
+  {
+
+    var usersCollectionRef = this.db.collection('Users').valueChanges();
+    
+    usersCollectionRef.subscribe(dd => {
+      console.log(dd);
+    })
+
+    var fromDTTM = new Date("01/10/2018");
+    var toDTTM = new Date("01/30/2018");
+
+    var leavesCollectionRef = this.db.collection('Leaves', 
+      ref => ref
+        .where("ToDTTM", ">=", fromDTTM)
+        .orderBy("ToDTTM", "asc")
+    ).valueChanges();
+
+    leavesCollectionRef.subscribe(leaves => {
+      var myLeaves:Array<any> = [];
+       
+      leaves.forEach((leaveItem:any) => { 
+        if(leaveItem.FromDTTM <= toDTTM)       
+        leaveItem.Owner.get()
+          .then(userRef => { 
+              var user = userRef.data(); 
+              user.Manager.get()
+                .then(managerRef => {
+                  user.Manager = managerRef.data();
+                });
+              user.Team.get()
+                .then(teamRef => {
+                  user.Team = teamRef.data();
+                });
+              leaveItem.Owner = user;
+              myLeaves.push(leaveItem); 
+          });
+      });
+
+      console.log(myLeaves);
+    })
+
+  }
 }

@@ -7,11 +7,11 @@
     </ion-header>
     
     
-    <ion-content padding="true">
-      <form [formGroup]="LeaveForm" class="list">
+    <ion-content>
+      <form [formGroup]="LeaveForm" (ngSubmit)="addLeave()" class="list">
     
         <ion-card>
-          <ion-card-content>
+          <ion-card-content style="padding:0px">
             <ion-list no-line>
               <ion-item>
                 <ion-label>Half Day</ion-label>
@@ -20,20 +20,20 @@
     
               <ion-item>
                 <ion-label>From</ion-label>
-                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="from" [min]="minDate" [max]="maxDate" [(ngModel)]="FrmDate"></ion-datetime>
+                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="from" required [min]="minDate" [max]="maxDate" [(ngModel)]="FrmDate"></ion-datetime>
               </ion-item>
     
               <ion-item>
                 <ion-label>To</ion-label>
-                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="to" [min]="minDate" [max]="maxDate"  [(ngModel)]="ToDate"></ion-datetime>
+                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="to" required [min]="minDate" [max]="maxDate"  [(ngModel)]="ToDate"></ion-datetime>
               </ion-item>
     
               <ion-item>
-                <ion-textarea placeholder="Reason for leave" maxlength="100" formControlName="reason"></ion-textarea>
+                <ion-textarea placeholder="Reason for leave" maxlength="50" required formControlName="reason"></ion-textarea>
               </ion-item>
     
               <ion-item>
-                <button ion-button full  (click)="addLeave()">Apply</button>
+                <button ion-button full type="submit" style="background-color:#3a8286" [disabled]="!LeaveForm.valid" block>Apply</button>
               </ion-item>
             </ion-list>
           </ion-card-content>

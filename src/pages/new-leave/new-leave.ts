@@ -29,7 +29,7 @@ export class NewLeavePage {
         isHalfDay: [false],
         from: [this.FrmDate, Validators.required],
         to: [this.ToDate, Validators.required],
-        reason: ['',Validators.compose( [ Validators.required ])]
+        reason: ['',Validators.required]
       });
   }
   

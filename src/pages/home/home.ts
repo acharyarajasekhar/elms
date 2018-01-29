@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, ToastController, NavParams, Slides } from 'ionic-angular';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { PipesModule } from './../../pipes/pipes.module';
+import * as firebase from 'firebase';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
@@ -7,15 +10,13 @@ import { Leave } from '../../models/leave.model';
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
-import { AngularFireAuth } from 'angularfire2/auth';
-
-import { PipesModule } from './../../pipes/pipes.module';
 @IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage implements OnInit {
+  public user: Observable<firebase.User>;
   cards: any;
   slides: Slides;
   leaves$: Observable<Leave[]>;
@@ -35,15 +36,17 @@ export class HomePage implements OnInit {
   tmdate: Date;
   constructor(
     public navCtrl: NavController,
-    private authService: AuthServiceProvider,
+    private afAuth: AngularFireAuth,
     public leaveService: LeaveServiceProvider,
     public toastCtrl: ToastController,
     private userService: UserServiceProvider) {
     this.tdate = new Date(this.tdydate);
     this.tmdate = new Date(this.tmrdate);
     this.cards = new Array(10);
-    if (this.authService.afAuth.auth.currentUser) {
-      this._authId = this.authService.afAuth.auth.currentUser.uid;
+    // this.user = this.afAuth.authState;
+    console.log(this.afAuth.auth);
+    if (this.afAuth.auth.currentUser != null) {
+      this._authId = this.afAuth.auth.currentUser.uid;
     }
     this.getUserContext();
     this.bindLeaveCarosol();
@@ -89,6 +92,14 @@ export class HomePage implements OnInit {
 
   openNotifications() {
     this.navCtrl.push("NotificationsPage");
+  }
+
+  openSeealltdy() {
+    this.navCtrl.push("SeeAllTdyPage");
+  }
+
+  openSeealltmrw() {
+    this.navCtrl.push("SeeAllTmrwPage");
   }
 
   openReports() {
