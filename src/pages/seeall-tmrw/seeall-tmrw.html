@@ -6,9 +6,34 @@
     </button>
   </ion-navbar>
 </ion-header>
-<ion-content padding class="has-header">
+<ion-content class="has-header">
+  <div *ngIf="leavesTmrw$">
+    <ion-card *ngFor="let res of leavesTmrw$">
+      <!-- <img src="img/nin-live.png"/> -->
 
-
-
+      <div class="itemStyle">
+        <ion-item>
+          <ion-avatar item-start>
+            <img [src]="res.Owner.ProfilePhoto ? res.Owner.ProfilePhoto : '../../assets/imgs/user.png'">
+            <!-- <ion-icon style="font-size:2.2em" name="md-contact"></ion-icon> -->
+          </ion-avatar>
+          <h2>{{res.Owner.Name }}</h2>   
+          <h4>{{res.Owner.Team.Name}}</h4>
+        </ion-item>
+      </div>
+      <hr>
+      <ion-card-content style="background-color:#f5f8fb;">
+        <!-- <h3> Reason For Leave:</h3><p>{{data.reason }}</p> -->
+        <div class="contentStyle">
+          <p> Hey!!! I will be on leave from
+            <span class="FontAvatar">{{res.FromDTTM | date : "MMM d, y"}}</span> to
+            <span class="FontAvatar">{{res.ToDTTM | date : "MMM d, y"}}</span> due to
+            <span class="FontAvatar">{{res.Comments }}</span>
+          </p>
+        </div>
+      </ion-card-content>
+      <hr>
+    </ion-card>
+  </div>
   <br/>
 </ion-content>

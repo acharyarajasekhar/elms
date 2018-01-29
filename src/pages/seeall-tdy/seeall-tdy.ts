@@ -39,17 +39,29 @@ export class SeeAllTdyPage {
     let isManager = localStorage.getItem('isManagerRole');
     let myTeam = localStorage.getItem('myTeam');
     let myId = localStorage.getItem('myId');
-    this.tdate = new Date(this.tdydate);
+    var toDTTM = new Date("01/30/2018");
     this.tmdate = new Date(this.tmrdate);
-    this._LeaveService.getLeavelstByDateRange(isManager, myTeam, this.tdate, this.tdate, myId)
-      .subscribe(result => {
-        let tDate = this.tdate;
-        this.leavesToday$ = _.filter(result, function (query) {
-          return query.to >= tDate;
-         
-        });
-
+    this._LeaveService.getleavelistnewDB()
+    .subscribe(leaves => {
+      var myLeaves:Array<any> = [];    
+      leaves.forEach((leaveItem:any) => { 
+        if(leaveItem.FromDTTM <= toDTTM)       
+        leaveItem.Owner.get()
+          .then(userRef => { 
+              var user = userRef.data(); 
+              user.Manager.get()
+                .then(managerRef => {
+                  user.Manager = managerRef.data();
+                });
+              user.Team.get()
+                .then(teamRef => {
+                  user.Team = teamRef.data();
+                });
+              leaveItem.Owner = user;
+              this.leavesToday$.push(leaveItem); 
+          });
       });
       console.log(this.leavesToday$);
-  }
+    })
+   }
 }

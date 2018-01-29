@@ -32,9 +32,31 @@ export class SeeAllTmrwPage {
     let isManager = localStorage.getItem('isManagerRole');
     let myTeam = localStorage.getItem('myTeam');
     let myId = localStorage.getItem('myId');
-   
+    var toDTTM = new Date("01/30/2018");
     this.tmdate = new Date(this.tmrdate);
     this._LeaveService.getleavelistnewDB()
+    .subscribe(leaves => {
+      var myLeaves:Array<any> = [];    
+      leaves.forEach((leaveItem:any) => { 
+        if(leaveItem.FromDTTM <= toDTTM)       
+        leaveItem.Owner.get()
+          .then(userRef => { 
+              var user = userRef.data(); 
+              user.Manager.get()
+                .then(managerRef => {
+                  user.Manager = managerRef.data();
+                });
+              user.Team.get()
+                .then(teamRef => {
+                  user.Team = teamRef.data();
+                });
+              leaveItem.Owner = user;
+              this.leavesTmrw$.push(leaveItem); 
+          });
+      });
+
+      console.log(this.leavesTmrw$);
+    })
    }
 
 }
