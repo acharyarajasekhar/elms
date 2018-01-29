@@ -9,6 +9,7 @@ import "rxjs/add/operator/mergeMap";
 import "rxjs/add/observable/forkJoin";
 import { User } from './../../models/user.model';
 import { ImageProvider } from '../../providers/image-service/image-service';
+import { storage } from 'firebase';
 
 @IonicPage()
 @Component({
@@ -54,6 +55,10 @@ export class UserProfilePage {
       team: (localStorage.getItem('myTeam') !="" || localStorage.getItem('myTeam') == 'null') ? localStorage.getItem('myTeam'): "",
       manager: (localStorage.getItem('myManager') !="" || localStorage.getItem('myManager') == 'null') ? localStorage.getItem('myManager'): ""
     };
+    
+    storage().ref().child('photos/' + localStorage.getItem('myId') + '.jpg').getDownloadURL()
+        .then(response => {this.user.photoUrl = response} )
+        .catch(error => console.log('error', error))
   }  
 
   if(this.user.team != ""){
@@ -86,8 +91,8 @@ export class UserProfilePage {
     toast.present(toast);
   }  
 
-  changePicture(): void {
-    let actionSheet = this.actionSheetCtrl.create({
+  async changePicture() {
+    let actionSheet = await this.actionSheetCtrl.create({
       enableBackdropDismiss: true,
       buttons: [
         {
@@ -106,5 +111,8 @@ export class UserProfilePage {
       ]
     });
     actionSheet.present();
+    storage().ref().child('photos/' + localStorage.getItem('myId') + '.jpg').getDownloadURL()
+        .then(response => {this.user.photoUrl = response} )
+        .catch(error => console.log('error', error))    
   }
 }
