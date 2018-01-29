@@ -44,7 +44,7 @@ export class HomePage implements OnInit {
     this.tmdate = new Date(this.tmrdate);
     this.cards = new Array(10);
     // this.user = this.afAuth.authState;
-    console.log(this.afAuth.auth);
+    //console.log(this.afAuth.auth);
     if (this.afAuth.auth.currentUser != null) {
       this._authId = this.afAuth.auth.currentUser.uid;
     }

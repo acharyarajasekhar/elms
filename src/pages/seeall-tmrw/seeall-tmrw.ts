@@ -16,8 +16,7 @@ import { Observable } from 'rxjs/Observable';
 export class SeeAllTmrwPage {
   leavesTmrw$:any[] = [];
   t: Date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-  tmrdate: any = this.t.getFullYear() + "-" + this.t.getMonth() + 1 + "-" + this.t.getDate();
-  tmdate: Date;
+  tmrdate: any = this.t.getMonth() + 1 + "/" + this.t.getDate()+ "/" +this.t.getFullYear();
   constructor(public navCtrl: NavController,
       private _LeaveService: LeaveServiceProvider,
       private _cmnMethods: commonMethods,private _notify:NotificationService,
@@ -32,30 +31,27 @@ export class SeeAllTmrwPage {
     let isManager = localStorage.getItem('isManagerRole');
     let myTeam = localStorage.getItem('myTeam');
     let myId = localStorage.getItem('myId');
-    var toDTTM = new Date("01/30/2018");
-    this.tmdate = new Date(this.tmrdate);
-    this._LeaveService.getleavelistnewDB()
+    var toDTTM = new Date(new Date(this.tmrdate).setHours(23, 59, 59, 0));
+    this._LeaveService. getleavelistHomeNewDB( isManager, myTeam, this.tmrdate, myId)
     .subscribe(leaves => {
       var myLeaves:Array<any> = [];    
-      leaves.forEach((leaveItem:any) => { 
-        if(leaveItem.FromDTTM <= toDTTM)       
-        leaveItem.Owner.get()
+      leaves.forEach((leaveItem:any) => {  
+        if(leaveItem.from <= toDTTM)  
+        leaveItem.owner.get()
           .then(userRef => { 
               var user = userRef.data(); 
-              user.Manager.get()
+              user.manager.get()
                 .then(managerRef => {
-                  user.Manager = managerRef.data();
+                  user.manager = managerRef.data();
                 });
-              user.Team.get()
+              user.team.get()
                 .then(teamRef => {
-                  user.Team = teamRef.data();
+                  user.team = teamRef.data();
                 });
-              leaveItem.Owner = user;
+              leaveItem.owner = user;
               this.leavesTmrw$.push(leaveItem); 
           });
       });
-
-      console.log(this.leavesTmrw$);
     })
    }
 

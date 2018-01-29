@@ -39,6 +39,13 @@ export class NewLeavePage {
     this.showToast('Leave request created succesfully');
   }
 
+  addNewLeave()
+  {
+    this.leaveService.createNewLeave(this.LeaveForm.value);
+    this.navCtrl.pop();
+    this.showToast('Leave request created succesfully');
+  }
+
   showToast(alert_message:string){
     let toast = this.toastCtrl.create({
       message: alert_message,

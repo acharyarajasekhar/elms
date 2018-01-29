@@ -21,7 +21,7 @@ export class AuthServiceProvider {
     var usersCollectionRef = this.db.collection('Users').valueChanges();
     
     usersCollectionRef.subscribe(dd => {
-      console.log(dd);
+     // console.log(dd);
     })
 
     var fromDTTM = new Date("01/10/2018");
@@ -54,7 +54,7 @@ export class AuthServiceProvider {
           });
       });
 
-      console.log(myLeaves);
+      //console.log(myLeaves);
     })
 
   }

@@ -19,11 +19,7 @@ export class SeeAllTdyPage {
   isManager:string;
   GetCurrentDate: Date = new Date();
   d: Date = new Date(new Date().setHours(0, 0, 0, 0));
-  t: Date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-  tdydate: any = this.d.getFullYear() + "-" + this.d.getMonth() + 1 + "-" + this.d.getDate();
-  tmrdate: any = this.t.getFullYear() + "-" + this.t.getMonth() + 1 + "-" + this.t.getDate();
-  tdate: Date;
-  tmdate: Date;
+  tdydate: any = this.d.getMonth() + 1 + "/" + this.d.getDate()+"/"+this.d.getFullYear();
   constructor(public navCtrl: NavController,
     private _LeaveService: LeaveServiceProvider,
     private formgroup: FormBuilder,
@@ -36,32 +32,30 @@ export class SeeAllTdyPage {
   }
 
   GetTdyLeaveDetails() {
-    let isManager = localStorage.getItem('isManagerRole');
-    let myTeam = localStorage.getItem('myTeam');
-    let myId = localStorage.getItem('myId');
-    var toDTTM = new Date("01/30/2018");
-    this.tmdate = new Date(this.tmrdate);
-    this._LeaveService.getleavelistnewDB()
-    .subscribe(leaves => {
-      var myLeaves:Array<any> = [];    
-      leaves.forEach((leaveItem:any) => { 
-        if(leaveItem.FromDTTM <= toDTTM)       
-        leaveItem.Owner.get()
-          .then(userRef => { 
-              var user = userRef.data(); 
-              user.Manager.get()
-                .then(managerRef => {
-                  user.Manager = managerRef.data();
-                });
-              user.Team.get()
-                .then(teamRef => {
-                  user.Team = teamRef.data();
-                });
-              leaveItem.Owner = user;
-              this.leavesToday$.push(leaveItem); 
-          });
-      });
-      console.log(this.leavesToday$);
-    })
-   }
+      let isManager = localStorage.getItem('isManagerRole');
+      let myTeam = localStorage.getItem('myTeam');
+      let myId = localStorage.getItem('myId');
+      var toDTTM = new Date(new Date(this.tdydate).setHours(23, 59, 59, 0));
+      this._LeaveService. getleavelistHomeNewDB( isManager, myTeam, this.tdydate, myId)
+      .subscribe(leaves => {      
+        var myLeaves:Array<any> = [];    
+        leaves.forEach((leaveItem:any) => {  
+          if(leaveItem.from <= toDTTM)  
+          leaveItem.owner.get()
+            .then(userRef => { 
+                var user = userRef.data(); 
+                user.manager.get()
+                  .then(managerRef => {
+                    user.manager = managerRef.data();
+                  });
+                user.team.get()
+                  .then(teamRef => {
+                    user.team = teamRef.data();
+                  });
+                leaveItem.owner = user;
+                this.leavesToday$.push(leaveItem); 
+            });
+        });
+      })
+     }
 }

@@ -1,4 +1,5 @@
 import { LeaveStatus } from "./leavestatus.enum";
+import { Reference } from "angularfire2/firestore";
 
 export interface Leave {
     requestor: string;
@@ -15,6 +16,7 @@ export interface Leave {
     userId:string;
     teamId?:string;
     managerId?: string;
+    owner?:Reference<any>;
     unixFrDate?:any; //~>change in name will break indexing,sorting & searching
     unixToDate?:any; //~>change in name will break indexing,sorting & searching
   }

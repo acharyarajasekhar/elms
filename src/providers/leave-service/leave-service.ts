@@ -54,6 +54,22 @@ export class LeaveServiceProvider {
     });
   }
 
+  async createNewLeave(leave: Leave) {
+    let frDt = leave.from;//-------------------------------------> original string format (2018-03-17)
+    let localeFrmDt = formatDateUsingMoment(frDt, "L");//---------> ~> MM/DD/YYYY
+    let toDt = leave.to;
+    let localeToDt = formatDateUsingMoment(toDt, "L");//----------> ~> MM/DD/YYYY
+    let userId ="varadha03@gmail.com";
+    leave.status = LeaveStatus.Requested;
+    leave.createdAt = new Date();//------------------------------> locale date format 
+    leave.from = new Date(leave.from);//-------------------------> string ~> locale date format 
+    leave.to = new Date(leave.to);//-----------------------------> string ~> locale date format
+    leave.isRead = false;
+    leave.owner =  this.afs.collection("eUsers").doc(userId).ref;
+    //console.log(leave);
+    this.afs.collection('eleaves').add(leave);
+  }
+
   getLeavesByUser(ukey: string, isManager: boolean) {
     if (isManager) {
       this.leaveCollection = this.afs.collection('leaves', ref => {
@@ -186,16 +202,15 @@ export class LeaveServiceProvider {
   }
   
 
-  getleavelistnewDB()
+  getleavelistHomeNewDB( isManager: string, teamId: string, startDate: Date, userId: string)
   {
-    var usersCollectionRef = this.db.collection('Users').valueChanges();    
+    var usersCollectionRef = this.db.collection('eUsers').valueChanges();    
     usersCollectionRef.subscribe(dd => {
     })
-    var fromDTTM = new Date("01/10/2018");
-    var leavesCollectionRef = this.db.collection('Leaves', 
+    var fromDTTM = new Date(startDate);
+    var leavesCollectionRef = this.db.collection('eleaves', 
       ref => ref
-        .where("ToDTTM", ">=", fromDTTM)
-        .orderBy("ToDTTM", "asc")
+        .where("to", ">=", fromDTTM)
     ).valueChanges();
     return leavesCollectionRef;
   }
