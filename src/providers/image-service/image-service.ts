@@ -58,16 +58,24 @@ export class ImageProvider {
     });*/
     try{
       const result = await this.camera.getPicture(this.takePictureOptions);
-      const image = `data:image/jpeg:base64,${result}`;
-      alert(image);
-      const pictures = storage().ref('pictures');
-      pictures.putString(image, 'data_url');
+      const image = `data:image/jpeg:base64,${result}`;      
+      const pictures = storage().ref('pictures.jpg').put(this.dataURItoBlob(image));      
       alert("photo uploaded successfully");
     }
     catch(e){
       console.error(e);
     }
   }
+
+  dataURItoBlob(dataURI) {
+    // code adapted from: http://stackoverflow.com/questions/33486352/cant-upload-image-to-aws-s3-from-ionic-camera
+    let binary = atob(dataURI.split(',')[1]);
+    let array = [];
+    for (let i = 0; i < binary.length; i++) {
+      array.push(binary.charCodeAt(i));
+    }
+    return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+  };
 
   //open the gallery and Return a promise with the image data
   uploadFromGallery() {
