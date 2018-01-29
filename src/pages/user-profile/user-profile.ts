@@ -91,28 +91,31 @@ export class UserProfilePage {
     toast.present(toast);
   }  
 
-  async changePicture() {
-    let actionSheet = await this.actionSheetCtrl.create({
+ changePicture() {
+    let actionSheet = this.actionSheetCtrl.create({
       enableBackdropDismiss: true,
       buttons: [
         {
-          text: 'Take a picture',
+          text: 'Camera',
           icon: 'camera',
           handler: () => {
             this.imageSrv.uploadFromCamera();
+            storage().ref().child('photos/' + localStorage.getItem('myId') + '.jpg').getDownloadURL()
+            .then(response => {this.user.photoUrl = response} )
+            .catch(error => console.log('error', error))    
           }
         }, {
-          text: 'From gallery',
+          text: 'Gallery',
           icon: 'images',
           handler: () => {
             this.imageSrv.uploadFromGallery();
+            storage().ref().child('photos/' + localStorage.getItem('myId') + '.jpg').getDownloadURL()
+            .then(response => {this.user.photoUrl = response} )
+            .catch(error => console.log('error', error)) 
           }
         }
       ]
     });
     actionSheet.present();
-    storage().ref().child('photos/' + localStorage.getItem('myId') + '.jpg').getDownloadURL()
-        .then(response => {this.user.photoUrl = response} )
-        .catch(error => console.log('error', error))    
   }
 }
