@@ -1,45 +1,28 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>User Profile</ion-title>
-    <ion-buttons end>
-      <button ion-button (click)="editProfile()">
-        <ion-icon name="create"></ion-icon>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
       </button>
-    </ion-buttons>
-  </ion-navbar>
-</ion-header>
-
-
-<ion-content padding class="background">
-  <ion-card>
-    <ion-card-header>
-      <ion-card>
-        <img #avatar id="avatar" [src]="user.photoUrl" *ngIf="user.photoUrl" avatar/>
-        <h1 class="card-title">{{ user.name }}</h1>        
-      </ion-card>
-      <button ion-button icon-right color="dark" (click)="changePicture()">
+      <ion-title>User Profile</ion-title>
+      <ion-buttons end>
+        <button ion-button (click)="editProfile()">
+          <ion-icon name="create"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+  <ion-content style="width:100%;height:100%">
+    <div style="width:100%;height:200px;background-color:#039be5;text-align:center;vertical-align:center">
+        <img [src]="user.photoUrl ? user.photoUrl : '../../assets/imgs/user.png'" style="width:100px;height:100px;"/>
+        <h2 style="color:white">{{ user.name }}</h2>          
+    </div>
+    <button ion-button icon-right color="dark" (click)="changePicture()">
         Upload picture
         <ion-icon name="images"></ion-icon>
       </button>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list inset>
-        <ion-item>
-          <ion-icon name="mail"></ion-icon> {{ user.email }}
-        </ion-item>
-        <ion-item>
-          <ion-icon name="call"></ion-icon> {{ user.phoneNumber }}
-        </ion-item>
-        <ion-item>
-          <ion-icon name="person"></ion-icon> {{ managerName }}
-        </ion-item>
-        <ion-item>
-          <ion-icon name="people"></ion-icon> {{ teamName }}
-        </ion-item>        
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+    <ion-label><ion-icon name="mail"></ion-icon> Email<p>{{ user.email }}</p></ion-label>
+    <ion-label><ion-icon name="call"></ion-icon> Mobile<p>{{ user.phoneNumber }}</p></ion-label>   
+    <ion-label><ion-icon name="person"></ion-icon> Manager<p>{{ managerName }}</p></ion-label>  
+    <ion-label><ion-icon name="people"></ion-icon> Team<p>{{ teamName }}</p></ion-label>       
+  </ion-content>
+  

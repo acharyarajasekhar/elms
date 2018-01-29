@@ -18,7 +18,8 @@ export class ImageProvider {
     targetHeight: 600,   
     destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE
+    mediaType: this.camera.MediaType.PICTURE,
+    correctOrientation:true
   }
 
   private galleryOptions: CameraOptions = {
@@ -28,7 +29,8 @@ export class ImageProvider {
     destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE,    
-    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY    
+    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+    correctOrientation:true
   }
 
   constructor( 
