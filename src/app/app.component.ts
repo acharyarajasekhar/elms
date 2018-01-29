@@ -5,12 +5,39 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  styles:[`
+  
+  @-webkit-keyframes animate {
+      from  {background-position: 0 0 }
+      to  {background-position: 100% 0  }
+
+      }
+
+
+  @keyframes animate {
+      from  {background-position: 0 0 }
+      to  {background-position: 100% 0  }
+
+      }
+
+  .UserHeader
+  {
+    height: 150px;
+    min-width: 100%;
+    min-height: 100%;
+    background-image: url('../../assets/imgs/bg1.png') !important;
+    animation:animate 45s infinite;
+    background-color: #039be5 !important;
+  }
+  `]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = "SigninPage";
+  Userdetails:any;
+  photoURL:any;
 
   pages: Array<{ title: string, component: any }>;
 
@@ -19,7 +46,7 @@ export class MyApp {
     public splashScreen: SplashScreen,
     public authService: AuthServiceProvider) {
     this.initializeApp();
-
+//debugger;
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: "HomePage" },
@@ -28,6 +55,9 @@ export class MyApp {
       { title: 'Reports', component: "ReportPage" },
       { title: 'Feedback', component: "FeedbackPage" }
     ];
+
+    this.Userdetails =JSON.parse(localStorage.getItem('firebase:authUser:AIzaSyA9t3RPOQndRBcyB0xXmceaVOxTh0eDwKQ:[DEFAULT]'));
+    this.photoURL=this.Userdetails ? this.Userdetails['photoURL'] : "";
 
   }
 

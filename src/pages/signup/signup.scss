@@ -17,7 +17,7 @@
 }
 .ionitems
 {
-	border: 1px solid #c2bdbd
+	border: 1px solid #c2bdbd !important;
 }
 	.item {
 		input::-moz-placeholder  {
@@ -43,7 +43,7 @@
 	.btnlogin
 	{
 		margin-top: 10px;
-		background-color:#18494c
+		background-color:#18494c !important;
 	}
     .button-md {
 		text-transform: none;

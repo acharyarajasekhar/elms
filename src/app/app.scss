@@ -1,6 +1,32 @@
 // http://ionicframework.com/docs/theming/
 
 
+
+.Itemheader
+{
+    border: none !important;
+    background-color: transparent !important;
+    position: absolute;
+    top: 50px;
+}
+
+.item-inner
+{
+    border:none !important;
+}
+
+.UserName
+{
+    font-family: g_bold;
+    font-size: 1.3em !important;
+    color: white;
+    font-weight: bolder !important;
+    font-size: inherit;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These

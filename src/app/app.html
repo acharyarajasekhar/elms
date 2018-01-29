@@ -1,11 +1,23 @@
 <ion-menu [content]="content">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Hello, {{ (authService.user | async)?.displayName || "Guest" }}</ion-title>
+      <div class="UserHeader">
+      <ion-title>
+        <ion-item class="Itemheader">
+          <ion-avatar item-start>
+            <img [src]="photoURL ? photoURL : '../../assets/imgs/user.png'">
+            <!-- <ion-icon style="font-size:2.2em" name="md-contact"></ion-icon> -->
+          </ion-avatar>
+          <h2 class="UserName">    Hello, {{ (authService.user | async)?.displayName || "Guest" }}</h2>
+
+        </ion-item>
+
+      </ion-title>
+    </div>
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
+  <ion-content style="background-color: white !important;">
     <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
         <ion-icon name="home" item-left *ngIf="p.title == 'Home'"></ion-icon>
