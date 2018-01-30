@@ -15,6 +15,7 @@ export class DetailsviewPage {
   name = this.navParams.get('name');
   from = this.navParams.get('from');
   to = this.navParams.get('to');
+  status = this.navParams.get('status');
   reason = this.navParams.get('reason');
   photoUrl = this.navParams.get('photoUrl');
   leaves$;
@@ -66,5 +67,18 @@ export class DetailsviewPage {
       position: 'bottom'
     });
     toast.present(toast);
+  }
+
+  getColor(status) {
+    switch (status) {
+      case 0:
+        return 'gray';
+      case 1:
+        return 'green';
+      case 2:
+        return 'red';
+      default:
+        return 'orange';
+    }
   }
 }

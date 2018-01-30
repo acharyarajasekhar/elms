@@ -5,21 +5,27 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-card class="leave-card">
+  <ion-card class="cardBorder" [ngStyle]="{'border-left-color':getColor(status)}">
+    <div class="itemStyle">
       <ion-item>
-        <span (click)="closeModal()" class="btn-close">
-          <ion-icon name="ios-close-circle-outline" item-end></ion-icon>
-        </span>
         <ion-avatar item-start>
-          <img [src]="photoUrl" *ngIf="photoUrl">
+          <img [src]="photoUrl ? photoUrl : '../../assets/imgs/user.png'">
         </ion-avatar>
-        <h2>{{name}}</h2>
-        <p> {{from | date : "MMM/dd"}} - {{to | date:"MMM/dd"}}, {{to | date:"yyyy"}}</p>
+        <h2>{{name }}</h2>
+        <p>{{createdAt | date : "MMM d, y" }}</p>
       </ion-item>
-
-      <ion-card-content>
-        <p>{{ reason }}</p>
-      </ion-card-content>
+    </div>
+    <hr>
+    <ion-card-content>
+      <div class="contentStyle">
+        <p> Hey!!! I will be on leave from
+          <span class="FontAvatar">{{from | date : "MMM d, y"}}</span> to
+          <span class="FontAvatar">{{to | date : "MMM d, y"}}</span> due to
+          <span class="FontAvatar">{{reason }}</span>
+        </p>
+      </div>
+    </ion-card-content>
+    <hr>
   </ion-card>
 
   <div *ngIf="leaves$Count > 0;then overlappedLeaves" class="container"></div>

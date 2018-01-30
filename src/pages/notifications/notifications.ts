@@ -132,6 +132,7 @@ export class NotificationsPage implements OnInit{
                       name: leave.name, 
                       from: leave.from, 
                       to: leave.to, 
+                      status:leave.status,
                       reason: leave.reason, 
                       photoUrl:leave.photoUrl
                     };

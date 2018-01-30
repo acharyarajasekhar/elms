@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { FormsModule, NgForm } from '@angular/forms';
 import { commonMethods } from '../../helper/common-methods'
@@ -31,12 +31,12 @@ import { DetailsviewPage } from '../detailsview/detailsview';
 })
 export class SearchLeavesPage {
   uid: string;
-  Results:any=[];
-  isManager:string;
+  Results: any = [];
+  isManager: string;
   SearchResults: FormGroup;
   GetCurrentDate: Date = new Date();
-  myDate:any  
-  show=true;
+  myDate: any
+  show = true;
   get stateName() {
     return this.show ? 'show' : 'hide'
   }
@@ -45,17 +45,17 @@ export class SearchLeavesPage {
   }
   constructor(public navCtrl: NavController,
     private _searchService: LeaveServiceProvider,
-    private formgroup: FormBuilder,public modalCtrl: ModalController,
-    private _cmnMethods: commonMethods,private _notify:NotificationService,
+    private formgroup: FormBuilder, public modalCtrl: ModalController,
+    private _cmnMethods: commonMethods, private _notify: NotificationService,
     public navParams: NavParams) {
     this.uid = localStorage.getItem('myId');
     this.isManager = localStorage.getItem('isManagerRole') ? localStorage.getItem('isManagerRole') : "true";
     console.log(this.isManager);
-    this.myDate= new Date().toISOString();
+    this.myDate = new Date().toISOString();
     this.SearchResults = this.formgroup.group(
       {
-        from: [null, Validators.compose ( [ Validators.required ])],
-        ToDate:  [null,Validators.compose ( [ Validators.required ])],
+        from: [null, Validators.compose([Validators.required])],
+        ToDate: [null, Validators.compose([Validators.required])],
       }
     );
   }
@@ -71,7 +71,7 @@ export class SearchLeavesPage {
     let teamId = localStorage.getItem('myTeam');
     if (this.isManager == 'true' && (from != null && to != null)) {
       this._cmnMethods.InitializeLoader();
-      this._searchService.getLeaveByDateRange(true, teamId, from, to,this.uid).subscribe(result => {
+      this._searchService.getLeaveByDateRange(true, teamId, from, to, this.uid).subscribe(result => {
         this.Results = _.filter(result, function (query) {
           return (query.data.from >= from || query.data.to <= to);
         });
@@ -83,7 +83,7 @@ export class SearchLeavesPage {
     }
     else if (this.isManager == 'false' && (from != null && to != null)) {
       this._cmnMethods.InitializeLoader();
-      this._searchService.getLeaveByDateRange(false, teamId, from, to,this.uid).subscribe(result => {
+      this._searchService.getLeaveByDateRange(false, teamId, from, to, this.uid).subscribe(result => {
         this.Results = _.filter(result, function (query) {
           return (query.data.from >= from || query.data.to <= to);
         });
@@ -94,54 +94,50 @@ export class SearchLeavesPage {
       });
     }
   }
-  getColor(status)
-  {
-
-switch(status)
-{
-case 0:
-return 'gray';
-case 1:
-return 'green';
-case 2:
-return 'red';
-default:
-return 'orange';
-}
-}
-  rejectLeave(keyObj:string){
-    if(this.isManager == 'true'){
+  getColor(status) {
+    switch (status) {
+      case 0:
+        return 'gray';
+      case 1:
+        return 'green';
+      case 2:
+        return 'red';
+      default:
+        return 'orange';
+    }
+  }
+  rejectLeave(keyObj: string) {
+    if (this.isManager == 'true') {
       //let managerId = localStorage.getItem('myManager');
-      this._notify.declineLeave(keyObj,true,this.uid);
+      this._notify.declineLeave(keyObj, true, this.uid);
       this._cmnMethods.showToast('Leave request rejected succesfully');
-    }   
+    }
   }
 
-  acceptLeave(keyObj:any){
+  acceptLeave(keyObj: any) {
     this.show = !this.show;
-    if(this.isManager == 'true'){
+    if (this.isManager == 'true') {
       this.Results.forEach(element => {
-        if(element.id == keyObj){
+        if (element.id == keyObj) {
           this.Results.splice(keyObj, 1);
         }
       });
-      this._notify.acceptleave(keyObj,true,this.uid);
+      this._notify.acceptleave(keyObj, true, this.uid);
       this._cmnMethods.showToast('Leave request accepted succesfully');
-    }   
+    }
   }
 
-  MoreInfo(obj:any)
-  {
-    let leaveObj = { 
-      userId: obj.userId, 
-      name: obj.name, 
-      from: obj.from, 
-      to: obj.to, 
-      reason: obj.reason, 
-      photoUrl:obj.photoUrl
+  MoreInfo(obj: any) {
+    let leaveObj = {
+      userId: obj.userId,
+      name: obj.name,
+      from: obj.from,
+      to: obj.to,
+      reason: obj.reason,
+      photoUrl: obj.photoUrl
     };
-let myModal = this.modalCtrl.create(DetailsviewPage,obj);
-myModal.present();
+    let myModal = this.modalCtrl.create(DetailsviewPage, obj);
+    myModal.present();
   }
 
 }

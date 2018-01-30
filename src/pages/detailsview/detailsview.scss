@@ -1,60 +1,107 @@
-page-detailsview {
-    .leave-card {
-        background:#fff;
-        border-radius: 2px;
-        display: inline-block;
-        margin: 1rem;
-        position: relative;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-    }
-    .btn-close{
-        size:15px;
-        margin-top: 1px;
-        margin-right: 2px;
-        position:absolute;
-        top:0;
-        right:0;
-    }
-    .ion-avatar{
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-    }
-    .ts-globe{
-        font-size:10px;
-    }
-    .event-time-style{
-        margin-bottom: -6px;
-    }
-    .label-md {
-        margin: 5px 8px 5px 0;
-    }
-    .container{
-        display:flex;
-        overflow: hidden;
-    }
-    .info1{
-        flex:3;
-        width: 66%;
-        display: block;
-        float:left;
-    }
-    .info2{
-        flex:1;
-        width:33%;
-        text-align: right;
-        display: block;
-        float:right;
-    }
-    .info3{
-        flex:1;
-        width:33%;
-        text-align: right;
-        display: block;
-        float:right;
-        margin-top:6px;
-    }
-    .item-md [item-end]{
-        margin:2px 0px 0px 0px;
-    }
+/************list view css*******************/
+.leave-card {
+    background:#fff;
+    border-radius: 2px;
+    display: inline-block;
+    margin: 1rem;
+    position: relative;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
+.btn-close{
+    size:15px;
+    margin-top: 1px;
+    margin-right: 2px;
+    position:absolute;
+    top:0;
+    right:0;
+}
+.ion-avatar{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+.ts-globe{
+    font-size:10px;
+}
+.event-time-style{
+    margin-bottom: -6px;
+}
+.label-md {
+    margin: 5px 8px 5px 0;
+}
+.container{
+    display:flex;
+    overflow: hidden;
+}
+.info1{
+    flex:3;
+    width: 66%;
+    display: block;
+    float:left;
+}
+.info2{
+    flex:1;
+    width:33%;
+    text-align: right;
+    display: block;
+    float:right;
+}
+.info3{
+    flex:1;
+    width:33%;
+    text-align: right;
+    display: block;
+    float:right;
+    margin-top:6px;
+}
+.item-md [item-end]{
+    margin:2px 0px 0px 0px;
+}
+/*******************************/
+/*************TOP CARD CSS*****************/
+.contentStyle
+{
+    position: relative;
+    font-family: g_light;
+}
+
+.itemStyle
+{
+    font-family: g_bold;
+}
+.FontAvatar
+{
+    color:#488aff;
+}
+
+.actionAavatar
+{
+    font-family: g_bold;
+    font-size:  1.2em;
+    color:#238527;
+}
+
+.actionRavatar
+{
+    font-family: g_bold;
+    font-size:  1.2em;
+    color:#E57373;
+}
+.actionIavatar
+{
+    font-family: g_bold;
+    font-size:  1.2em;
+    color:rgb(83, 81, 81);
+}
+
+.cardBorder
+{
+    border-style: solid !important;
+    // border-left-color: red !important;
+    border-radius: 5px !important;
+    border-left-width: 0.3em !important;
+}
+
+
+
+
