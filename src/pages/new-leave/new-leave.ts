@@ -33,12 +33,6 @@ export class NewLeavePage {
       });
   }
   
-  addLeave(){
-    this.leaveService.createLeave(this.LeaveForm.value);
-    this.navCtrl.pop();
-    this.showToast('Leave request created succesfully');
-  }
-
   addNewLeave()
   {
     this.leaveService.createNewLeave(this.LeaveForm.value);

@@ -26,48 +26,15 @@ export class LeaveServiceProvider {
     private userService: UserServiceProvider) {
   }
 
-  ////Author (Asif Iqbal Khan)
-  ////All date data types are passed as locale date format.
-  ////And stored as timestamp in firestore DB
-  ////(unixFrDate) && (unixToDate) are used for sorting and searching 
-  ////Any change in date formatting will cause break in behaviour
-  async createLeave(leave: Leave) {
-    let frDt = leave.from;//-------------------------------------> original string format (2018-03-17)
-    let localeFrmDt = formatDateUsingMoment(frDt, "L");//---------> ~> MM/DD/YYYY
-    let toDt = leave.to;
-    let localeToDt = formatDateUsingMoment(toDt, "L");//----------> ~> MM/DD/YYYY
-    leave.requestor = this.ukey;
-    leave.status = LeaveStatus.Requested;
-    leave.createdAt = new Date();//------------------------------> locale date format 
-    leave.from = new Date(leave.from);//-------------------------> string ~> locale date format 
-    leave.to = new Date(leave.to);//-----------------------------> string ~> locale date format
-    leave.unixFrDate = formatDateUsingMoment(localeFrmDt, "U");//-> string ~> unix date format
-    leave.unixToDate = formatDateUsingMoment(localeToDt, "U");//--> string ~> unix date format
-    leave.isRead = false;
-    leave.userId = this.ukey;
-    leave.name = localStorage.getItem('myName');
-    leave.photoUrl = localStorage.getItem('myphotoUrl');
-    leave.teamId = localStorage.getItem('myTeam');
-    await this.userService.getMyManager(this.ukey).subscribe(obj => {
-      leave.managerId = obj.manager;
-      this.afs.collection('leaves').add(leave);
-    });
-  }
-
-  async createNewLeave(leave: Leave) {
-    let frDt = leave.from;//-------------------------------------> original string format (2018-03-17)
-    let localeFrmDt = formatDateUsingMoment(frDt, "L");//---------> ~> MM/DD/YYYY
-    let toDt = leave.to;
-    let localeToDt = formatDateUsingMoment(toDt, "L");//----------> ~> MM/DD/YYYY
-    let userId ="varadha03@gmail.com";
-    leave.status = LeaveStatus.Requested;
+  createNewLeave(leave: Leave) {
+    let userId =JSON.parse(localStorage.getItem('userContext')).email;
+    leave.status = LeaveStatus.Accepted;
     leave.createdAt = new Date();//------------------------------> locale date format 
     leave.from = new Date(leave.from);//-------------------------> string ~> locale date format 
     leave.to = new Date(leave.to);//-----------------------------> string ~> locale date format
     leave.isRead = false;
     leave.owner =  this.afs.collection("eUsers").doc(userId).ref;
-    //console.log(leave);
-    this.afs.collection('eleaves').add(leave);
+    this.afs.collection('eLeaves').add(leave);
   }
 
   getLeavesByUser(ukey: string, isManager: boolean) {
@@ -208,7 +175,7 @@ export class LeaveServiceProvider {
     usersCollectionRef.subscribe(dd => {
     })
     var fromDTTM = new Date(startDate);
-    var leavesCollectionRef = this.db.collection('eleaves', 
+    var leavesCollectionRef = this.db.collection('eLeaves', 
       ref => ref
         .where("to", ">=", fromDTTM)
     ).valueChanges();

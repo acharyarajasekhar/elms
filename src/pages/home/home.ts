@@ -44,10 +44,11 @@ export class HomePage implements OnInit {
     this.tdate = new Date(this.tdydate);
     this.tmdate = new Date(this.tmrdate);
     this.cards = new Array(10);
-    // this.user = this.afAuth.authState;
-    //console.log(this.afAuth.auth);
     if (this.afAuth.auth.currentUser != null) {
       this._authId = this.afAuth.auth.currentUser.email;
+    }
+     else if(localStorage.getItem('userContext') != null || localStorage.getItem('userContext') != '') {
+      this._authId = JSON.parse(localStorage.getItem('userContext')).email;
     }
     //this.getUserContext();
     this.getUserContextNew();
@@ -127,9 +128,11 @@ export class HomePage implements OnInit {
         console.log(err);
         this.showToast(err);
       });
+     
   }
 
   getUserContextNew() {
+    console.log(this._authId);
     this.userService.getUserById(this._authId)
       .subscribe(result => {
         let userContext:any={
@@ -143,6 +146,7 @@ export class HomePage implements OnInit {
         console.log(err);
         this.showToast(err);
       });
+      console.log(JSON.parse(localStorage.getItem('userContext')).email);
   }
 
   ngOnInit() {
