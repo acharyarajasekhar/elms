@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection,AngularFirestoreDocument }
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { Team } from '../../models/team.model';
 
 @Injectable()
 export class UserServiceProvider {
@@ -40,12 +41,41 @@ export class UserServiceProvider {
     return this.userDocument.valueChanges();
   }
 
+  /***CREATE User Object***/
   createUser(user: User) {
-    this.afs.collection('users').add(user);
+    this.afs.collection('eUsers/').doc(user.email).set({
+      "name":user.name,
+      "email":user.email,
+      "phoneNumber":user.phoneNumber,
+      "isManager":user.isManager,
+      "photoUrl":user.photoUrl,
+      "team":user.team,
+      "manager":user.manager
+    });
   }
 
+  /***GET User Context details***/
+  getUserById(userId:string){
+    console.log(userId);
+    this.userDocument = this.afs.doc('eUsers/' + userId);
+    return this.userDocument.snapshotChanges()
+    .map(snap=>{
+       let userContext:any = snap.payload.data() as User;
+       snap.payload.data().manager.get().then(mgrRef=>{
+        localStorage.setItem((mgrRef.data() as User).name,'mgrName');
+        localStorage.setItem((mgrRef.data() as User).email,'mgrEmail');
+       });
+       snap.payload.data().team.get().then(tmRef=>{
+        localStorage.setItem((tmRef.data() as Team).name,'teamName');
+        localStorage.setItem((tmRef.data() as Team).id,'teamId');
+       })
+       return userContext;
+    });
+  }
+
+  /***UPDATE User Object By Id***/
   updateUserById(userId,data){
-    this.userDocument = this.afs.doc('users/' + userId);
+    this.userDocument = this.afs.doc('eUsers/' + userId);
     this.userDocument.update(data);
   }
 

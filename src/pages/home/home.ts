@@ -25,6 +25,7 @@ export class HomePage implements OnInit {
   leavesToday$: any[] = [];
   leavesTmrw$: any[] = [];
   _authId: string;
+  _authEmail:string;
   sliderImg$: any[] = [];
   sliderImgurl$ : any[]= [];
   badgeCount: number;
@@ -46,10 +47,11 @@ export class HomePage implements OnInit {
     // this.user = this.afAuth.authState;
     //console.log(this.afAuth.auth);
     if (this.afAuth.auth.currentUser != null) {
-      this._authId = this.afAuth.auth.currentUser.uid;
+      this._authId = this.afAuth.auth.currentUser.email;
     }
-    this.getUserContext();
-    this.bindLeaveCarosol();
+    //this.getUserContext();
+    this.getUserContextNew();
+    //this.bindLeaveCarosol();
     this.bindSlider();
   }
 
@@ -121,15 +123,22 @@ export class HomePage implements OnInit {
         localStorage.setItem('myMobile', result[0].data.phoneNumber);
         localStorage.setItem('myManager', result[0].data.manager);
         localStorage.setItem('isManagerRole', result[0].data.isManagerRole);
+      }, err => {
+        console.log(err);
+        this.showToast(err);
+      });
+  }
 
-        console.log(localStorage.getItem('myId'));
-        console.log(localStorage.getItem('myName'));
-        console.log(localStorage.getItem('myphotoUrl'));
-        console.log(localStorage.getItem('myTeam'));
-        console.log(localStorage.getItem('myEmail'));
-        console.log(localStorage.getItem('myMobile'));
-        console.log(localStorage.getItem('myManager'));
-        console.log(localStorage.getItem('isManagerRole'));
+  getUserContextNew() {
+    this.userService.getUserById(this._authId)
+      .subscribe(result => {
+        let userContext:any={
+          "name":result.name,
+          "email":result.email,
+          "photoUrl":result.photoUrl,
+          "phoneNumber":result.phoneNumber
+        };
+        localStorage.setItem(JSON.stringify(userContext),'userContext');
       }, err => {
         console.log(err);
         this.showToast(err);

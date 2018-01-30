@@ -35,6 +35,7 @@ export class SigninPage {
     this._Cmmethods.InitializeLoader();
     this.authService.signIn(this.signInForm.value).then((user) => {
       if(this.authService.user) {
+        console.log(this.authService.user);
         this._Cmmethods.loader.dismiss();
         this.navCtrl.setRoot("HomePage");
       }

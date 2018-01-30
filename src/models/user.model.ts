@@ -1,5 +1,5 @@
 export interface User {
-    uid: string;
+    uid?: string;
     name: string;
     email: string;
     photoUrl: string;
@@ -7,4 +7,6 @@ export interface User {
     manager: string;
     team: string;
     isManagerRole?:boolean;
+
+    isManager?:boolean;
   }
