@@ -38,7 +38,7 @@ export class SeeAllTdyPage {
       var toDTTM = new Date(new Date(this.tdydate).setHours(23, 59, 59, 0));
       this._LeaveService. getleavelistHomeNewDB( isManager, myTeam, this.tdydate, myId)
       .subscribe(leaves => {      
-        var myLeaves:Array<any> = [];    
+ 
         leaves.forEach((leaveItem:any) => {  
           if(leaveItem.from <= toDTTM)  
           leaveItem.owner.get()
@@ -56,6 +56,6 @@ export class SeeAllTdyPage {
                 this.leavesToday$.push(leaveItem); 
             });
         });
-      })
+      });
      }
 }

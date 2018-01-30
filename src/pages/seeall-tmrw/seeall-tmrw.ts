@@ -33,8 +33,7 @@ export class SeeAllTmrwPage {
     let myId = localStorage.getItem('myId');
     var toDTTM = new Date(new Date(this.tmrdate).setHours(23, 59, 59, 0));
     this._LeaveService. getleavelistHomeNewDB( isManager, myTeam, this.tmrdate, myId)
-    .subscribe(leaves => {
-      var myLeaves:Array<any> = [];    
+    .subscribe(leaves => { 
       leaves.forEach((leaveItem:any) => {  
         if(leaveItem.from <= toDTTM)  
         leaveItem.owner.get()
@@ -52,7 +51,7 @@ export class SeeAllTmrwPage {
               this.leavesTmrw$.push(leaveItem); 
           });
       });
-    })
+    });
    }
 
 }

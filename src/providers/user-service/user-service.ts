@@ -56,7 +56,6 @@ export class UserServiceProvider {
 
   /***GET User Context details***/
   getUserById(userId:string){
-    console.log(userId);
     this.userDocument = this.afs.doc('eUsers/' + userId);
     return this.userDocument.snapshotChanges()
     .map(snap=>{

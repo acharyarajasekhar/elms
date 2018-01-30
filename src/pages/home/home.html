@@ -34,9 +34,9 @@
   <ion-slides pager="false" id="today" slidesPerView=3 style="height: 160px;">
     <ion-slide *ngFor="let leave of leavesToday$" style="height: 150px;">
       <ion-card>
-        <img [src]="leave.photoUrl ? leave.photoUrl : '../../assets/imgs/user.png'"/>
+        <img [src]="leave.owner.photoUrl ? leave.owner.photoUrl : '../../assets/imgs/user.png'"/>
         <ion-card-content style="background-color:#f5f8fb;">
-          <span>{{leave.name | nametrim : 7}}</span>
+          <span>{{leave.owner.name | nametrim : 7}}</span>
         </ion-card-content>
       </ion-card>
     </ion-slide>
@@ -46,9 +46,9 @@
   <ion-slides pager="false" id="tomorrow" slidesPerView=3 style="height: 160px;">
     <ion-slide *ngFor="let leavetmr of leavesTmrw$" style="height: 150px;">
       <ion-card>
-        <img [src]="leavetmr.photoUrl ? leavetmr.photoUrl : '../../assets/imgs/user.png'"/>
+        <img [src]="leavetmr.owner.photoUrl ? leavetmr.owner.photoUrl : '../../assets/imgs/user.png'"/>
         <ion-card-content style="background-color:#f5f8fb;">
-          <span>{{leavetmr.name | nametrim : 7}}</span>
+          <span>{{leavetmr.owner.name | nametrim : 7}}</span>
         </ion-card-content>
       </ion-card>
     </ion-slide>
