@@ -138,7 +138,7 @@ export class HomePage implements OnInit {
           "photoUrl":result.photoUrl,
           "phoneNumber":result.phoneNumber
         };
-        localStorage.setItem(JSON.stringify(userContext),'userContext');
+        localStorage.setItem('userContext',JSON.stringify(userContext));
       }, err => {
         console.log(err);
         this.showToast(err);

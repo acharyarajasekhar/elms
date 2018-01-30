@@ -62,12 +62,12 @@ export class UserServiceProvider {
     .map(snap=>{
        let userContext:any = snap.payload.data() as User;
        snap.payload.data().manager.get().then(mgrRef=>{
-        localStorage.setItem((mgrRef.data() as User).name,'mgrName');
-        localStorage.setItem((mgrRef.data() as User).email,'mgrEmail');
+        localStorage.setItem('mgrName',(mgrRef.data() as User).name);
+        localStorage.setItem('mgrEmail',(mgrRef.data() as User).email);
        });
        snap.payload.data().team.get().then(tmRef=>{
-        localStorage.setItem((tmRef.data() as Team).name,'teamName');
-        localStorage.setItem((tmRef.data() as Team).id,'teamId');
+        localStorage.setItem('teamName',(tmRef.data() as Team).name);
+        localStorage.setItem('teamId',(tmRef.data() as Team).id);
        })
        return userContext;
     });
