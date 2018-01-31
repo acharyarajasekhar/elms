@@ -12,23 +12,9 @@ export class TeamServiceProvider {
   constructor(public afs: AngularFirestore) {
   }
 
-  getTeamsByManager(managerId:string){
-    this.teamCollection =  this.afs.collection('teams',ref=>{
-      return ref.where("manager","==", managerId);
-    });
-    return this.teamCollection.snapshotChanges()
-    .map( action =>{
-         return action.map(snap=>{
-           const data = snap.payload.doc.data() as Team;
-           const id = snap.payload.doc.id;
-           return {id, data };
-         })
-    });
-  }
-
-  getTeamByKey(key:string):Observable<any>{
-    this.teamDocument = this.afs.doc('teams/'+ key);
-    return this.teamDocument.valueChanges();
+  getTeams(){
+    this.teamCollection =  this.afs.collection('eTeam');
+    return this.teamCollection.valueChanges();
   }
   
 }

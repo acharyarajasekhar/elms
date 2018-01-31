@@ -16,7 +16,6 @@ export class EditUserProfilePage {
   user:any = {};
   managers$: any[]=[];
   teams$: any[]=[];
-  uid:string = localStorage.getItem('myId');
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private formBuilder: FormBuilder,
@@ -29,10 +28,11 @@ export class EditUserProfilePage {
         team: [''],
         phoneNumber: ['']
       });
+      this.user = JSON.parse(localStorage.getItem('userContext'));
   }
   
   updateProfile(){
-    this.userService.updateUserById(localStorage.getItem('myId'),this.user);
+    this.userService.updateUserById(this.user.email,this.user);
     this.navCtrl.push("UserProfilePage",{user: this.user});
   }
 
@@ -40,18 +40,25 @@ export class EditUserProfilePage {
   }
 
   ngOnInit(){ 
-    this.user = this.navParams.get('user');
     this.userService.getManagers().subscribe(mgrs=>{      
       this.managers$ = mgrs;      
     });
-    this.teamService.getTeamsByManager(this.user.manager).subscribe(team=>{
-      this.teams$ = team;              
-  });
+    this.teamService.getTeams().subscribe(teams=>{
+      this.teams$ = teams;   
+    });
   }
 
   onChange(mgrId){
-    this.teamService.getTeamsByManager(mgrId).subscribe(team=>{
-        this.teams$ = team;  
+    this.teams$ = [];
+    this.teamService.getTeams().subscribe(teams=>{
+      teams.forEach((tmItem:any)=>{
+        tmItem.managerid.get()
+        .then(userRef => { 
+            if(userRef.data().email == mgrId){
+              this.teams$.push(tmItem);
+            }
+        });
+      });  
     });
   }
 }

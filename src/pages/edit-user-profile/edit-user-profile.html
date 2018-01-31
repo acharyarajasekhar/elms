@@ -26,7 +26,7 @@
           </ion-item>
           <ion-item>            
             <ion-select [(ngModel)]="user.team" formControlName="team" placeholder="Team">
-              <ion-option *ngFor="let tm of teams$" [value] = "tm.id">{{tm.data.name}}</ion-option>
+              <ion-option *ngFor="let tm of teams$" [value] = "tm.id">{{tm.name}}</ion-option>
             </ion-select>
           </ion-item>
           <button ion-button type="submit" [disabled]="!profileForm.valid" block outline color="dark">Update</button>

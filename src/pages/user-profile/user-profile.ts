@@ -25,8 +25,8 @@ export class UserProfilePage {
     private imageSrv: ImageProvider,
     private actionSheetCtrl: ActionSheetController) { 
       this.user = JSON.parse(localStorage.getItem('userContext'));
-      this.teamName = localStorage.getItem('teamName');
-      this.managerName = localStorage.getItem('mgrName');
+      this.teamName = (localStorage.getItem('teamName') != "" && localStorage.getItem('teamName') != null) ?localStorage.getItem('teamName'):"N.A";
+      this.managerName = (localStorage.getItem('mgrName') != "" && localStorage.getItem('mgrName') != null)?localStorage.getItem('mgrName'):"N.A";
       this.uid = this.user.email;
   }
 
