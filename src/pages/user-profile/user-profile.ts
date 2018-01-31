@@ -40,7 +40,7 @@ export class UserProfilePage {
   ngOnInit(){     
     storage().ref().child('photos/' + this.uid + '.jpg').getDownloadURL()
              .then(response => {this.user.photoUrl = response} )
-             .catch(error => console.log('error', error)) 
+             .catch(error => this.showToast(error)) 
   }
 
   showToast(alert_message:string){
@@ -63,7 +63,7 @@ export class UserProfilePage {
             this.imageSrv.uploadFromCamera();
             storage().ref().child('photos/' + this.uid + '.jpg').getDownloadURL()
             .then(response => {this.user.photoUrl = response} )
-            .catch(error => console.log('error', error))    
+            .catch(error => this.showToast(error))    
           }
         }, {
           text: 'Gallery',
@@ -72,7 +72,7 @@ export class UserProfilePage {
             this.imageSrv.uploadFromGallery();
             storage().ref().child('photos/' + this.uid + '.jpg').getDownloadURL()
             .then(response => {this.user.photoUrl = response} )
-            .catch(error => console.log('error', error)) 
+            .catch(error => this.showToast(error)) 
           }
         }
       ]

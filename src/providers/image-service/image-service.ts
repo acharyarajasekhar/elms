@@ -42,7 +42,7 @@ export class ImageProvider {
     try{
       const result = await this.camera.getPicture(this.takePictureOptions);
       const image = `data:image/jpeg:base64,${result}`;      
-      storage().ref().child('photos/' + localStorage.getItem('myId') + '.jpg').put(this.dataURItoBlob(image));
+      storage().ref().child('photos/' + JSON.parse(localStorage.getItem('userContext')).email + '.jpg').put(this.dataURItoBlob(image));
     }
     catch(e){
       console.error(e);
@@ -54,7 +54,7 @@ export class ImageProvider {
       try{
       const result = await this.camera.getPicture(this.galleryOptions);
       const image = `data:image/jpeg:base64,${result}`;      
-      storage().ref().child('photos/' + localStorage.getItem('myId') + '.jpg').put(this.dataURItoBlob(image));
+      storage().ref().child('photos/' + JSON.parse(localStorage.getItem('userContext')).email + '.jpg').put(this.dataURItoBlob(image));
       }
       catch(e){
         console.error(e);
