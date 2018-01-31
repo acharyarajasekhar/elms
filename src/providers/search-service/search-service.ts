@@ -1,7 +1,9 @@
 import { Injectable} from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Leave } from '../../models/leave.model';
-import { LeaveStatus } from '../../models/leavestatus.enum';
+import { leave } from '@angular/core/src/profile/wtf_impl';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 
@@ -10,22 +12,96 @@ export class serachservice
     ukey: string = localStorage.getItem('myId');
     filteredLeaveCollection: AngularFirestoreCollection<Leave> = null;
     myDate:any;
-
+    //myLeaves:Array<any> = [];
+    Leaves:Array<any>;
+    myLeaves= new Subject<any>();
     
     constructor(public _fireStore: AngularFirestore)
     {
          this.myDate=new Date();
     }
 
+
+    getbyManagerId(isManager:boolean,ManagerId:string,startDate:Date, endDate:Date)
+    {
+      var leavesCollectionRef = this._fireStore.collection('eLeaves', 
+      ref => ref
+        .where("from", ">=", startDate)
+        .orderBy("from", "asc")
+    ).snapshotChanges();
+    leavesCollectionRef.subscribe(leaves => {
+
+      this.Leaves=[];
+     leaves.forEach((leaveItem:any) => { 
+      var leavesArray = leaveItem.payload.doc.data();
+      leavesArray.leaveId = leaveItem.payload.doc.id;
+      if(leavesArray.to <= endDate) 
+      leavesArray.owner.get()
+      .then(userRef => { 
+        debugger;
+          var user = userRef.data(); 
+          if(user.manager.id==ManagerId)
+          debugger;
+          user.manager.get()
+          .then(managerRef => {
+            user.manager = managerRef.data();
+            user.team.get().then(teamref=>{user.team=teamref.data()
+              leavesArray.owner = user;
+              this.Leaves.push(leavesArray);
+              this.myLeaves.next(this.Leaves);
+            })
+          });  
+        
+      }) 
+     })
+    })
+    }
+    
     getSearchresults(isManager:boolean,teamId:string,startDate:Date, endDate:Date) {
-        if(isManager){
-          if (startDate !=null && endDate != null) {
-            this.filteredLeaveCollection = this._fireStore.collection('leaves', ref => {
-              return ref.where('from', '>=', startDate)
-                        .orderBy('from', 'asc');
-            });
-          }
-          return this.filteredLeaveCollection.valueChanges();
-        }
-      }
+   
+      if (startDate !=null && endDate != null) {
+        var leavesCollectionRef = this._fireStore.collection('eLeaves', 
+             ref => ref
+               .where("from", ">=", startDate)
+               .orderBy("from", "asc")
+           ).snapshotChanges();
+          leavesCollectionRef.subscribe(leaves => {
+
+            this.Leaves=[];
+           leaves.forEach((leaveItem:any) => { 
+
+            var leavesArray = leaveItem.payload.doc.data();
+            leavesArray.leaveId = leaveItem.payload.doc.id;
+            if(leavesArray.to <= endDate)       
+            leavesArray.owner.get()
+              .then(userRef => { 
+                  var user = userRef.data(); 
+                  user.manager.get()
+                    .then(managerRef => {
+                      user.manager = managerRef.data();
+                      user.team.get().then(teamref=>{user.team=teamref.data()
+                        leavesArray.owner = user;
+                        this.Leaves.push(leavesArray);
+                        this.myLeaves.next(this.Leaves);
+                      })
+                    });   
+              });
+          });
+
+         
+
+        },
+      err=>{
+
+      });
+    }
+    console.log(this.Leaves)
+}
+
+getLeavesCollections():Observable<any>
+{
+    return this.myLeaves.asObservable();
+}
+
+
 }
