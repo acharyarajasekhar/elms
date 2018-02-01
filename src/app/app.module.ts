@@ -33,6 +33,7 @@ import { FirebaseConfig } from '../app/firebase.config';
 import { IonicProConfig } from '../app/ionic.pro.config';
 import { Camera } from '@ionic-native/camera';
 import { ImageProvider } from '../providers/image-service/image-service';
+import { ChartsModule } from 'ng2-charts';
   
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { ImageProvider } from '../providers/image-service/image-service';
     AngularFireModule.initializeApp(FirebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    ChartsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

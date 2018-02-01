@@ -3,8 +3,18 @@
     <ion-card-header>
       Line Chart
     </ion-card-header>
-    <ion-card-content>
-      <canvas #lineCanvas></canvas>
+    <ion-card-content *ngIf="doughnutChartData">
+        <div style="display: block">
+            <canvas baseChart
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType"
+></canvas>
+          </div>
+
     </ion-card-content>
+ 
+
+
   </ion-card>
 </ion-content>
