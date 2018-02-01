@@ -33,7 +33,7 @@ export class HomePage implements OnInit {
   tdydate: any = this.d.getMonth() + 1 + "/" + this.d.getDate() + "/" + this.d.getFullYear();
   t: Date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
   tmrdate: any = this.t.getMonth() + 1 + "/" + this.t.getDate() + "/" + this.t.getFullYear();
-
+  userContxt:any;
   constructor(
     public navCtrl: NavController,
     private afAuth: AngularFireAuth,
@@ -228,10 +228,19 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    let ctx = JSON.parse(localStorage.getItem('userContext'));
     this.leaveService
-      .getBadgeCount(localStorage.getItem('isManagerRole'))
-      .subscribe(result => {
-        this.badgeCount = result.length;
+      .getBadgeCount(ctx.isManager,ctx.email)
+      .subscribe((result:any) => {
+        if(ctx.isManager == "true"){
+
+        }
+        else{
+          let filteredResult =  _.filter(result, function(obj){
+            return obj.owner.id == ctx.email;
+          });
+          this.badgeCount = filteredResult.length;
+        }
       }, err => {
         console.log(err);
         this.showToast(err);

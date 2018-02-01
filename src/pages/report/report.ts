@@ -12,10 +12,12 @@ import { buildChartData } from '../../helper/date-formatter';
   templateUrl: 'report.html',
 })
 export class ReportPage implements OnInit{
-  uid:string = localStorage.getItem('myId');;
+  userContext = JSON.parse(localStorage.getItem('userContext'));
   tab1Root = ReportAnnualPage;
   tab2Root = ReportTeamPage;
   tab3Root = ReportReporteePage;
+  userId:string = this.userContext.email;
+  isManager =this.userContext.isManager;
   annualCount:number[]=[];
   constructor(public navCtrl: NavController, 
     private leaveService:LeaveServiceProvider,
@@ -26,15 +28,15 @@ export class ReportPage implements OnInit{
   }
 
   async ngOnInit(){
-    if(localStorage.getItem('isManagerRole') == "true")
+    if(this.isManager == "true")
       await this.leaveService
-                .getLeavesByUser(this.uid,true)
+                .getLeavesByUser(this.userId,true)
                 .subscribe(result=>{
                   buildChartData(result);
       }); 
     else
       await this.leaveService
-                .getLeavesByUser(this.uid,false)
+                .getLeavesByUser(this.userId,false)
                 .subscribe(result=>{
                   buildChartData(result);
       });                                       

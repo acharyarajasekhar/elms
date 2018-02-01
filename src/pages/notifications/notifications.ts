@@ -5,21 +5,21 @@ import { LeaveServiceProvider } from '../../providers/leave-service/leave-servic
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { Leave } from '../../models/leave.model';
 import { DetailsviewPage } from '../detailsview/detailsview';
-
+import * as _ from 'lodash';
 @IonicPage()
 @Component({
   selector: 'page-notifications', 
   templateUrl: 'notifications.html',
 })
-export class NotificationsPage implements OnInit{
-  leaves$:any;
-  photoUrl:string;
-  UserContext:any;
-  userId:string;
-  uid:string = localStorage.getItem('myId');
-  managerUserId:string;
-  userName:string;
-  isManagerRole:string;
+export class NotificationsPage implements OnInit {
+  leaves$: any[]=[];
+  photoUrl: string;
+  userContext: any;
+  userId: string;
+  uid: string;
+  managerUserId: string;
+  userName: string;
+  isManagerRole: string;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -29,7 +29,9 @@ export class NotificationsPage implements OnInit{
     public toastCtrl: ToastController,
     public modalCtrl: ModalController
   ) {
-    this.isManagerRole = localStorage.getItem('isManagerRole');
+    this.userContext = JSON.parse(localStorage.getItem('userContext'));
+    this.isManagerRole = this.userContext.isManager;
+    this.uid = this.userContext.email;
     this.bindNotificationList();
   }
 
@@ -40,15 +42,29 @@ export class NotificationsPage implements OnInit{
       this.pendingLeavesView(this.uid,false);
   }
 
-  async pendingLeavesView(user:string, isManager:boolean){
+  async pendingLeavesView(userid: string, isManager: boolean) {
     await this.leaveService
-              .getLeavesByUser(user,isManager)
-              .subscribe(result=>{
-              this.leaves$ = result;
-        },err=>{
-          console.log(err);
-          this.showToast(err);
-        });
+      .getLeavesByUser(userid, isManager)
+      .subscribe(result => {
+        if(isManager){
+
+        }
+        else{
+          result.forEach((lvRef:any)=>{
+            lvRef.owner.get().then(userRef=>{
+              if(userRef.data().email == userid){
+                let lvItem = lvRef;
+                lvItem.photoUrl = userRef.data().photoUrl;
+                lvItem.name = userRef.data().name;
+                this.leaves$.push(lvItem);
+              }
+            })
+          });
+        }
+      }, err => {
+        console.log(err);
+        this.showToast(err);
+      });
   }
 
   ionViewDidLoad() {

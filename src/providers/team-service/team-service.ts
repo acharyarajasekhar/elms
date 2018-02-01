@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection,AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Team } from '../../models/team.model';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
 
 @Injectable()
 export class TeamServiceProvider {

@@ -29,9 +29,9 @@ export class LeaveServiceProvider {
   createNewLeave(leave: Leave) {
     let userId = JSON.parse(localStorage.getItem('userContext')).email;
     leave.status = LeaveStatus.Requested;
-    leave.createdAt = new Date();//------------------------------> locale date format 
-    leave.from = new Date(leave.from);//-------------------------> string ~> locale date format 
-    leave.to = new Date(leave.to);//-----------------------------> string ~> locale date format
+    leave.createdAt = new Date();
+    leave.from = new Date(leave.from);
+    leave.to = new Date(leave.to);
     leave.isRead = false;
     leave.owner = this.afs.collection("eUsers").doc(userId).ref;
     this.afs.collection('eLeaves').add(leave);
@@ -39,28 +39,16 @@ export class LeaveServiceProvider {
 
   getLeavesByUser(ukey: string, isManager: boolean) {
     if (isManager) {
-      this.leaveCollection = this.afs.collection('leaves', ref => {
-        return ref.where('managerId', '==', ukey)
-          .where('status', '==', 0)
-          .orderBy('unixFrDate', 'asc');
+      this.leaveCollection = this.afs.collection('eLeaves', ref => {
+        return ref.where('status', '==', 0);
       });
     }
     else {
-      this.leaveCollection = this.afs.collection('leaves', ref => {
-        return ref.where('isRead', '==', false)
-          .where('userId', '==', ukey)
-          .orderBy('unixFrDate', 'asc');
+      this.leaveCollection = this.afs.collection('eLeaves', ref => {
+        return ref.where('isRead', '==', false).orderBy("from","asc");
       });
     }
-    //return leavecollection as Observable
-    return this.leaveCollection.snapshotChanges()
-      .map(action => {
-        return action.map(snap => {
-          const data = snap.payload.doc.data() as Leave;
-          const id = snap.payload.doc.id;
-          return { id, data };
-        })
-      });
+    return this.leaveCollection.valueChanges();
   }
 
   getLeavesByStatusForUser(userId: string, status: number) {
@@ -72,11 +60,11 @@ export class LeaveServiceProvider {
     return this.leaveCollection.valueChanges();
   }
 
-  getBadgeCount(isManager: string) {
+  getBadgeCount(isManager: string,emailId:string) {
     if (isManager == "true")
-      return this.getLeavesByUser(this.ukey, true);
+      return this.getLeavesByUser(emailId, true);
     else
-      return this.getLeavesByUser(this.ukey, false);
+      return this.getLeavesByUser(emailId, false);
   }
 
   getMyLeaveHistory(ukey: string) {
@@ -190,6 +178,7 @@ export class LeaveServiceProvider {
     var leavesCollectionRef = this.db.collection('eLeaves',
       ref => ref
         .where("to", ">=", fromDTTM)
+        .where("status", "<=", 1)
     ).snapshotChanges();
     return leavesCollectionRef;
   }
