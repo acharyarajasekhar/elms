@@ -174,9 +174,11 @@ export class HomePage implements OnInit {
 
   bindSlider() {
     this.sliderImg$ = [
-      "assets/imgs/LMS1.jpg",
-      "assets/imgs/LMS2.jpg",
-      "assets/imgs/LMS3.jpg"
+      "assets/imgs/lms1.jpg",
+      "assets/imgs/lms2.jpg",
+      "assets/imgs/lms3.jpg",
+      "assets/imgs/lms4.jpg",
+      "assets/imgs/lms5.jpg"
     ];
   }
 

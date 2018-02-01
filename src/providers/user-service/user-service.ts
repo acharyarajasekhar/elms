@@ -55,8 +55,7 @@ export class UserServiceProvider {
     this.userDocument = this.afs.doc('eUsers/' + userId);
     return this.userDocument.snapshotChanges()
       .map(snap => {
-        let userContext: any = snap.payload.data() as User;
-        console.log(snap.payload.data().manager);
+        let userContext: any = snap.payload.data() as User;        
         if (snap.payload.data().manager != "" && snap.payload.data().manager != null) {
           snap.payload.data().manager.get().then(mgrRef => {
             localStorage.setItem('mgrName', (mgrRef.data() as User).name);
@@ -74,15 +73,13 @@ export class UserServiceProvider {
   }
 
   /***UPDATE User Object By Id***/
-  updateUserById(userId, userObj) {
-    localStorage.setItem('teamName', userObj.team);
-    localStorage.setItem('mgrName', userObj.manager);
+  updateUserById(userId, userObj) {        
     let mgrRef = this.afs.collection("eUsers").doc(userObj.manager).ref;
     let teamRef = this.afs.collection("eTeam").doc(userObj.team).ref
     this.userDocument = this.afs.doc('eUsers/' + userId);
     userObj.manager = mgrRef;
-    userObj.team = teamRef;
-    this.userDocument.update(userObj);
+    userObj.team = teamRef;    
+    this.userDocument.update(userObj);       
   }
 
   getLoggedInUsersMetaInfo(userId: string): any {

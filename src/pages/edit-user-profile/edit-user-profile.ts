@@ -31,7 +31,11 @@ export class EditUserProfilePage {
       this.user = JSON.parse(localStorage.getItem('userContext'));
   }
   
-  updateProfile(){
+  updateProfile(){    
+    localStorage.setItem('mgrEmail', this.user.manager);
+    localStorage.setItem('teamId', this.user.team);
+    localStorage.setItem('teamName', this.user.manager);
+    localStorage.setItem('mgrName', this.user.team);
     this.userService.updateUserById(this.user.email,this.user);
     this.navCtrl.push("UserProfilePage",{user: this.user});
   }
@@ -40,6 +44,8 @@ export class EditUserProfilePage {
   }
 
   ngOnInit(){ 
+    this.user.manager = localStorage.getItem("mgrEmail");
+    this.user.team = localStorage.getItem("teamId");
     this.userService.getManagers().subscribe(mgrs=>{      
       this.managers$ = mgrs;      
     });

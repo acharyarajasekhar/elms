@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title class="fontbolder">LMS</ion-title>
+    <ion-title class="fontbolder">WhosOof</ion-title>
     <ion-buttons end>
       <button ion-button (click)="openSearch()">
         <ion-icon name="search"></ion-icon>
@@ -21,16 +21,13 @@
 
 
 <ion-content>
-<ion-slides pager="true" loop="true" id="cover" slidesPerView=1 autoplay="5000" loop="true" style="height: 240px;">
-  <ion-slide style="height: 220px;" *ngFor="let img of sliderImg$">
+<ion-slides pager="true" loop="true" id="cover" slidesPerView=1 autoplay="5000" loop="true" style="height: 200px;">
+  <ion-slide style="height: 200px;" *ngFor="let img of sliderImg$">
     <img [src]="img"/>
   </ion-slide>
 </ion-slides>
-<hr>
-  <h3 class="itemStyleheader" > Who's <span style="color:#039be5">Off</span></h3>
- 
-
-<ion-grid class="gridStyle">
+  <h5 class="itemStyleheader" > Whos<span style="color:#039be5">Oof</span></h5>
+  <ion-grid class="gridStyle">
     <ion-row>
       <ion-col col-10> <p class="itemStyleSubheaders">Today</p>
       </ion-col>
@@ -39,7 +36,6 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
   <ion-slides pager="false" id="today" slidesPerView=3 style="height: 160px;">
     <ion-slide *ngFor="let leave of leavesToday$">
       <ion-card>
@@ -50,7 +46,6 @@
       </ion-card>
     </ion-slide>
   </ion-slides>
-
   <ion-grid class="gridStyle">
       <ion-row>
         <ion-col col-10> <p class="itemStyleSubheaders">Tomorrow</p>
@@ -59,9 +54,7 @@
             <p class="itemStyle" style="color:#0a72dc;" (click)="openSeealltmrw()">See All</p>
         </ion-col>
       </ion-row>
-    </ion-grid>
-
-
+  </ion-grid>
   <ion-slides pager="false" id="tomorrow" slidesPerView=3 style="height: 160px;">
     <ion-slide *ngFor="let leavetmr of leavesTmrw$">
       <ion-card>
