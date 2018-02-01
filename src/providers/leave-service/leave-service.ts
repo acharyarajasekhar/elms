@@ -27,13 +27,13 @@ export class LeaveServiceProvider {
   }
 
   createNewLeave(leave: Leave) {
-    let userId =JSON.parse(localStorage.getItem('userContext')).email;
-    leave.status = LeaveStatus.Accepted;
+    let userId = JSON.parse(localStorage.getItem('userContext')).email;
+    leave.status = LeaveStatus.Requested;
     leave.createdAt = new Date();//------------------------------> locale date format 
     leave.from = new Date(leave.from);//-------------------------> string ~> locale date format 
     leave.to = new Date(leave.to);//-----------------------------> string ~> locale date format
     leave.isRead = false;
-    leave.owner =  this.afs.collection("eUsers").doc(userId).ref;
+    leave.owner = this.afs.collection("eUsers").doc(userId).ref;
     this.afs.collection('eLeaves').add(leave);
   }
 
@@ -136,14 +136,14 @@ export class LeaveServiceProvider {
           .orderBy('from', 'asc');
       });
     }
-        return this.filteredLeaveCollection.snapshotChanges()
+    return this.filteredLeaveCollection.snapshotChanges()
       .map(action => {
         return action.map(snap => {
           const data = snap.payload.doc.data() as Leave;
           const id = snap.payload.doc.id;
           return { id, data };
         })
-    });
+      });
 
   }
 
@@ -152,33 +152,46 @@ export class LeaveServiceProvider {
     if (isManager == 'true' && startDate != null && endDate != null) {
       this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
         return ref.where('from', '<=', startDate)
-        .where('managerId', '==', userId)
-        .where('status','==',1);
-         
+          .where('managerId', '==', userId)
+          .where('status', '==', 1);
+
       });
     }
     else {
       this.filteredLeaveCollection = this.afs.collection('leaves', ref => {
         return ref.where('from', '<=', startDate)
-        .where('teamId', '==', teamId)
-        .where('status','==',1);
+          .where('teamId', '==', teamId)
+          .where('status', '==', 1);
 
       });
     }
     return this.filteredLeaveCollection.valueChanges();
   }
-  
 
-  getleavelistHomeNewDB( isManager: string, teamId: string, startDate: Date, userId: string)
-  {
-    var usersCollectionRef = this.db.collection('eUsers').valueChanges();    
+
+  getTdyandTmrwleavelist(isManager: string, teamId: string, startDate: Date, userId: string) {
+    var usersCollectionRef = this.db.collection('eUsers').valueChanges();
     usersCollectionRef.subscribe(dd => {
     })
     var fromDTTM = new Date(startDate);
-    var leavesCollectionRef = this.db.collection('eLeaves', 
+    var leavesCollectionRef = this.db.collection('eLeaves',
       ref => ref
         .where("to", ">=", fromDTTM)
+        .where("status", "==", 1)
     ).valueChanges();
+    return leavesCollectionRef;
+  }
+
+  getExistingleavelist(isManager: string, teamId: string, startDate: Date, userId: string) {
+    var usersCollectionRef = this.db.collection('eUsers').valueChanges();
+    usersCollectionRef.subscribe(dd => {
+    })
+    var fromDTTM = new Date(startDate);
+    var leavesCollectionRef = this.db.collection('eLeaves',
+      ref => ref
+        .where("to", ">=", fromDTTM)
+        .where("status", "<=", 1)
+    ).snapshotChanges();
     return leavesCollectionRef;
   }
 }

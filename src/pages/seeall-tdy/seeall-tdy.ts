@@ -15,15 +15,15 @@ import { Observable } from 'rxjs/Observable';
 })
 export class SeeAllTdyPage {
   uid: string;
-  leavesToday$:any=[];
-  isManager:string;
+  leavesToday$: any = [];
+  isManager: string;
   GetCurrentDate: Date = new Date();
   d: Date = new Date(new Date().setHours(0, 0, 0, 0));
-  tdydate: any = this.d.getMonth() + 1 + "/" + this.d.getDate()+"/"+this.d.getFullYear();
+  tdydate: any = this.d.getMonth() + 1 + "/" + this.d.getDate() + "/" + this.d.getFullYear();
   constructor(public navCtrl: NavController,
     private _LeaveService: LeaveServiceProvider,
     private formgroup: FormBuilder,
-    private _cmnMethods: commonMethods,private _notify:NotificationService,
+    private _cmnMethods: commonMethods, private _notify: NotificationService,
     public navParams: NavParams) {
     this.GetTdyLeaveDetails();
   }
@@ -32,30 +32,64 @@ export class SeeAllTdyPage {
   }
 
   GetTdyLeaveDetails() {
-      let isManager = localStorage.getItem('isManagerRole');
-      let myTeam = localStorage.getItem('myTeam');
-      let myId = localStorage.getItem('myId');
-      var toDTTM = new Date(new Date(this.tdydate).setHours(23, 59, 59, 0));
-      this._LeaveService. getleavelistHomeNewDB( isManager, myTeam, this.tdydate, myId)
-      .subscribe(leaves => {      
- 
-        leaves.forEach((leaveItem:any) => {  
-          if(leaveItem.from <= toDTTM)  
-          leaveItem.owner.get()
-            .then(userRef => { 
-                var user = userRef.data(); 
-                user.manager.get()
-                  .then(managerRef => {
-                    user.manager = managerRef.data();
-                  });
-                user.team.get()
-                  .then(teamRef => {
-                    user.team = teamRef.data();
-                  });
-                leaveItem.owner = user;
-                this.leavesToday$.push(leaveItem); 
-            });
+    let isManager = JSON.parse(localStorage.getItem('userContext')).isManager;
+    let isManagerRole: boolean = JSON.parse(localStorage.getItem('userContext')).isManager;
+    let myTeam = localStorage.getItem('teamId');
+    let myId = JSON.parse(localStorage.getItem('userContext')).email;
+    var toDTTM = new Date(new Date(this.tdydate).setHours(23, 59, 59, 0));
+    if (!isManagerRole) {
+      this._LeaveService.getTdyandTmrwleavelist(isManager, myTeam, this.tdydate, myId)
+        .subscribe(leaves => {
+
+          leaves.forEach((leaveItem: any) => {
+            if (leaveItem.from <= toDTTM)
+              leaveItem.owner.get()
+                .then(userRef => {
+                  var user = userRef.data();
+                  if (user.team != null && user.team != '') {
+                    user.team.get()
+                      .then(teamRef => {
+                        user.team = teamRef.data();
+                      });
+                    if (user.team.id == myTeam) {
+                      leaveItem.owner = user;
+
+                      this.leavesToday$.push(leaveItem);
+                    }
+                  }
+                });
+          });
         });
-      });
-     }
+    }
+    else {
+      this._LeaveService.getTdyandTmrwleavelist(isManager, myTeam, this.tdydate, myId)
+        .subscribe(leaves => {
+
+          leaves.forEach((leaveItem: any) => {
+            if (leaveItem.from <= toDTTM)
+              leaveItem.owner.get()
+                .then(userRef => {
+                  var user = userRef.data();
+
+                  if (user.team != null && user.team != '') {
+                    user.team.get()
+                      .then(teamRef => {
+                        user.team = teamRef.data();
+                      });
+                  }
+                  if (user.manager != null && user.manager != '') {
+                    user.manager.get()
+                      .then(managerRef => {
+                        user.manager = managerRef.data();
+                      });
+                    if (user.manager.id == myId) {
+                      leaveItem.owner = user;
+                      this.leavesToday$.push(leaveItem);
+                    }
+                  }
+                });
+          });
+        });
+    }
+  }
 }
