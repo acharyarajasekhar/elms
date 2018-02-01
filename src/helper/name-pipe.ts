@@ -11,7 +11,7 @@ export class NamePipe implements PipeTransform{
 
     }
     transform(value:string){
-        debugger;
+       // debugger;
         if(!value){
             return "NA";
         }

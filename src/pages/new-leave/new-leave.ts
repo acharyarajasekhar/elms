@@ -1,7 +1,9 @@
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import * as moment from 'moment';
 import { Leave } from '../../models/leave.model';
 
@@ -23,6 +25,7 @@ export class NewLeavePage {
   public sameDayleaves$: any[] = [];
   leave: Leave;
   lent: number;
+  LeaveReq = new Subject<any>();
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private formBuilder: FormBuilder,
@@ -38,8 +41,30 @@ export class NewLeavePage {
       to: [this.ToDate, Validators.required],
       reason: ['', Validators.required]
     });
+
   }
 
+  ionViewDidLoad() {
+    this.CreateNewleave().subscribe(lvCount => {
+      if (lvCount === 0) {
+        this.leaveService.createNewLeave(this.LeaveForm.value);
+        this.LeaveForm.setValue({
+          isHalfDay: false,
+          from: new Date().toISOString(),
+          to: new Date().toISOString(),
+          reason: ''
+        });
+        this.showToast('Leave request created succesfully');
+      }
+      else if (lvCount > 0) {
+        this.showToast('You have already applied leaves on above From and To Date range');
+      }
+    })
+  }
+
+  CreateNewleave(): Observable<any> {
+    return this.LeaveReq.asObservable();
+  }
   addNewLeave() {
     this.validateExistingLeave();
   }
@@ -59,18 +84,11 @@ export class NewLeavePage {
           var leavesArray = leaveItem.payload.doc.data();
           leavesArray.leaveId = leaveItem.payload.doc.id;
           if (leavesArray.from <= toDTTMtdy && leavesArray.owner.id == myId && leavesArray.status <= 1) {
-             this.lent = this.lent + 1;
-          } 
+            this.lent = this.lent + 1;
+
+          }
         });
-        if (this.lent === 0) {
-          this.leaveService.createNewLeave(this.LeaveForm.value);
-          this.navCtrl.pop();
-          this.showToast('Leave request created succesfully');
-        }
-        else if (this.lent > 0) {
-          this.navCtrl.pop();
-          this.showToast('You have already applied leaves on above From and To Date range');
-        }
+        this.LeaveReq.next(this.lent);
       });
   }
 
