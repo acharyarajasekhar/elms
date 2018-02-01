@@ -28,65 +28,66 @@ export class SeeAllTmrwPage {
   }
 
   GetTmrwLeaveDetails() {
-    var isManager = JSON.parse(localStorage.getItem('userContext')).isManager;
-    let isManagerRole: boolean = JSON.parse(localStorage.getItem('userContext')).isManager;
-    let myTeam = localStorage.getItem('teamId');
-    let myId = JSON.parse(localStorage.getItem('userContext')).email;
-    var toDTTM = new Date(new Date(this.tmrdate).setHours(23, 59, 59, 0));
-    //console.log(isManagerRole);
-    if (!isManagerRole) {
-      //console.log("team role");
-      this._LeaveService.getTdyandTmrwleavelist(isManager, myTeam, this.tmrdate, myId)
-        .subscribe(leaves => {
-          leaves.forEach((leaveItem: any) => {
-            if (leaveItem.from <= toDTTM)
-              leaveItem.owner.get()
-                .then(userRefs => {
-                  var users = userRefs.data();
+    if (localStorage.getItem('userContext') != null && localStorage.getItem('userContext') != '') {
+      var isManager = JSON.parse(localStorage.getItem('userContext')).isManager;
+      let isManagerRole: boolean = JSON.parse(localStorage.getItem('userContext')).isManager;
+      let myTeam = localStorage.getItem('teamId');
+      let myId = JSON.parse(localStorage.getItem('userContext')).email;
+      var toDTTM = new Date(new Date(this.tmrdate).setHours(23, 59, 59, 0));
+      //console.log(isManagerRole);
+      if (!isManagerRole) {
+        //console.log("team role");
+        this._LeaveService.getTdyandTmrwleavelist(isManager, myTeam, this.tmrdate, myId)
+          .subscribe(leaves => {
+            leaves.forEach((leaveItem: any) => {
+              if (leaveItem.from <= toDTTM)
+                leaveItem.owner.get()
+                  .then(userRefs => {
+                    var users = userRefs.data();
 
-                  if (users.team != null && users.team != '') {
-                    users.team.get()
-                      .then(teamRef => {
-                        users.team = teamRef.data();
-                      });
-                    if (users.team.id == myTeam) {
-                      leaveItem.owner = users;
-                      this.leavesTmrw$.push(leaveItem);
+                    if (users.team != null && users.team != '') {
+                      users.team.get()
+                        .then(teamRef => {
+                          users.team = teamRef.data();
+                        });
+                      if (users.team.id == myTeam) {
+                        leaveItem.owner = users;
+                        this.leavesTmrw$.push(leaveItem);
+                      }
                     }
-                  }
-                });
+                  });
+            });
           });
-        });
-    }
-    else {
-      this._LeaveService.getTdyandTmrwleavelist(isManager, myTeam, this.tmrdate, myId)
-        .subscribe(leaves => {
-          leaves.forEach((leaveItem: any) => {
-            if (leaveItem.from <= toDTTM)
-              leaveItem.owner.get()
-                .then(userRefs => {
-                  var users = userRefs.data();
+      }
+      else {
+        this._LeaveService.getTdyandTmrwleavelist(isManager, myTeam, this.tmrdate, myId)
+          .subscribe(leaves => {
+            leaves.forEach((leaveItem: any) => {
+              if (leaveItem.from <= toDTTM)
+                leaveItem.owner.get()
+                  .then(userRefs => {
+                    var users = userRefs.data();
 
-                  if (users.team != null && users.team != '') {
-                    users.team.get()
-                      .then(teamRef => {
-                        users.team = teamRef.data();
-                      });
-                  }
-                  if (users.manager != null && users.manager != '') {
-                    users.manager.get()
-                      .then(managerRef => {
-                        users.manager = managerRef.data();
-                      });
-                    if (users.manager.id == myId) {
-                      leaveItem.owner = users;
-                      this.leavesTmrw$.push(leaveItem);
+                    if (users.team != null && users.team != '') {
+                      users.team.get()
+                        .then(teamRef => {
+                          users.team = teamRef.data();
+                        });
                     }
-                  }
-                });
+                    if (users.manager != null && users.manager != '') {
+                      users.manager.get()
+                        .then(managerRef => {
+                          users.manager = managerRef.data();
+                        });
+                      if (users.manager.id == myId) {
+                        leaveItem.owner = users;
+                        this.leavesTmrw$.push(leaveItem);
+                      }
+                    }
+                  });
+            });
           });
-        });
+      }
     }
   }
-
 }
