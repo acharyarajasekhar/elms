@@ -36,7 +36,7 @@ export class NotificationsPage implements OnInit {
   }
 
   bindNotificationList(){
-    if((this.isManagerRole!= undefined || this.isManagerRole != "") && this.isManagerRole == "true")
+    if(this.isManagerRole)
       this.pendingLeavesView(this.uid,true);
     else
       this.pendingLeavesView(this.uid,false);
@@ -46,8 +46,22 @@ export class NotificationsPage implements OnInit {
     await this.leaveService
       .getLeavesByUser(userid, isManager)
       .subscribe(result => {
-        if(isManager){
-
+        if(isManager){          
+          result.forEach((lvRef:any)=>{
+            lvRef.owner.get().then(userRef=>{
+              var user = userRef.data();
+              if (user.manager != null && user.manager != '') {
+                user.manager.get()
+                  .then(managerRef => {
+                    user.manager = managerRef.data();
+                  });
+                if (user.manager.id == this.uid) {
+                  lvRef.owner = user;
+                  this.leaves$.push(lvRef);
+                }
+              }
+            })
+          });
         }
         else{
           result.forEach((lvRef:any)=>{

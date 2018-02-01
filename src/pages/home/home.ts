@@ -5,7 +5,6 @@ import { PipesModule } from './../../pipes/pipes.module';
 import * as firebase from 'firebase';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { Leave } from '../../models/leave.model';
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
@@ -33,7 +32,8 @@ export class HomePage implements OnInit {
   tdydate: any = this.d.getMonth() + 1 + "/" + this.d.getDate() + "/" + this.d.getFullYear();
   t: Date = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
   tmrdate: any = this.t.getMonth() + 1 + "/" + this.t.getDate() + "/" + this.t.getFullYear();
-  userContxt:any;
+  userContxt: any;
+  filteredResult$: any[] = [];
   constructor(
     public navCtrl: NavController,
     private afAuth: AngularFireAuth,
@@ -48,13 +48,12 @@ export class HomePage implements OnInit {
       this._authId = JSON.parse(localStorage.getItem('userContext')).email;
     }
 
-    this.getUserContextNew();
+    this.getUserContext();
     this.bindSlider();
     this.bindLeaveCarosol();
   }
 
   bindLeaveCarosol() {
-    //console.log(localStorage.getItem('userContext'));
     if (localStorage.getItem('userContext') != null && localStorage.getItem('userContext') != '') {
       let isManager = JSON.parse(localStorage.getItem('userContext')).isManager;
       let myTeam = localStorage.getItem('teamId');
@@ -209,7 +208,7 @@ export class HomePage implements OnInit {
     this.navCtrl.push("NewLeavePage");
   }
 
-  getUserContextNew() {
+  getUserContext() {
     this.userService.getUserById(this._authId)
       .subscribe(result => {
         //console.log(result)
@@ -228,23 +227,40 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    let ctx = JSON.parse(localStorage.getItem('userContext'));
-    this.leaveService
-      .getBadgeCount(ctx.isManager,ctx.email)
-      .subscribe((result:any) => {
-        if(ctx.isManager == "true"){
-
-        }
-        else{
-          let filteredResult =  _.filter(result, function(obj){
-            return obj.owner.id == ctx.email;
-          });
-          this.badgeCount = filteredResult.length;
-        }
-      }, err => {
-        console.log(err);
-        this.showToast(err);
-      });
+    if (localStorage.getItem('userContext') != null && localStorage.getItem('userContext') != '') {
+      let ctx = JSON.parse(localStorage.getItem('userContext'));
+      this.leaveService
+        .getBadgeCount(ctx.isManager, ctx.email)
+        .subscribe((result: any) => {
+          if (ctx.isManager == "true") {
+            result.forEach((lvRef: any) => {
+              lvRef.owner.get().then(userRef => {
+                var user = userRef.data();
+                if (user.manager != null && user.manager != '') {
+                  user.manager.get()
+                    .then(managerRef => {
+                      user.manager = managerRef.data();
+                    });
+                  if (user.manager.id == ctx.email) {
+                    lvRef.owner = user;
+                    this.filteredResult$.push(lvRef);
+                  }
+                }
+              })
+            });
+            this.badgeCount = this.filteredResult$.length;
+          }
+          else {
+            let filteredResult = _.filter(result, function (obj) {
+              return obj.owner.id == ctx.email;
+            });
+            this.badgeCount = filteredResult.length;
+          }
+        }, err => {
+          console.log(err);
+          this.showToast(err);
+        });
+    }
   }
 
   showToast(alert_message: string) {

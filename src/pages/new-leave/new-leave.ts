@@ -25,7 +25,7 @@ export class NewLeavePage {
   public sameDayleaves$: any[] = [];
   leave: Leave;
   lent: number;
-  LeaveReq = new Subject<any>();
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private formBuilder: FormBuilder,
@@ -45,7 +45,9 @@ export class NewLeavePage {
   }
 
   ionViewDidLoad() {
-    this.CreateNewleave().subscribe(lvCount => {
+
+    this.leaveService.CreateNewleave().subscribe(lvCount => {
+
       if (lvCount === 0) {
         this.leaveService.createNewLeave(this.LeaveForm.value);
         this.LeaveForm.setValue({
@@ -54,22 +56,16 @@ export class NewLeavePage {
           to: new Date().toISOString(),
           reason: ''
         });
+        this.leaveService.subscribe.unsubscribe();
         this.showToast('Leave request created succesfully');
       }
       else if (lvCount > 0) {
+        this.leaveService.subscribe.unsubscribe();
         this.showToast('You have already applied leaves on above From and To Date range');
       }
     })
   }
-
-  CreateNewleave(): Observable<any> {
-    return this.LeaveReq.asObservable();
-  }
   addNewLeave() {
-    this.validateExistingLeave();
-  }
-
-  validateExistingLeave() {
     this.leave = this.LeaveForm.value;
     let dd: Date = new Date(this.leave.from);
     let frmdate: any = dd.getMonth() + 1 + "/" + dd.getDate() + "/" + dd.getFullYear();
@@ -77,19 +73,7 @@ export class NewLeavePage {
     let myTeam = localStorage.getItem('myTeam');
     let myId = JSON.parse(localStorage.getItem('userContext')).email;
     var toDTTMtdy = new Date(new Date(this.leave.to).setHours(23, 59, 59, 0));
-    this.lent = 0;
-    this.leaveService.getExistingleavelist(isManager, myTeam, frmdate, myId)
-      .subscribe(leaves => {
-        leaves.forEach((leaveItem: any) => {
-          var leavesArray = leaveItem.payload.doc.data();
-          leavesArray.leaveId = leaveItem.payload.doc.id;
-          if (leavesArray.from <= toDTTMtdy && leavesArray.owner.id == myId && leavesArray.status <= 1) {
-            this.lent = this.lent + 1;
-
-          }
-        });
-        this.LeaveReq.next(this.lent);
-      });
+    this.leaveService.getExistingleavelist(isManager, myTeam, frmdate, myId, toDTTMtdy);
   }
 
   showToast(alert_message: string) {

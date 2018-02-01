@@ -1,3 +1,4 @@
+import { ISubscription } from 'rxjs/Subscription';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Leave } from '../../models/leave.model';
@@ -5,6 +6,7 @@ import { LeaveStatus } from '../../models/leavestatus.enum';
 import { UserServiceProvider } from '../user-service/user-service';
 import { AuthServiceProvider } from '../auth-service/auth-service';
 import { formatDateUsingMoment } from '../../helper/date-formatter';
+import { Subject, Observable } from 'rxjs';
 //import { Observable } from 'rxjs/Observable';
 //import { mergeMap } from 'rxjs/operators';
 //import { forkJoin } from "rxjs/observable/forkJoin";
@@ -17,8 +19,11 @@ export class LeaveServiceProvider {
   leaveCollection: AngularFirestoreCollection<Leave> = null;
   filteredLeaveCollection: AngularFirestoreCollection<Leave> = null;
   leaveDocument: AngularFirestoreDocument<Leave>;
+  LeaveReq = new Subject<any>();
+  subscribe: ISubscription;
   snapshot: any;
   team$: any;
+  lent: number;
   constructor(
     public afs: AngularFirestore,
     public auth: AuthServiceProvider,
@@ -45,7 +50,7 @@ export class LeaveServiceProvider {
     }
     else {
       this.leaveCollection = this.afs.collection('eLeaves', ref => {
-        return ref.where('isRead', '==', false).orderBy("from","asc");
+        return ref.where('isRead', '==', false).orderBy("from", "asc");
       });
     }
     return this.leaveCollection.valueChanges();
@@ -60,7 +65,7 @@ export class LeaveServiceProvider {
     return this.leaveCollection.valueChanges();
   }
 
-  getBadgeCount(isManager: string,emailId:string) {
+  getBadgeCount(isManager: string, emailId: string) {
     if (isManager == "true")
       return this.getLeavesByUser(emailId, true);
     else
@@ -170,7 +175,7 @@ export class LeaveServiceProvider {
     return leavesCollectionRef;
   }
 
-  getExistingleavelist(isManager: string, teamId: string, startDate: Date, userId: string) {
+  getExistingleavelist(isManager: string, teamId: string, startDate: Date, userId: string, todate: Date) {
     var usersCollectionRef = this.db.collection('eUsers').valueChanges();
     usersCollectionRef.subscribe(dd => {
     })
@@ -179,6 +184,23 @@ export class LeaveServiceProvider {
       ref => ref
         .where("to", ">=", fromDTTM)
     ).snapshotChanges();
-    return leavesCollectionRef;
+
+    this.subscribe = leavesCollectionRef.subscribe(leaves => {
+      this.lent = 0;
+      leaves.forEach((leaveItem: any) => {
+        var leavesArray = leaveItem.payload.doc.data();
+        leavesArray.leaveId = leaveItem.payload.doc.id;
+        if (leavesArray.from <= todate && leavesArray.owner.id == userId && leavesArray.status <= 1) {
+          this.lent = this.lent + 1;
+        }
+      });
+
+      this.LeaveReq.next(this.lent);
+    });
+    // return leavesCollectionRef;
+  }
+
+  CreateNewleave(): Observable<any> {
+    return this.LeaveReq.asObservable();
   }
 }
