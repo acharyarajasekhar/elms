@@ -11,14 +11,14 @@
     <ion-card *ngFor="let res of leavesToday$">
       <!-- <img src="img/nin-live.png"/> -->
 
-      <div class="itemStyle">
+      <div style="background-color:#f5f8fb;">
         <ion-item>
           <ion-avatar item-start>
             <img [src]="res.owner.photoUrl ? res.owner.photoUrl : '../../assets/imgs/user.png'">
             <!-- <ion-icon style="font-size:2.2em" name="md-contact"></ion-icon> -->
           </ion-avatar>
           <h2>{{res.owner.name }}</h2>   
-          <h4>[{{res.owner.team.name}}]</h4>
+          <h4>[ {{res.owner.team.name}} ]</h4>
         </ion-item>
       </div>
       <hr>
@@ -32,7 +32,6 @@
           </p>
         </div>
       </ion-card-content>
-      <hr>
     </ion-card>
   </div>
   <br/>

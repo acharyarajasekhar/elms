@@ -190,7 +190,6 @@ export class LeaveServiceProvider {
     var leavesCollectionRef = this.db.collection('eLeaves',
       ref => ref
         .where("to", ">=", fromDTTM)
-        .where("status", "<=", 1)
     ).snapshotChanges();
     return leavesCollectionRef;
   }

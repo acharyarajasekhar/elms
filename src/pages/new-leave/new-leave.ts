@@ -58,7 +58,7 @@ export class NewLeavePage {
         leaves.forEach((leaveItem: any) => {
           var leavesArray = leaveItem.payload.doc.data();
           leavesArray.leaveId = leaveItem.payload.doc.id;
-          if (leavesArray.from <= toDTTMtdy && leavesArray.owner.id == myId) {
+          if (leavesArray.from <= toDTTMtdy && leavesArray.owner.id == myId && leavesArray.status <= 1) {
              this.lent = this.lent + 1;
           } 
         });
