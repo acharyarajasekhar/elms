@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
-import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
+import { serachservice } from '../../providers/search-service/search-service';
 import { formatDateUsingMoment } from '../../helper/date-formatter';
 import * as _ from 'lodash';
 
@@ -11,21 +11,25 @@ import * as _ from 'lodash';
 })
 export class DetailsviewPage {
   otherLeaves$;
-  userId = this.navParams.get('userId');
   name = this.navParams.get('name');
   from = this.navParams.get('from');
   to = this.navParams.get('to');
   status = this.navParams.get('status');
   reason = this.navParams.get('reason');
   photoUrl = this.navParams.get('photoUrl');
-  leaves$;
+  leavesCollections:any;
   leaves$Count:number = 0;
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     public toastCtrl: ToastController,
-    private leaveService:LeaveServiceProvider,
+    private leaveService:serachservice,
     public viewCtrl: ViewController) {
       this.getOverlappedLeaves(this.from,this.to);
+      this.leaveService.getLeavesCollections()
+      .subscribe(Leaves=>{
+      this.leavesCollections =Leaves;
+      //this._cmnMethods.loader.dismiss();
+      })
   }
 
   ionViewDidLoad() {
@@ -36,29 +40,14 @@ export class DetailsviewPage {
     this.viewCtrl.dismiss();
   }
 
-  async getOverlappedLeaves(frDate,toDate) {
+   getOverlappedLeaves(frDate,toDate) {
     let teamId = localStorage.getItem('myTeam');
     let isManager = localStorage.getItem('isManagerRole');
     if (frDate != "" && toDate !="") {
-      let unixStartDt = formatDateUsingMoment(frDate, 'U');
-      let unixEndDt = formatDateUsingMoment(toDate, 'U');
-      let localeStartDt = formatDateUsingMoment(frDate, 'L');
-      let localeEndDt = formatDateUsingMoment(toDate, 'L');
-      await this.leaveService.getLeaveByDuration(isManager,teamId,localeStartDt, localeEndDt).subscribe(result => {
-        this.leaves$ = _.filter(result, function (lv) {
-          return lv.unixFrDate >= unixStartDt;
-        });
-        this.leaves$Count = this.leaves$.length;
-      }, err => {
-        console.log(err);
-        this.showToast(err);
-      });
+       this.leaveService.getSearchresults(true,teamId,frDate, toDate)
     }
   }
 
-  bindOtherLeaves(){
-
-  }
 
   showToast(alert_message: string) {
     let toast = this.toastCtrl.create({

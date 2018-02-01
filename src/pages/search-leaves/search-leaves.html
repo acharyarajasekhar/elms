@@ -52,7 +52,8 @@
            <p> Hey!!! I will be on leave from <span class="FontAvatar">{{res.from | date : "MMM d, y"}}</span> to  <span class="FontAvatar">{{res.to | date : "MMM d, y"}}</span> due to <span class="FontAvatar">{{res.reason }}</span></p>
          </div>
         </ion-card-content>
-        <hr>
+
+        <hr *ngIf="isManager=='true' && res.status=='0'">
 
         <ion-row style="position: relative;top:10px;" *ngIf="isManager=='true' && res.status=='0'">
           <!-- && res.data.status=='0'"> -->

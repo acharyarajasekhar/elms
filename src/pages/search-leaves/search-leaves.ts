@@ -61,38 +61,6 @@ export class SearchLeavesPage {
       this.IsearchResults =Leaves;
       this._cmnMethods.loader.dismiss();
       })
-    //   var res=Leaves.reduce((total, item)=>{
-	
-    //     // Get No.of Days 'from' $ 'to'
-    //     var noOfdays=[];
-    //     for (var date= item.from; date<=item.to; date.setDate(date.getDate()+1)){
-    //       noOfdays.push(new Date(date));
-    //     }
-        
-    //     //Group No of Leaves Based on Month
-    //     var monthData=noOfdays.reduce((monthTotal, dateItem)=>{
-    //       var monthID=dateItem.getMonth();
-    //       var year=dateItem.getFullYear();
-    //       var key=monthID.toString()+'-'+year.toString();
-          
-    //       monthTotal[key]=monthTotal[key] || [];
-    //       monthTotal[key].push(dateItem);
-    //       return monthTotal;
-    //     },{});
-        
-    //     var monthKey=Object.keys(monthData);
-       
-    //     for(var i=0;i<monthKey.length;i++){
-    //       total[monthKey[i]]=total[monthKey[i]] || 0;
-    //       total[monthKey[i]]=total[monthKey[i]]+monthData[monthKey[i]].length;
-    //     }
-        
-    //     return total;
-      
-    //   },{});
-    //   debugger;
-    //   console.log(res);
-    // })
   }
 
 
@@ -104,8 +72,8 @@ export class SearchLeavesPage {
     let from: Date = new Date(this.SearchResults.value['from']);
     let to: Date = new Date(this.SearchResults.value['ToDate']);
     this._cmnMethods.InitializeLoader();
-    //var arrayleaves = this._search.getSearchresults(true,"",from,to);
-    this._search.getbyManagerId(true,"aasif2707@gmail.com",from,to);
+     this._search.getSearchresults(true,"",from,to);
+    //this._search.getbyManagerId(true,"aasif2707@gmail.com",from,to);
   }
 
   getColor(status)
@@ -135,7 +103,6 @@ return 'orange';
   acceptLeave(keyObj:any){
 
     if(this.isManager == 'true'){
-      debugger;
       this._notify.acceptleave(keyObj,true,this.uid);
       this._cmnMethods.showToast('Leave request accepted succesfully');
     }   
@@ -143,8 +110,8 @@ return 'orange';
 
   MoreInfo(obj:any)
   {
+  
     let leaveObj = { 
-      userId: obj.userId, 
       name: obj.owner.name, 
       from: obj.from, 
       to: obj.to, 

@@ -12,7 +12,7 @@ export class NotificationService {
   }
 
   acceptleave(leaveId:string,isManager:boolean,mgrId?:string):void{
-    this.leaveDocument = this.afs.doc('leaves/'+ leaveId);
+    this.leaveDocument = this.afs.doc('eLeaves/'+ leaveId);
     if(isManager)
       this.leaveDocument.update({status: 1, managerId: mgrId, modifiedAt: new Date() });
     else
@@ -20,7 +20,7 @@ export class NotificationService {
   }
   
   declineLeave(leaveId:string,isManager:boolean,mgrId?:string):void{
-    this.leaveDocument = this.afs.doc('leaves/'+ leaveId);
+    this.leaveDocument = this.afs.doc('eLeaves/'+ leaveId);
     if(isManager)
       this.leaveDocument.update({status: 2, managerId: mgrId, modifiedAt: new Date() });
     else
@@ -28,7 +28,7 @@ export class NotificationService {
   }
 
   archieveLeave(leaveId:string){
-    this.leaveDocument = this.afs.doc('leaves/'+ leaveId);
+    this.leaveDocument = this.afs.doc('eLeaves/'+ leaveId);
     this.leaveDocument.update({isRead: true});
   }
 }

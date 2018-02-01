@@ -1,6 +1,9 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>View</ion-title>
+    <ion-title>
+            <ion-icon (click)="closeModal()" name="md-arrow-round-back"></ion-icon> &nbsp;
+            View
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -28,69 +31,23 @@
     <hr>
   </ion-card>
 
-  <div *ngIf="leaves$Count > 0;then overlappedLeaves" class="container"></div>
-  
-  <ng-template #overlappedLeaves>
-    <ion-card class="leave-card" >
-      <ion-list>
-      <ion-list-header>During this period : {{leaves$Count}} Leaves</ion-list-header>
-          <ion-item style="background-color:white;border-bottom:1px solid rgba(229, 232, 233, 0.938);" *ngFor="let leave of leaves$">
-            <ion-avatar item-start>
-              <img [src]="leave.photoUrl" *ngIf="leave.photoUrl">
-            </ion-avatar>
-            <div *ngIf="leave.status == 0;then pendingBlock" class="container"></div>
-            <div *ngIf="leave.status == 1;then acceptBlock" class="container"></div>
-            <div *ngIf="leave.status == 2;then rejectBlock" class="container"></div>
-            <ng-template #pendingBlock>
-                <div class="info1">
-                    <h2>{{ leave.name }}</h2>
-                    <span style="clear:both"></span>
-                    <p>
-                        From: {{leave.from | date : "MMM dd"}} to {{leave.to | date:"MMM dd"}}</p>
-                </div>
-                <div class="info2">
-                    <p item-content item-end class="ts-globe">{{leave.createdAt | date:"MMM dd" }}
-                        <ion-icon name="md-globe"></ion-icon>
-                    </p>
-                </div>
-                <div class="info3">
-                    <ion-icon name="ios-alert-outline" item-end color="pending" style="margin-bottom:-10px;font-size:15px;"></ion-icon>
-                </div>
-            </ng-template>
-            <ng-template #acceptBlock>
-                <div class="info1">
-                    <h2>{{ leave.name }}</h2>
-                    <span style="clear:both"></span>
-                    <p>
-                        From: {{leave.from | date : "MMM dd"}} to {{leave.to | date:"MMM dd"}}</p>
-                </div>
-                <div class="info2">
-                    <p item-content item-end class="ts-globe">{{leave.createdAt | date:"MMM dd"}}
-                        <ion-icon name="md-globe"></ion-icon>
-                    </p>
-                </div>
-                <div class="info3">
-                    <ion-icon name="md-thumbs-up" item-end color="secondary" style="margin-bottom:-10px;font-size:15px;"></ion-icon>
-                </div>
-            </ng-template>
-            <ng-template #rejectBlock>
-                <div class="info1">
-                    <h2>{{ leave.name }}</h2>
-                    <span style="clear:both"></span>
-                    <p>
-                        From: {{leave.from | date : "MMM dd"}} to {{leave.to | date:"MMM dd"}}</p>
-                </div>
-                <div class="info2">
-                    <p item-content item-end class="ts-globe">{{leave.createdAt | date:"MMM dd" }}
-                        <ion-icon name="md-globe"></ion-icon>
-                    </p>
-                </div>
-                <div class="info3">
-                    <ion-icon name="md-thumbs-down" item-end color="danger" style="margin-bottom:-10px;font-size:15px;"></ion-icon>
-                </div>
-            </ng-template>
-          </ion-item>
-      </ion-list>
-    </ion-card>
-  </ng-template>
+
+  <h3 style="position: relative;left: 6px;">During This Time</h3>
+
+  <ion-list>
+    <ion-item *ngFor="let res of leavesCollections">
+      <ion-thumbnail item-start>
+        <img [src]="res.owner.photoUrl ? res.owner.photoUrl : '../../assets/imgs/user.png'">
+      </ion-thumbnail>
+      <h2 class="itemStyle">{{res.owner.name}}</h2>
+      <p class="contentStyle">{{res.owner.team.name}}</p>
+
+      <p>{{res.from | date : "MMM d, y"}}&nbsp;
+        <ion-icon name="arrow-round-forward"></ion-icon>&nbsp;
+        {{res.to | date : "MMM d, y"}}
+      </p>
+      <hr>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

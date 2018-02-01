@@ -12,7 +12,6 @@ export class serachservice
     ukey: string = localStorage.getItem('myId');
     filteredLeaveCollection: AngularFirestoreCollection<Leave> = null;
     myDate:any;
-    //myLeaves:Array<any> = [];
     Leaves:Array<any>;
     myLeaves= new Subject<any>();
     
@@ -24,13 +23,13 @@ export class serachservice
 
     getbyManagerId(isManager:boolean,ManagerId:string,startDate:Date, endDate:Date)
     {
+      
       var leavesCollectionRef = this._fireStore.collection('eLeaves', 
       ref => ref
         .where("from", ">=", startDate)
         .orderBy("from", "asc")
     ).snapshotChanges();
     leavesCollectionRef.subscribe(leaves => {
-
       this.Leaves=[];
      leaves.forEach((leaveItem:any) => { 
       var leavesArray = leaveItem.payload.doc.data();
@@ -38,10 +37,8 @@ export class serachservice
       if(leavesArray.to <= endDate) 
       leavesArray.owner.get()
       .then(userRef => { 
-        debugger;
           var user = userRef.data(); 
-          if(user.manager.id==ManagerId)
-          debugger;
+          if(isManager && user.manager.id==ManagerId)
           user.manager.get()
           .then(managerRef => {
             user.manager = managerRef.data();
@@ -62,8 +59,8 @@ export class serachservice
       if (startDate !=null && endDate != null) {
         var leavesCollectionRef = this._fireStore.collection('eLeaves', 
              ref => ref
-               .where("from", ">=", startDate)
-               .orderBy("from", "asc")
+               .where("to", ">=", startDate)
+               .orderBy("to", "asc")
            ).snapshotChanges();
           leavesCollectionRef.subscribe(leaves => {
 
@@ -72,7 +69,7 @@ export class serachservice
 
             var leavesArray = leaveItem.payload.doc.data();
             leavesArray.leaveId = leaveItem.payload.doc.id;
-            if(leavesArray.to <= endDate)       
+            if(leavesArray.from <= endDate)       
             leavesArray.owner.get()
               .then(userRef => { 
                   var user = userRef.data(); 
@@ -87,9 +84,6 @@ export class serachservice
                     });   
               });
           });
-
-         
-
         },
       err=>{
 
