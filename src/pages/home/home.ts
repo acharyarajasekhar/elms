@@ -48,7 +48,7 @@ export class HomePage implements OnInit {
       this._authId = JSON.parse(localStorage.getItem('userContext')).email;
     }
 
-    this.getUserContext();
+   
     this.bindSlider();  
   }
 
@@ -184,6 +184,7 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidLoad() {
+    this.getUserContext();
     this.badgeCount = 0;
   }
 
