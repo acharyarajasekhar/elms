@@ -1,25 +1,26 @@
-.fontbolder
-{
-	font-family: g_bold;
-	font-weight: 500;
-}
-.img
-{
-	min-width: 100%;
-	min-height: 100%;
-	background-image: url('../../assets/imgs/bg4.png') !important;
-	background-color: #039be5 !important;
-}
-.formcontent
-{
- position: relative;
- top:10em;
-}
-.ionitems
-{
-	border: 1px solid #c2bdbd !important;
-}
-	.item {
+page-signup{
+	.fontbolder
+	{
+		font-family: g_bold;
+		font-weight: 500;
+	}
+	.img
+	{
+		min-width: 100%;
+		min-height: 100%;
+		background-image: url('../../assets/imgs/bg4.png') !important;
+		background-color: #039be5 !important;
+	}
+	.formcontent
+	{
+	 position: relative;
+	 top:10em;
+	}
+	.ionitems
+	{
+		border: 1px solid #c2bdbd !important;
+	}
+.item {
 		input::-moz-placeholder  {
 			color: rgb(90, 88, 88)!important;
 		}
@@ -45,9 +46,9 @@
 		margin-top: 10px;
 		background-color:#039be5 !important;
 	}
-    .button-md {
+	.button-md {
 		text-transform: none;
-    }
+	}
 
 	.signup-btn {
 		margin-top: 20px;
@@ -63,5 +64,7 @@
 		border-color: #cacaca;
 		height: auto;
 	} 
+}
+
  
 

@@ -7,37 +7,33 @@
     </ion-header>
     
     
-    <ion-content>
-      <form [formGroup]="LeaveForm" (ngSubmit)="addNewLeave()" class="list">
+    <ion-content>        
+      <form [formGroup]="LeaveForm" (ngSubmit)="addNewLeave()">
     
-        <ion-card>
-          <ion-card-content style="padding:0px">
+        <ion-card  text-center>
+          <ion-card-content>
             <ion-list no-line>
-              <ion-item>
+              <ion-item  class="ionitems">
                 <ion-label>Half Day</ion-label>
                 <ion-toggle formControlName="isHalfDay"></ion-toggle>
               </ion-item>
     
-              <ion-item>
+              <ion-item  class="ionitems"  style="margin-top: 10px;">
                 <ion-label>From</ion-label>
                 <ion-datetime displayFormat="MM/DD/YYYY" formControlName="from" required [min]="minDate" [max]="maxDate" [(ngModel)]="FrmDate"></ion-datetime>
               </ion-item>
     
-              <ion-item>
+              <ion-item  class="ionitems"  style="margin-top: 10px;">
                 <ion-label>To</ion-label>
                 <ion-datetime displayFormat="MM/DD/YYYY" formControlName="to" required [min]="minDate" [max]="maxDate"  [(ngModel)]="ToDate"></ion-datetime>
               </ion-item>
     
-              <ion-item>
+              <ion-item  class="ionitems"  style="margin-top: 10px;">
                 <ion-textarea placeholder="Reason for leave" maxlength="50" required formControlName="reason"></ion-textarea>
-              </ion-item>
-    
-              <ion-item>
-                <button ion-button full type="submit" style="background-color:#3a8286" [disabled]="!LeaveForm.valid" block>Apply</button>
-              </ion-item>
+              </ion-item>                  
+              <button class="btnlogin" ion-button type="submit" [disabled]="!LeaveForm.valid" full>Apply</button>
             </ion-list>
           </ion-card-content>
         </ion-card>
-      </form>
-    
+      </form>    
     </ion-content>

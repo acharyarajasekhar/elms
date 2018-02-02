@@ -1,3 +1,44 @@
 page-new-leave {
+	.btnlogin
+	{		
+        margin-top: 10px;
+        background-color:#039be5 !important;        
+    }
 
+    .ionitems
+	{
+		//margin-top: 10px;
+		border: 1px solid #c2bdbd !important;
+    }
+    .item {
+
+		input::-moz-placeholder  {
+			color: rgb(90, 88, 88)!important;
+		}
+
+		input:-moz-placeholder {
+			color:rgb(90, 88, 88)!important;
+		}
+
+		*::-webkit-input-placeholder  {
+			color: rgb(90, 88, 88)!important;
+		}
+
+		*:-ms-input-placeholder  {
+			color: rgb(90, 88, 88)!important;
+		}
+
+		*:-moz-placeholder  {
+			color: rgb(90, 88, 88)!important;
+		}
+    }
+    
+    ion-card.card {		
+		background: #fff;
+		border-radius: 5px;
+		border-style: solid;
+		border-width: 1px;
+		border-color: #cacaca;
+		height: auto;
+	} 
 }

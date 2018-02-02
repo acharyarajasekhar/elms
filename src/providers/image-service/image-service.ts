@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { storage } from 'firebase';
+import { UserServiceProvider } from '../../providers/user-service/user-service';
 
 declare var window: any;
 
@@ -34,15 +35,19 @@ export class ImageProvider {
   }
 
   constructor( 
-    private camera: Camera) {
+    private camera: Camera,
+    private userService: UserServiceProvider) {
   }
 
   //Take a picture and return a promise with the image data
  async uploadFromCamera() {  
     try{
       const result = await this.camera.getPicture(this.takePictureOptions);
-      const image = `data:image/jpeg:base64,${result}`;      
-      storage().ref().child('photos/' + JSON.parse(localStorage.getItem('userContext')).email + '.jpg').put(this.dataURItoBlob(image));
+      const image = `data:image/jpeg:base64,${result}`;
+      let user = JSON.parse(localStorage.getItem('userContext'));      
+      let uploadTask = await storage().ref().child('photos/' + user.email + '.jpg').put(this.dataURItoBlob(image));
+      this.userService.updatePhotoUrl(user.email, uploadTask.downloadURL);
+      return uploadTask.downloadURL;
     }
     catch(e){
       console.error(e);
@@ -53,8 +58,11 @@ export class ImageProvider {
    async uploadFromGallery() {    
       try{
       const result = await this.camera.getPicture(this.galleryOptions);
-      const image = `data:image/jpeg:base64,${result}`;      
-      storage().ref().child('photos/' + JSON.parse(localStorage.getItem('userContext')).email + '.jpg').put(this.dataURItoBlob(image));
+      const image = `data:image/jpeg:base64,${result}`;  
+      let user = JSON.parse(localStorage.getItem('userContext'));
+      let uploadTask = await storage().ref().child('photos/' + user.email + '.jpg').put(this.dataURItoBlob(image));
+      this.userService.updatePhotoUrl(user.email, uploadTask.downloadURL);
+      return uploadTask.downloadURL;
       }
       catch(e){
         console.error(e);

@@ -1,39 +1,39 @@
-
-.fontbolder
-{
-	font-family: g_bold;
-	font-weight: 800;
-}
-
-.img
-{
-	min-width: 100%;
-	min-height: 100%;
-	background-image: url('../../assets/imgs/bg4.png') !important;
-	background-color: #039be5 !important;
-}
-
-ion-card.card {
-	box-shadow: none;
-	background: #fff;
-	border-radius: 5px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #cacaca;
-	height: auto;
-} 
-
-.formcontent
-{
- position: relative;
- top:10em;
-}
-
-.ionitems
-{
-	//margin-top: 10px;
-	border: 1px solid #c2bdbd !important;
-}
+page-signin{
+	.fontbolder
+	{
+		font-family: g_bold;
+		font-weight: 800;
+	}
+	
+	.img
+	{
+		min-width: 100%;
+		min-height: 100%;
+		background-image: url('../../assets/imgs/bg4.png') !important;
+		background-color: #039be5 !important;
+	}
+	
+	ion-card.card {
+		box-shadow: none;
+		background: #fff;
+		border-radius: 5px;
+		border-style: solid;
+		border-width: 1px;
+		border-color: #cacaca;
+		height: auto;
+	} 
+	
+	.formcontent
+	{
+	 position: relative;
+	 top:10em;
+	}
+	
+	.ionitems
+	{
+		//margin-top: 10px;
+		border: 1px solid #c2bdbd !important;
+	}
 	.item {
 
 		input::-moz-placeholder  {
@@ -66,5 +66,11 @@ ion-card.card {
 		margin-top: 20px;
 		color:white;
 	}
+
+	.button-md {
+		text-transform: none;
+	}
+}
+
 
 

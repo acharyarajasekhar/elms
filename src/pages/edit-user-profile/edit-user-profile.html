@@ -6,30 +6,32 @@
     <ion-title>Edit User Profile</ion-title>
   </ion-navbar>
 </ion-header>
-
-
-<ion-content padding class="background">
+<ion-content >
   <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" >
     <ion-card>
       <ion-card-content>
-        <ion-list no-line>
-          <ion-item>
-            <ion-input type="text" formControlName="name" placeholder="Name" [(ngModel)]="user.name"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input type="number" formControlName="phoneNumber" placeholder="Mobile" [(ngModel)]="user.phoneNumber"></ion-input>
-          </ion-item>
-          <ion-item>            
-            <ion-select [(ngModel)]="user.manager" formControlName="manager" (ionChange)="onChange($event)" placeholder="Manager">
-              <ion-option *ngFor="let mgr of managers$ " [value] = "mgr.id">{{mgr.data.name}}</ion-option>
-            </ion-select>
-          </ion-item>
-          <ion-item>            
-            <ion-select [(ngModel)]="user.team" formControlName="team" placeholder="Team">
-              <ion-option *ngFor="let tm of teams$" [value] = "tm.id">{{tm.name}}</ion-option>
-            </ion-select>
-          </ion-item>
-          <button ion-button type="submit" [disabled]="!profileForm.valid" block outline color="dark">Update</button>
+          <ion-list>
+            <ion-item class="ionitems">
+              <ion-label>Name</ion-label>
+              <ion-input type="text" formControlName="name" placeholder="Name" [(ngModel)]="user.name"></ion-input>
+            </ion-item>
+            <ion-item class="ionitems"  style="margin-top: 10px;">
+              <ion-label>Mobile</ion-label>
+              <ion-input type="number" formControlName="phoneNumber" placeholder="Mobile" [(ngModel)]="user.phoneNumber"></ion-input>
+            </ion-item>
+            <ion-item class="ionitems"  style="margin-top: 10px;">
+              <ion-label>Manager</ion-label>
+              <ion-select [(ngModel)]="user.team" formControlName="team" placeholder="Team">
+                  <ion-option *ngFor="let tm of teams$" [value] = "tm.id">{{tm.name}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item class="ionitems"  style="margin-top: 10px;">
+              <ion-label>Team</ion-label>
+              <ion-select [(ngModel)]="user.manager" formControlName="manager" (ionChange)="onChange($event)" placeholder="Manager">
+                  <ion-option *ngFor="let mgr of managers$ " [value] = "mgr.id">{{mgr.data.name}}</ion-option>
+                </ion-select>
+            </ion-item>   
+            <button class="btnlogin" ion-button type="submit" [disabled]="!profileForm.valid" full>Save</button>
         </ion-list>
       </ion-card-content>
     </ion-card>

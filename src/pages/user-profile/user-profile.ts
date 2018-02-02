@@ -37,10 +37,7 @@ export class UserProfilePage {
     this.navCtrl.push("EditUserProfilePage",{user: this.user});
   }
 
-  ngOnInit(){     
-    storage().ref().child('photos/' + this.uid + '.jpg').getDownloadURL()
-             .then(response => {this.user.photoUrl = response} )
-             .catch(error => this.showToast(error)) 
+  ngOnInit(){ 
   }
 
   showToast(alert_message:string){
@@ -60,19 +57,13 @@ export class UserProfilePage {
           text: 'Camera',
           icon: 'camera',
           handler: () => {
-            this.imageSrv.uploadFromCamera();
-            storage().ref().child('photos/' + this.uid + '.jpg').getDownloadURL()
-            .then(response => {this.user.photoUrl = response} )
-            .catch(error => this.showToast(error))    
+            this.user.photoUrl =  this.imageSrv.uploadFromCamera();           
           }
         }, {
           text: 'Gallery',
           icon: 'images',
           handler: () => {
-            this.imageSrv.uploadFromGallery();
-            storage().ref().child('photos/' + this.uid + '.jpg').getDownloadURL()
-            .then(response => {this.user.photoUrl = response} )
-            .catch(error => this.showToast(error)) 
+            this.user.photoUrl = this.imageSrv.uploadFromGallery();        
           }
         }
       ]

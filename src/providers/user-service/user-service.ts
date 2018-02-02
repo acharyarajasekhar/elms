@@ -82,6 +82,13 @@ export class UserServiceProvider {
     this.userDocument.update(userObj);       
   }
 
+  updatePhotoUrl(userId, photoUrl)  {
+    this.userDocument = this.afs.doc('eUsers/' + userId);
+    let user:any = {};
+    user.photoUrl = photoUrl;
+    this.userDocument.update(user);       
+  }
+
   getLoggedInUsersMetaInfo(userId: string): any {
     this.userCollection = this.afs.collection('users', ref => {
       return ref.where("uid", "==", userId)
