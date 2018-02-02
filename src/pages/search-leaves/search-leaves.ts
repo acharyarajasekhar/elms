@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { FormsModule, NgForm } from '@angular/forms';
-import { commonMethods } from '../../helper/common-methods'
-import * as _ from 'lodash';
+import { commonMethods } from '../../helper/common-methods';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { NotificationService } from '../../providers/notification-service/notification-service';
 import { DetailsviewPage } from '../detailsview/detailsview';
 import {serachservice} from '../../providers/search-service/search-service';
-import { ISubscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Rx';
 
 
@@ -17,23 +14,11 @@ import { Observable } from 'rxjs/Rx';
 @Component({
   selector: 'page-search-leaves',
   templateUrl: 'search-leaves.html'
-  // animations: [
-  //   trigger('popOverState', [
-  //     state('show', style({
-  //       transform: 'scale(1.0)'
-  //     })),
-  //     state('hide',   style({
-  //       transform: 'scale(1.5)'
-  //     })),
-  //     transition('show => hide', animate('600ms ease-out')),
-  //     transition('hide => show', animate('1000ms ease-in'))
-  //   ])
-  // ]
 })
 export class SearchLeavesPage {
   uid: string;
   Results: any = [];
-  isManager: string;
+  UserDetails: any;
   SearchResults: FormGroup;
   GetCurrentDate: Date = new Date();
   myDate:any;
@@ -41,13 +26,10 @@ export class SearchLeavesPage {
   IsearchResults:Observable<any>;
 
   constructor(public navCtrl: NavController,
-    private _searchService: LeaveServiceProvider,
     private formgroup: FormBuilder,public modalCtrl: ModalController,
     private _cmnMethods: commonMethods,private _notify:NotificationService,private _search:serachservice,
     public navParams: NavParams) {
-    this.uid = localStorage.getItem('myId');
-    this.isManager = localStorage.getItem('isManagerRole') ? localStorage.getItem('isManagerRole') : "true";
-    console.log(this.isManager);
+    this.UserDetails = localStorage.getItem('userContext') ? JSON.parse(localStorage.getItem('userContext')) : null;
     this.myDate= new Date().toISOString();
     this.myToDate=new Date().toISOString();
     this.SearchResults = this.formgroup.group(
@@ -64,7 +46,6 @@ export class SearchLeavesPage {
   }
 
 
-
   ionViewDidLoad() {
   }
 
@@ -72,8 +53,20 @@ export class SearchLeavesPage {
     let from: Date = new Date(this.SearchResults.value['from']);
     let to: Date = new Date(this.SearchResults.value['ToDate']);
     this._cmnMethods.InitializeLoader();
-     this._search.getSearchresults(true,"",from,to);
-    //this._search.getbyManagerId(true,"aasif2707@gmail.com",from,to);
+    if(!this.UserDetails.isManager)
+    {
+      let teamId= localStorage.getItem('teamId') ?localStorage.getItem('teamId') : null;
+     this._search.getSearchresults(this.UserDetails.isManager,teamId,from,to);
+    }
+    else if(this.UserDetails.isManager)
+    {
+    let managerId =  localStorage.getItem('mgrEmail') ?localStorage.getItem('mgrEmail') : null;
+    this._search.getbyManagerId(this.UserDetails.isManager,managerId,from,to);
+    }
+    else
+    {
+      this._cmnMethods.loader.dismiss();
+    }
   }
 
   getColor(status)
@@ -93,7 +86,7 @@ return 'orange';
 }
 
   rejectLeave(keyObj:string){
-    if(this.isManager == 'true'){
+    if(this.UserDetails.isManager){
       //let managerId = localStorage.getItem('myManager');
       this._notify.declineLeave(keyObj,true,this.uid);
       this._cmnMethods.showToast('Leave request rejected succesfully');
@@ -102,7 +95,7 @@ return 'orange';
 
   acceptLeave(keyObj:any){
 
-    if(this.isManager == 'true'){
+    if(this.UserDetails.isManager){
       this._notify.acceptleave(keyObj,true,this.uid);
       this._cmnMethods.showToast('Leave request accepted succesfully');
     }   

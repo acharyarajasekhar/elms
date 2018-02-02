@@ -17,13 +17,13 @@
 
   <ion-item>
 
-    <ion-input placeholder="Enter Title" type="text"></ion-input>
+    <ion-input placeholder="Enter Title" type="text" [(ngModel)]='title'></ion-input>
   </ion-item>
   <br/>
   <ion-item>
-    <ion-textarea placeholder="Enter a description" maxlength="350"></ion-textarea>
+    <ion-textarea placeholder="Enter a description" [(ngModel)]='description' maxlength="350"></ion-textarea>
   </ion-item>
 <br/>
-  <button ion-button round full>Submit</button>
+  <button ion-button round full (click)='submitFeedback()'>Submit</button>
 
 </ion-content>

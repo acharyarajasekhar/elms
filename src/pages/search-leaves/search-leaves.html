@@ -49,26 +49,49 @@
          </div>
         </ion-card-content>
 
-        <hr *ngIf="isManager=='true' && res.status=='0'">
+        <hr *ngIf="this.UserDetails.isManager && res.status=='0'">
 
-        <ion-row style="position: relative;top:10px;" *ngIf="isManager=='true' && res.status=='0'">
-<ion-col item-start style="text-align: center;">
+<ion-row *ngIf="this.UserDetails.isManager && res.status=='0'">
+<ion-col (click)=acceptLeave(res.leaveId) item-start style="text-align: center;">
+  <div>
   <button class="child" ion-button icon-left clear small>
       <img src="../../assets/imgs/happy (3).png"/>
     </button>
+  </div>
+  <div>
+      <button ion-button icon-left clear small>
+          <div class="actionAavatar">Approve</div>
+       </button>
+  </div>
 </ion-col>
-<ion-col item-end  style="text-align: center;">
+<ion-col (click)=rejectLeave(res.leaveId) item-end  style="text-align: center;">
+  <div>
   <button ion-button icon-left clear small>
       <img src="../../assets/imgs/angryblack.png"/>
     </button>
+    </div>
+    <div>
+        <button ion-button icon-left clear small >
+            <div class="actionRavatar">Reject</div>
+            </button>
+    </div>
 </ion-col>
-<ion-col item-end  style="text-align: center;">
+<ion-col (click)=MoreInfo(res) item-end  style="text-align: center;">
+  <div>
   <button ion-button icon-left clear small>
   <ion-icon style="font-size:2em;" name="information-circle"></ion-icon>
   </button>
+</div>
+<div>
+    <button ion-button icon-left clear small>
+        <div class="actionIavatar">More Info</div>
+        </button>
+</div>
 </ion-col>
       </ion-row>
-      <ion-row style="left: 4px;position: relative" *ngIf="isManager=='true' && res.status=='0'">
+
+
+      <!-- <ion-row style="left: 4px;position: relative" *ngIf="isManager=='true' && res.status=='1'">
 <ion-col  item-start style="text-align: center;">
   <button ion-button icon-left clear small (click)=acceptLeave(res.leaveId)>
      <div class="actionAavatar">Approve</div>
@@ -84,7 +107,7 @@
   <div class="actionIavatar">More Info</div>
   </button>
 </ion-col>
-      </ion-row>
+      </ion-row> -->
 
   </ion-card>
 </div>

@@ -48,9 +48,8 @@ export class HomePage implements OnInit {
       this._authId = JSON.parse(localStorage.getItem('userContext')).email;
     }
 
-    this.getUserContext();
-    this.bindSlider();
-    this.bindLeaveCarosol();
+   
+    this.bindSlider();  
   }
 
   bindLeaveCarosol() {
@@ -185,6 +184,7 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidLoad() {
+    this.getUserContext();
     this.badgeCount = 0;
   }
 
@@ -215,7 +215,6 @@ export class HomePage implements OnInit {
   getUserContext() {
     this.userService.getUserById(this._authId)
       .subscribe(result => {
-        //console.log(result)
         let userContext: any = {
           "name": result.name,
           "email": result.email,
@@ -224,6 +223,7 @@ export class HomePage implements OnInit {
           "isManager": result.isManager
         };
         localStorage.setItem('userContext', JSON.stringify(userContext));
+        this.bindLeaveCarosol();
       }, err => {
         console.log(err);
         this.showToast(err);

@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
 import { serachservice } from '../../providers/search-service/search-service';
-import { formatDateUsingMoment } from '../../helper/date-formatter';
-import * as _ from 'lodash';
 
 @IonicPage()
 @Component({
@@ -41,10 +39,8 @@ export class DetailsviewPage {
   }
 
    getOverlappedLeaves(frDate,toDate) {
-    let teamId = localStorage.getItem('myTeam');
-    let isManager = localStorage.getItem('isManagerRole');
     if (frDate != "" && toDate !="") {
-       this.leaveService.getSearchresults(true,teamId,frDate, toDate)
+       this.leaveService.getSearchresults(true,"MSG",frDate, toDate)
     }
   }
 

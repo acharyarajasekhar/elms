@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
+
 @Component({
   templateUrl: 'app.html',
   styles:[`
@@ -56,8 +57,9 @@ export class MyApp {
       { title: 'Feedback', component: "FeedbackPage" }
     ];
 
-    this.Userdetails =JSON.parse(localStorage.getItem('firebase:authUser:AIzaSyA9t3RPOQndRBcyB0xXmceaVOxTh0eDwKQ:[DEFAULT]'));
-    this.photoURL=this.Userdetails ? this.Userdetails['photoURL'] : "";
+    this.Userdetails =localStorage.getItem('userContext') ? JSON.parse(localStorage.getItem('userContext')) : null;
+    debugger;
+    this.photoURL=this.Userdetails.photoUrl ? this.Userdetails.photoUrl : "../assets/imgs/user.png";
 
   }
 

@@ -23,18 +23,19 @@ export class serachservice
 
     getbyManagerId(isManager:boolean,ManagerId:string,startDate:Date, endDate:Date)
     {
-      
+
       var leavesCollectionRef = this._fireStore.collection('eLeaves', 
       ref => ref
-        .where("from", ">=", startDate)
-        .orderBy("from", "asc")
-    ).snapshotChanges();
+      .where("to", ">=", startDate)
+      .orderBy("to", "asc")
+  ).snapshotChanges();
     leavesCollectionRef.subscribe(leaves => {
+      debugger;
       this.Leaves=[];
      leaves.forEach((leaveItem:any) => { 
       var leavesArray = leaveItem.payload.doc.data();
       leavesArray.leaveId = leaveItem.payload.doc.id;
-      if(leavesArray.to <= endDate) 
+      if(leavesArray.from <= endDate)   
       leavesArray.owner.get()
       .then(userRef => { 
           var user = userRef.data(); 
@@ -48,7 +49,6 @@ export class serachservice
               this.myLeaves.next(this.Leaves);
             })
           });  
-        
       }) 
      })
     })
@@ -73,6 +73,7 @@ export class serachservice
             leavesArray.owner.get()
               .then(userRef => { 
                   var user = userRef.data(); 
+                  if(teamId!=null && user.team.id==teamId)
                   user.manager.get()
                     .then(managerRef => {
                       user.manager = managerRef.data();
