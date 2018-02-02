@@ -47,8 +47,9 @@ export class HomePage implements OnInit {
     else if (localStorage.getItem('userContext') != null || localStorage.getItem('userContext') != '') {
       this._authId = JSON.parse(localStorage.getItem('userContext')).email;
     }
-
-   
+    this.leavesToday$ = [];
+    this.leavesTmrw$ = [];
+    this.getUserContext();
     this.bindSlider();  
   }
 
@@ -183,8 +184,7 @@ export class HomePage implements OnInit {
     ];
   }
 
-  ionViewDidLoad() {
-    this.getUserContext();
+  ionViewDidLoad() {   
     this.badgeCount = 0;
   }
 
