@@ -279,7 +279,7 @@ import { IDisplayAllDayEvent } from "./calendar";
         .table {
           width: 100%;
           max-width: 100%;
-          background-color: transparent;
+          background-color: white;
         }
 
         .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td,

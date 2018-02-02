@@ -2,13 +2,18 @@ import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, Inject, LO
 import { Subscription } from 'rxjs/Subscription';
 
 import { CalendarService } from './calendar.service';
-
+import { AlertController } from 'ionic-angular';
+import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 export interface IEvent {
     allDay?: boolean;
     endTime?: Date;
     startTime?: Date;
     title?: string;
     status?: string;
+    photoUrl?: string;
+    name?: string;
+    reqDate?: Date;
+    Leaveid?:string;
 }
 
 export interface IRange {
@@ -134,17 +139,33 @@ export enum Step {
         </ng-template>
         <ng-template #monthviewDefaultEventDetailTemplate let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel">
             <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
-                <ion-item *ngFor="let event of selectedDate?.events" (click)="eventSelected(event)">
-                        <span *ngIf="!event.allDay" class="monthview-eventdetail-timecolumn">{{event.startTime|date: 'HH:mm'}}
-                            -
-                            {{event.endTime|date: 'HH:mm'}}
+                <br/>
+                <ion-card style="border-radius:5px;border:1px solid #000;" *ngFor="let event of selectedDate?.events" (click)="eventSelected(event)">
+                    <ion-item>
+                        <ion-avatar item-start>
+                            <img [src]="event.photoUrl ? event.photoUrl : '../../assets/imgs/user.png'">
+                        </ion-avatar>
+                        <span class="FontAvatar">{{event.startTime | date : "MMM d, y"}}</span> to  <span class="FontAvatar">{{event.endTime | date : "MMM d, y"}}</span>
+                        <span class="FontAvatar" style="float:right;margin:1px;" *ngIf="!event.allDay">
+                            <ion-icon name="md-contrast" item-end color="black" style="margin-bottom:-8px;font-size:25px;"></ion-icon>
                         </span>
-                    <span *ngIf="event.allDay" class="monthview-eventdetail-timecolumn">{{allDayLabel}}</span>
-                    <span class="event-detail">  |  {{event.title}}</span>
-                </ion-item>
-                <ion-item *ngIf="selectedDate?.events.length==0">
-                    <div class="no-events-label">{{noEventsLabel}}</div>
-                </ion-item>
+                    </ion-item>
+                    <hr/>
+                    <ion-card-content>
+                        <div class="contentStyle">
+                            <span>Reason : {{event.title}}</span>
+                        </div>
+                        <div class="contentStyle">
+                            <span>Requested On : {{event.reqDate | date : "MMM d, y"}}</span>
+                        </div>
+                        <div class="contentStyle">
+                            Status : {{event.status}}
+                            <button  style="float:right;" (click)="presentPrompt(event.Leaveid)" ion-button icon-left clear small *ngIf="(event.status == 'Accepted' || event.status == 'Requested')">
+                                <u>Cancel</u>
+                            </button>
+                        </div>
+                    </ion-card-content>
+                </ion-card>
             </ion-list>
         </ng-template>
         <ng-template #defaultAllDayEventTemplate let-displayEvent="displayEvent">
@@ -334,9 +355,10 @@ export class CalendarComponent implements OnInit {
     private _currentDate:Date;
     private hourParts = 1;
     private currentDateChangedFromChildrenSubscription:Subscription;
-
-    constructor(private calendarService:CalendarService, @Inject(LOCALE_ID) private appLocale:string) {
+    private tdydate :Date;
+    constructor(private calendarService:CalendarService,  private leaveService: LeaveServiceProvider, private alertCtrl: AlertController, @Inject(LOCALE_ID) private appLocale:string) {
         this.locale = appLocale;
+        this.tdydate = new Date();
     }
 
     ngOnInit() {
@@ -384,4 +406,39 @@ export class CalendarComponent implements OnInit {
     loadEvents() {
         this.calendarService.loadEvents();
     }
+
+    presentPrompt(leaveid:string) {
+        let alert = this.alertCtrl.create({
+          title: 'Cancel Leave',
+          message: 'Do you wish to cancel leave request?',
+          inputs: [
+            {
+              name: 'comments',
+              placeholder: 'Comments'
+            }
+          ],
+          buttons: [
+            {
+              text: 'Dismiss',
+              role: 'cancel',
+              handler: data => {
+                console.log('Cancel clicked');
+              }
+            },
+            {
+             text: 'Save',
+              handler: data => {
+                this.CancelLeave(leaveid,data.comments);
+              }
+            }
+          ]
+        });
+        alert.present();
+      }
+
+     CancelLeave(leaveid:string,comment?:string){
+          this.leaveService.CancelLeave(leaveid,comment);
+          //this._cmnMethods.showToast('Leave request rejected succesfully');
+    
+      }
 }

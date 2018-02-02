@@ -79,6 +79,19 @@ export class LeaveServiceProvider {
     return this.leaveCollection.valueChanges();
   }
 
+  getMyLeaveHistory_mylvs(ukey: string) {    
+    var leavesCollectionRef = this.db.collection('eLeaves',).snapshotChanges();
+    return leavesCollectionRef;
+  }
+  
+  
+ CancelLeave(leaveId:string,comments?:string):void{
+   console.log(leaveId);
+   console.log(comments);
+  this.leaveDocument = this.afs.doc('eLeaves/'+ leaveId);
+      this.leaveDocument.update({status: 3, Cancelcomments: comments , CancelledAt: new Date() });
+  }
+
   getLeaveByDuration(isManager: string, teamId: string, startDate?, endDate?, userId?: string) {
     if (isManager == 'true') {
       if (startDate != "" && endDate == "") {

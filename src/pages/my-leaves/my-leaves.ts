@@ -10,11 +10,11 @@ import { LeaveStatus } from '../../models/leavestatus.enum';
   templateUrl: 'my-leaves.html',
 })
 export class MyLeavesPage {
-
+  history$ :any[]=[];
   eventSource = [];
   viewTitle: string;
   selectedDay = new Date();
-  uid:string = localStorage.getItem('myId');
+  user:any = JSON.parse(localStorage.getItem('userContext'));
   calendar = {
     mode: 'month',
     currentDate: new Date()
@@ -24,6 +24,7 @@ export class MyLeavesPage {
     private leaveService: LeaveServiceProvider,
     public toastCtrl: ToastController,
     public navParams: NavParams) {
+     
   }
 
   ionViewDidLoad() {
@@ -44,19 +45,34 @@ export class MyLeavesPage {
   onTimeSelected(ev) {
     this.selectedDay = ev.selectedTime;
   }
-
+  
   bindCalender(){
-    this.leaveService.getMyLeaveHistory(this.uid)
+    this.leaveService.getMyLeaveHistory_mylvs(this.user.email)
     .subscribe(history=>{
-        history.forEach(lv=>{
-          this.eventSource.push({
-            "allDay": !lv.isHalfDay,
-            startTime: lv.from,
-            endTime: moment(lv.to).add(1,'days').toDate(),
-            status: (LeaveStatus[(Number(lv.status))]).toString(),
-            title: lv.reason
-          })
-        });
+
+      history.forEach((lv:any)=>{
+        //console.log(lv);
+        var leavesArray = lv.payload.doc.data();
+        leavesArray.leaveId = lv.payload.doc.id;
+       // console.log(leavesArray);
+        leavesArray.owner.get().then(userRef=>{
+             let userId= userRef.data().email;
+             if(userId == this.user.email){
+               this.eventSource.push({                
+                "allDay": !leavesArray.isHalfDay,
+                startTime: leavesArray.from,
+                endTime: leavesArray.to,
+                status: (LeaveStatus[(Number(leavesArray.status))]).toString(),
+                title: leavesArray.reason,
+                photoUrl: this.user.photoUrl,
+                name: this.user.name,
+                reqDate: leavesArray.createdAt,
+                Leaveid:leavesArray.leaveId
+              })
+             }
+         });
+      })
+
     },err=>{
       this.showToast(err);
     });

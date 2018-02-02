@@ -147,7 +147,7 @@ import { IMonthViewDisplayEventTemplateContext } from "./calendar";
         .table {
           width: 100%;
           max-width: 100%;
-          background-color: transparent;
+          background-color: white;
         }
 
         .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td,
@@ -690,20 +690,20 @@ export class MonthViewComponent implements ICalendarComponent, OnInit, OnChanges
 
         if (!viewDate.disabled) {
             let dates = this.views[this.currentViewIndex].dates,
-                currentCalendarDate = this.calendarService.currentDate,
-                currentMonth = currentCalendarDate.getMonth(),
-                currentYear = currentCalendarDate.getFullYear(),
-                selectedMonth = selectedDate.getMonth(),
-                selectedYear = selectedDate.getFullYear(),
+                //currentCalendarDate = this.calendarService.currentDate,
+                //currentMonth = currentCalendarDate.getMonth(),
+                //currentYear = currentCalendarDate.getFullYear(),
+                //selectedMonth = selectedDate.getMonth(),
+                //selectedYear = selectedDate.getFullYear(),
                 direction = 0;
 
-            if (currentYear === selectedYear) {
+            /*if (currentYear === selectedYear) {
                 if (currentMonth !== selectedMonth) {
                     direction = currentMonth < selectedMonth ? 1 : -1;
                 }
             } else {
                 direction = currentYear < selectedYear ? 1 : -1;
-            }
+            }*/
 
             this.calendarService.setCurrentDate(selectedDate);
             if (direction === 0) {
