@@ -49,8 +49,7 @@ export class HomePage implements OnInit {
     }
 
     this.getUserContext();
-    this.bindSlider();
-    this.bindLeaveCarosol();
+    this.bindSlider();  
   }
 
   bindLeaveCarosol() {
@@ -61,7 +60,6 @@ export class HomePage implements OnInit {
       let isManagerRole: boolean = JSON.parse(localStorage.getItem('userContext')).isManager;
       var toDTTMtdy = new Date(new Date(this.tdydate).setHours(23, 59, 59, 0));
       var toDTTMtmrw = new Date(new Date(this.tmrdate).setHours(23, 59, 59, 0));
-
       if (!isManagerRole) {
         this.leaveService.getTdyandTmrwleavelist(isManager, myTeam, this.tdydate, myId)
           .subscribe(leaves => {
@@ -139,6 +137,7 @@ export class HomePage implements OnInit {
                     }
                   });
             });
+          
             //to Get Leave for Tomorrow
             this.leaveService.getTdyandTmrwleavelist(isManager, myTeam, this.tmrdate, myId)
               .subscribe(leavestmr => {
@@ -215,7 +214,6 @@ export class HomePage implements OnInit {
   getUserContext() {
     this.userService.getUserById(this._authId)
       .subscribe(result => {
-        //console.log(result)
         let userContext: any = {
           "name": result.name,
           "email": result.email,
@@ -224,6 +222,7 @@ export class HomePage implements OnInit {
           "isManager": result.isManager
         };
         localStorage.setItem('userContext', JSON.stringify(userContext));
+        this.bindLeaveCarosol();
       }, err => {
         console.log(err);
         this.showToast(err);
