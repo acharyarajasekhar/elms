@@ -20,12 +20,12 @@
     
               <ion-item  class="ionitems"  style="margin-top: 10px;">
                 <ion-label>From</ion-label>
-                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="from" required [min]="minDate" [max]="maxDate" [(ngModel)]="FrmDate"></ion-datetime>
+                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="from" required [min]="minDate" [max]="maxDate" (ionChange)="SetDate()" [(ngModel)]="FrmDate"></ion-datetime>
               </ion-item>
     
               <ion-item  class="ionitems"  style="margin-top: 10px;">
                 <ion-label>To</ion-label>
-                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="to" required [min]="minDate" [max]="maxDate"  [(ngModel)]="ToDate"></ion-datetime>
+                <ion-datetime displayFormat="MM/DD/YYYY" formControlName="to" required [min]="minDate" [max]="maxDate" (ionChange)="SetDate()"  [(ngModel)]="ToDate"></ion-datetime>
               </ion-item>
     
               <ion-item  class="ionitems"  style="margin-top: 10px;">

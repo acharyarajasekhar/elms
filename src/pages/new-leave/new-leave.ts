@@ -25,23 +25,23 @@ export class NewLeavePage {
   public sameDayleaves$: any[] = [];
   leave: Leave;
   lent: number;
-
+  public HalfDay:boolean;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private formBuilder: FormBuilder,
     public toastCtrl: ToastController,
     public leaveService: LeaveServiceProvider) {
-    this.FrmDate = new Date().toISOString();
-    this.ToDate = new Date().toISOString();
-    this.minDate = new Date().toISOString();
-    this.maxDate = (moment(new Date()).add(3, 'months')).toISOString();
-    this.LeaveForm = this.formBuilder.group({
-      isHalfDay: [false],
-      from: [this.FrmDate, Validators.required],
-      to: [this.ToDate, Validators.required],
-      reason: ['', Validators.required]
-    });
-
+      this.HalfDay=false;
+      this.FrmDate= new Date().toISOString();
+      this.ToDate= new Date().toISOString();
+      this.minDate= new Date().toISOString();
+      this.maxDate= (moment(new Date()).add(3,'months')).toISOString();
+      this.LeaveForm = this.formBuilder.group({
+        isHalfDay: [false],
+        from: [this.FrmDate, Validators.required],
+        to: [this.ToDate, Validators.required],
+        reason: ['',Validators.required]
+      });
   }
 
   ionViewDidLoad() {
@@ -83,6 +83,17 @@ export class NewLeavePage {
       position: 'bottom'
     });
     toast.present(toast);
+  }
+  SetDate(){
+     if(this.HalfDay || this.ToDate<this.FrmDate){
+      this.ToDate=new Date(this.FrmDate).toISOString();
+      this.LeaveForm.setValue({
+        isHalfDay:this.HalfDay,       
+        from: this.FrmDate,
+        to: this.ToDate,
+        reason:''
+      });
+    }
   }
 
 }
