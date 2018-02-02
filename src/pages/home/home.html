@@ -19,14 +19,14 @@
     </ion-navbar>
   </ion-header>
   <ion-content class="has-header">
-    <div style="background-color:#f5f8fb;height: 35%;width:100%;">
+    <div style="background-color:#f5f8fb;height: 33%;width:100%;">
       <ion-slides pager="true" loop="true" id="cover" slidesPerView=1 autoplay="5000" loop="true" style="height: 100%;">
         <ion-slide style="height: 100%;" *ngFor="let img of sliderImg$">
           <img [src]="img" />
         </ion-slide>
       </ion-slides>
     </div>
-    <div style="height:32%;width:97%;">
+    <div style="height:32%;width:97%;position: relative;">
       <ion-grid class="gridStyle">
         <ion-row>
           <ion-col col-10>
@@ -49,7 +49,7 @@
         </ion-slide>
       </ion-slides>
     </div>
-    <div style="height:32%;width:97%;">
+    <div style="height:32%;width:97%;position: relative;">
       <ion-grid class="gridStyle">
         <ion-row>
           <ion-col col-10>
