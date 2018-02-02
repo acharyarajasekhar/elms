@@ -60,7 +60,6 @@ export class HomePage implements OnInit {
       let isManagerRole: boolean = JSON.parse(localStorage.getItem('userContext')).isManager;
       var toDTTMtdy = new Date(new Date(this.tdydate).setHours(23, 59, 59, 0));
       var toDTTMtmrw = new Date(new Date(this.tmrdate).setHours(23, 59, 59, 0));
-
       if (!isManagerRole) {
         this.leaveService.getTdyandTmrwleavelist(isManager, myTeam, this.tdydate, myId)
           .subscribe(leaves => {
@@ -138,6 +137,7 @@ export class HomePage implements OnInit {
                     }
                   });
             });
+          
             //to Get Leave for Tomorrow
             this.leaveService.getTdyandTmrwleavelist(isManager, myTeam, this.tmrdate, myId)
               .subscribe(leavestmr => {
