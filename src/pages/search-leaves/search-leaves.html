@@ -15,15 +15,15 @@
         <ion-list no-line>
           <ion-item>
             <ion-label>From</ion-label>
-            <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="myDate" formControlName="from"></ion-datetime>
+            <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="myDate" (ionChange)="validateDate()" formControlName="from"></ion-datetime>
           </ion-item>
           <ion-item>
             <ion-label>To</ion-label>
-            <ion-datetime displayFormat="MM/DD/YYYY" max="2020-10-31" [(ngModel)]="myToDate" formControlName="ToDate"></ion-datetime>
+            <ion-datetime displayFormat="MM/DD/YYYY" max="2020-10-31" [(ngModel)]="myToDate" (ionChange)="validateDate()" formControlName="ToDate"></ion-datetime>
           </ion-item>
 
           <ion-item>
-            <button ion-button full [disabled]="!SearchResults.valid"  (click)="searchLeave()">Search</button>
+            <button ion-button full [disabled]="!check"  (click)="searchLeave()">Search</button>
           </ion-item>
         </ion-list>
       </ion-card-content>

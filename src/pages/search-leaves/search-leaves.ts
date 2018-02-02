@@ -24,6 +24,7 @@ export class SearchLeavesPage {
   myDate:any;
   myToDate:any;
   IsearchResults:Observable<any>;
+  check:boolean=true;
 
   constructor(public navCtrl: NavController,
     private formgroup: FormBuilder,public modalCtrl: ModalController,
@@ -35,7 +36,7 @@ export class SearchLeavesPage {
     this.SearchResults = this.formgroup.group(
       {
         from: [null, Validators.compose ( [ Validators.required ])],
-        ToDate:  [null,Validators.compose ( [ Validators.required ])],
+        ToDate:  [null,Validators.compose ( [ Validators.required])],
       }
     );
      this._search.getLeavesCollections()
@@ -44,7 +45,18 @@ export class SearchLeavesPage {
       this._cmnMethods.loader.dismiss();
       })
   }
-
+  
+  validateDate()
+  {
+   if(this.myToDate < this.myDate)
+   {
+    this.check= false;
+   }
+   else
+   {
+    this.check=true;
+   }
+  }
 
   ionViewDidLoad() {
   }
