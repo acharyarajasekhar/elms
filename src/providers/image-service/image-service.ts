@@ -47,6 +47,7 @@ export class ImageProvider {
       let user = JSON.parse(localStorage.getItem('userContext'));      
       let uploadTask = await storage().ref().child('photos/' + user.email + '.jpg').put(this.dataURItoBlob(image));
       this.userService.updatePhotoUrl(user.email, uploadTask.downloadURL);
+      alert(uploadTask.downloadURL);
       return uploadTask.downloadURL;
     }
     catch(e){
@@ -62,6 +63,7 @@ export class ImageProvider {
       let user = JSON.parse(localStorage.getItem('userContext'));
       let uploadTask = await storage().ref().child('photos/' + user.email + '.jpg').put(this.dataURItoBlob(image));
       this.userService.updatePhotoUrl(user.email, uploadTask.downloadURL);
+      alert(uploadTask.downloadURL);
       return uploadTask.downloadURL;
       }
       catch(e){

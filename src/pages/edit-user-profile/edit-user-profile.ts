@@ -34,8 +34,8 @@ export class EditUserProfilePage {
   updateProfile(){    
     localStorage.setItem('mgrEmail', this.user.manager);
     localStorage.setItem('teamId', this.user.team);
-    localStorage.setItem('teamName', this.user.manager);
-    localStorage.setItem('mgrName', this.user.team);
+    localStorage.setItem('teamName', this.user.team);
+    localStorage.setItem('mgrName', this.user.manager);
     this.userService.updateUserById(this.user.email,this.user);
     this.navCtrl.push("UserProfilePage",{user: this.user});
   }
