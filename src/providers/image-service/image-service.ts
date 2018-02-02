@@ -46,9 +46,7 @@ export class ImageProvider {
       const image = `data:image/jpeg:base64,${result}`;
       let user = JSON.parse(localStorage.getItem('userContext'));      
       let uploadTask = await storage().ref().child('photos/' + user.email + '.jpg').put(this.dataURItoBlob(image));
-      this.userService.updatePhotoUrl(user.email, uploadTask.downloadURL);
-      alert(uploadTask.downloadURL);
-      return uploadTask.downloadURL;
+      this.userService.updatePhotoUrl(user.email, uploadTask.downloadURL);      
     }
     catch(e){
       console.error(e);
@@ -63,7 +61,6 @@ export class ImageProvider {
       let user = JSON.parse(localStorage.getItem('userContext'));
       let uploadTask = await storage().ref().child('photos/' + user.email + '.jpg').put(this.dataURItoBlob(image));
       this.userService.updatePhotoUrl(user.email, uploadTask.downloadURL);
-      alert(uploadTask.downloadURL);
       return uploadTask.downloadURL;
       }
       catch(e){

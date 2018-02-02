@@ -57,19 +57,22 @@ export class UserProfilePage {
           text: 'Camera',
           icon: 'camera',
           handler: () => {
-            let photoUrl = this.imageSrv.uploadFromCamera();
-            alert(photoUrl);
+            this.imageSrv.uploadFromCamera();
           }
         }, {
           text: 'Gallery',
           icon: 'images',
           handler: () => {
-            let photoUrl = this.imageSrv.uploadFromGallery();        
-            alert(photoUrl);
+            this.uploadFromGallery();
           }
         }
       ]
     });
     actionSheet.present();
+  }
+
+  async uploadFromGallery() {
+    this.user.photoUrl = await this.imageSrv.uploadFromGallery();
+    alert(this.user.photoUrl);
   }
 }
