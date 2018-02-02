@@ -179,7 +179,8 @@ export class HomePage implements OnInit {
       "assets/imgs/lms3.jpg",
       "assets/imgs/lms4.jpg",
       "assets/imgs/lms5.jpg",
-      "assets/imgs/lms6.jpg"
+      "assets/imgs/lms6.jpg",
+      "assets/imgs/lms7.jpg"
     ];
   }
 
