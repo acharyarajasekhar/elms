@@ -5,7 +5,7 @@ import { commonMethods } from '../../helper/common-methods';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { NotificationService } from '../../providers/notification-service/notification-service';
 import { DetailsviewPage } from '../detailsview/detailsview';
-import {serachservice} from '../../providers/search-service/search-service';
+import {searchservice} from '../../providers/search-service/search-service';
 import { Observable } from 'rxjs/Rx';
 
 
@@ -27,7 +27,7 @@ export class SearchLeavesPage {
 
   constructor(public navCtrl: NavController,
     private formgroup: FormBuilder,public modalCtrl: ModalController,
-    private _cmnMethods: commonMethods,private _notify:NotificationService,private _search:serachservice,
+    private _cmnMethods: commonMethods,private _notify:NotificationService,private _search:searchservice,
     public navParams: NavParams) {
     this.UserDetails = localStorage.getItem('userContext') ? JSON.parse(localStorage.getItem('userContext')) : null;
     this.myDate= new Date().toISOString();

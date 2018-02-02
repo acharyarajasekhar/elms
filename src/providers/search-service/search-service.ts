@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 
-export class serachservice
+export class searchservice
 {
     ukey: string = localStorage.getItem('myId');
     filteredLeaveCollection: AngularFirestoreCollection<Leave> = null;
@@ -30,7 +30,6 @@ export class serachservice
       .orderBy("to", "asc")
   ).snapshotChanges();
     leavesCollectionRef.subscribe(leaves => {
-      debugger;
       this.Leaves=[];
      leaves.forEach((leaveItem:any) => { 
       var leavesArray = leaveItem.payload.doc.data();

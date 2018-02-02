@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
-import { serachservice } from '../../providers/search-service/search-service';
+import { searchservice } from '../../providers/search-service/search-service';
 
 @IonicPage()
 @Component({
@@ -20,7 +20,7 @@ export class DetailsviewPage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     public toastCtrl: ToastController,
-    private leaveService:serachservice,
+    private leaveService:searchservice,
     public viewCtrl: ViewController) {
       this.getOverlappedLeaves(this.from,this.to);
       this.leaveService.getLeavesCollections()
