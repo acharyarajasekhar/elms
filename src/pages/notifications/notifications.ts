@@ -48,7 +48,7 @@ export class NotificationsPage implements OnInit {
       .subscribe(result => {
         if(isManager){          
           result.forEach((lvRef:any)=>{
-            lvRef.owner.get().then(userRef=>{
+            lvRef.data.owner.get().then(userRef=>{
               var user = userRef.data();
               if (user.manager != null && user.manager != '') {
                 user.manager.get()
@@ -56,8 +56,12 @@ export class NotificationsPage implements OnInit {
                     user.manager = managerRef.data();
                   });
                 if (user.manager.id == this.uid) {
-                  lvRef.owner = user;
-                  this.leaves$.push(lvRef);
+                  //lvRef.data.owner = user;
+                  console.log(lvRef);
+                  let lvItem = lvRef;
+                  lvItem.photoUrl = userRef.data().photoUrl;
+                  lvItem.name = userRef.data().name;
+                  this.leaves$.push(lvItem);
                 }
               }
             })
@@ -65,8 +69,9 @@ export class NotificationsPage implements OnInit {
         }
         else{
           result.forEach((lvRef:any)=>{
-            lvRef.owner.get().then(userRef=>{
+            lvRef.data.owner.get().then(userRef=>{
               if(userRef.data().email == userid){
+                console.log(lvRef);
                 let lvItem = lvRef;
                 lvItem.photoUrl = userRef.data().photoUrl;
                 lvItem.name = userRef.data().name;
@@ -88,14 +93,16 @@ export class NotificationsPage implements OnInit {
   //right drag ~> negative value
   dragEvent(item,leaveId:string,mgrId?:string) {
     let percent = item.getOpenAmount();
+    console.log(percent);
+    console.log(leaveId);
     if (percent < -130) {
-      if(this.isManagerRole != "" && this.isManagerRole == 'true')
+      if(this.isManagerRole)
         this.notificationService.acceptleave(leaveId,true,mgrId);
       else
         this.notificationService.archieveLeave(leaveId);
     }
     if (percent > 130) {
-      if(this.isManagerRole != "" && this.isManagerRole == 'true')
+      if(this.isManagerRole)
         this.notificationService.declineLeave(leaveId,true,mgrId);
       else
         this.notificationService.archieveLeave(leaveId);

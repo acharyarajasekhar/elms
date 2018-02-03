@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Leave } from '../../models/leave.model';
 import { LeaveStatus } from '../../models/leavestatus.enum';
-import { UserServiceProvider } from '../user-service/user-service';
 import { AuthServiceProvider } from '../auth-service/auth-service';
 import { formatDateUsingMoment } from '../../helper/date-formatter';
 import { Subject, Observable } from 'rxjs';
@@ -27,8 +26,7 @@ export class LeaveServiceProvider {
   constructor(
     public afs: AngularFirestore,
     public auth: AuthServiceProvider,
-    public db: AngularFirestore,
-    private userService: UserServiceProvider) {
+    public db: AngularFirestore,) {
   }
 
   createNewLeave(leave: Leave) {
@@ -53,7 +51,14 @@ export class LeaveServiceProvider {
         return ref.where('isRead', '==', false).orderBy("from", "asc");
       });
     }
-    return this.leaveCollection.valueChanges();
+    return this.leaveCollection.snapshotChanges()
+    .map(action => {
+      return action.map(snap => {
+        const data = snap.payload.doc.data() as Leave;
+        const id = snap.payload.doc.id;
+        return { id, data };
+      })
+    });
   }
 
   getLeavesByStatusForUser(userId: string, status: number) {

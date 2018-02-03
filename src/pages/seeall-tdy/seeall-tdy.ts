@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { FormsModule, NgForm } from '@angular/forms';
 import { commonMethods } from '../../helper/common-methods'
-import * as _ from 'lodash';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { NotificationService } from '../../providers/notification-service/notification-service';
-import { Observable } from 'rxjs/Observable';
 
 @IonicPage()
 @Component({
@@ -22,7 +18,6 @@ export class SeeAllTdyPage {
   tdydate: any = this.d.getMonth() + 1 + "/" + this.d.getDate() + "/" + this.d.getFullYear();
   constructor(public navCtrl: NavController,
     private _LeaveService: LeaveServiceProvider,
-    private formgroup: FormBuilder,
     private _cmnMethods: commonMethods, private _notify: NotificationService,
     public navParams: NavParams) {
     this.GetTdyLeaveDetails();

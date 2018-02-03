@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import * as moment from 'moment';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { LeaveStatus } from '../../models/leavestatus.enum';
 

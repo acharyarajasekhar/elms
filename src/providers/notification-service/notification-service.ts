@@ -13,22 +13,31 @@ export class NotificationService {
 
   acceptleave(leaveId:string,isManager:boolean,mgrId?:string):void{
     this.leaveDocument = this.afs.doc('eLeaves/'+ leaveId);
-    if(isManager)
+    if(isManager){
       this.leaveDocument.update({status: 1, modifiedAt: new Date() });
-    else
+      console.log('status-1');
+    }
+    else{
       this.leaveDocument.update({isRead: true});
+      console.log('archieved');
+    }
   }
   
   declineLeave(leaveId:string,isManager:boolean,mgrId?:string):void{
     this.leaveDocument = this.afs.doc('eLeaves/'+ leaveId);
-    if(isManager)
+    if(isManager){
       this.leaveDocument.update({status: 2, modifiedAt: new Date() });
-    else
+      console.log('status-2');
+    }
+    else{
       this.leaveDocument.update({isRead: true});
+      console.log('archieved');
+    }
   }
 
   archieveLeave(leaveId:string){
     this.leaveDocument = this.afs.doc('eLeaves/'+ leaveId);
     this.leaveDocument.update({isRead: true});
+    console.log('archieved');
   }
 }

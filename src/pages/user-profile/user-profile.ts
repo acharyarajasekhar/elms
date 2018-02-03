@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, ToastController, ActionSheetContro
 import { FormGroup } from '@angular/forms';
 import { User } from './../../models/user.model';
 import { ImageProvider } from '../../providers/image-service/image-service';
-import { storage } from 'firebase';
 
 @IonicPage()
 @Component({

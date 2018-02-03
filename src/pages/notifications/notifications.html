@@ -6,37 +6,37 @@
 <ion-content class="has-header">
     <ion-list>
         <ion-item-sliding  (ionDrag)="dragEvent($event,leave.id)" *ngFor="let leave of leaves$">
-            <ion-item (click)="openModal(leave)">
+            <ion-item (click)="openModal(leave.data)">
                 <ion-avatar item-start>
                     <img [src]="leave.photoUrl" *ngIf="leave.photoUrl">
                 </ion-avatar>
-                <div *ngIf="leave.status == 0;then pendingBlock" class="container"></div>
-                <div *ngIf="leave.status == 1;then acceptBlock" class="container"></div>
-                <div *ngIf="leave.status == 2;then rejectBlock" class="container"></div>
+                <div *ngIf="leave.data.status == 0;then pendingBlock" class="container"></div>
+                <div *ngIf="leave.data.status == 1;then acceptBlock" class="container"></div>
+                <div *ngIf="leave.data.status == 2;then rejectBlock" class="container"></div>
                 <ng-template #pendingBlock>
                     <div class="info1">
-                        <h2>{{ leave.name }}</h2>
+                        <h2>{{ leave.data.name }}</h2>
                         <span style="clear:both"></span>
                         <p>
-                            <ion-icon name="alarm"></ion-icon> {{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to
+                            <ion-icon name="alarm"></ion-icon> {{leave.data.from | date : "MMM/dd"}} - {{leave.data.to | date:"MMM/dd"}}, {{leave.data.to
                             | date:"yyyy"}}</p>
                     </div>
                     <div class="info2">
-                        <p item-content item-end class="ts-globe">{{leave.createdAt | timeAgo }}
+                        <p item-content item-end class="ts-globe">{{leave.data.createdAt | timeAgo }}
                             <ion-icon name="md-globe"></ion-icon>
                         </p>
                     </div>
                 </ng-template>
                 <ng-template #acceptBlock>
                     <div class="info1">
-                        <h2>{{ leave.name }}</h2>
+                        <h2>{{ leave.data.name }}</h2>
                         <span style="clear:both"></span>
                         <p>
-                            <ion-icon name="alarm"></ion-icon> {{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to
+                            <ion-icon name="alarm"></ion-icon> {{leave.data.from | date : "MMM/dd"}} - {{leave.data.to | date:"MMM/dd"}}, {{leave.data.to
                             | date:"yyyy"}}</p>
                     </div>
                     <div class="info2">
-                        <p item-content item-end class="ts-globe">{{leave.createdAt | timeAgo }}
+                        <p item-content item-end class="ts-globe">{{leave.data.createdAt | timeAgo }}
                             <ion-icon name="md-globe"></ion-icon>
                         </p>
                     </div>
@@ -46,14 +46,14 @@
                 </ng-template>
                 <ng-template #rejectBlock>
                     <div class="info1">
-                        <h2>{{ leave.name }}</h2>
+                        <h2>{{ leave.data.name }}</h2>
                         <span style="clear:both"></span>
                         <p>
-                            <ion-icon name="alarm"></ion-icon> {{leave.from | date : "MMM/dd"}} - {{leave.to | date:"MMM/dd"}}, {{leave.to
+                            <ion-icon name="alarm"></ion-icon> {{leave.data.from | date : "MMM/dd"}} - {{leave.data.to | date:"MMM/dd"}}, {{leave.data.to
                             | date:"yyyy"}}</p>
                     </div>
                     <div class="info2">
-                        <p item-content item-end class="ts-globe">{{leave.createdAt | timeAgo }}
+                        <p item-content item-end class="ts-globe">{{leave.data.createdAt | timeAgo }}
                             <ion-icon name="md-globe"></ion-icon>
                         </p>
                     </div>
@@ -63,13 +63,13 @@
                 </ng-template>
             </ion-item>
             <ion-item-options side="left">
-                <!-- <button ion-button color="danger" (click)="rejectLeave(leave.id)" *ngIf="isManagerRole == 'true'">Reject</button>
-                <button ion-button color="light" (click)="readOnly(leave.id)" *ngIf="isManagerRole == 'false'">Archive</button> -->
+                <!-- <button ion-button color="danger" (click)="rejectleave.data(leave.data.id)" *ngIf="isManagerRole == 'true'">Reject</button>
+                <button ion-button color="light" (click)="readOnly(leave.data.id)" *ngIf="isManagerRole == 'false'">Archive</button> -->
             </ion-item-options>
 
             <ion-item-options side="right">
-                <!-- <button ion-button color="secondary" (click)="acceptLeave(leave.id)" *ngIf="isManagerRole == 'true'">Accept</button>
-                <button ion-button color="light" (click)="readOnly(leave.id)" *ngIf="isManagerRole == 'false'">Archive</button> -->
+                <!-- <button ion-button color="secondary" (click)="acceptleave.data(leave.data.id)" *ngIf="isManagerRole == 'true'">Accept</button>
+                <button ion-button color="light" (click)="readOnly(leave.data.id)" *ngIf="isManagerRole == 'false'">Archive</button> -->
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>

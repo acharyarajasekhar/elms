@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, ToastController, NavParams, Slides } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, Slides } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { PipesModule } from './../../pipes/pipes.module';
 import * as firebase from 'firebase';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
