@@ -25,12 +25,16 @@ export class SearchLeavesPage {
   myToDate:any;
   IsearchResults:Observable<any>;
   check:boolean=true;
+  managerId:string;
+  teamId:string;
 
   constructor(public navCtrl: NavController,
     private formgroup: FormBuilder,public modalCtrl: ModalController,
     private _cmnMethods: commonMethods,private _notify:NotificationService,private _search:searchservice,
     public navParams: NavParams) {
     this.UserDetails = localStorage.getItem('userContext') ? JSON.parse(localStorage.getItem('userContext')) : null;
+     this.managerId =  localStorage.getItem('mgrEmail') ?localStorage.getItem('mgrEmail') : null;
+     this.teamId= localStorage.getItem('teamId') ?localStorage.getItem('teamId') : null;
     this.myDate= new Date().toISOString();
     this.myToDate=new Date().toISOString();
     this.SearchResults = this.formgroup.group(
@@ -67,13 +71,12 @@ export class SearchLeavesPage {
     this._cmnMethods.InitializeLoader();
     if(!this.UserDetails.isManager)
     {
-      let teamId= localStorage.getItem('teamId') ?localStorage.getItem('teamId') : null;
-     this._search.getSearchresults(this.UserDetails.isManager,teamId,from,to);
+
+     this._search.getSearchresults(this.UserDetails.isManager,this.teamId,from,to);
     }
     else if(this.UserDetails.isManager)
     {
-    let managerId =  localStorage.getItem('mgrEmail') ?localStorage.getItem('mgrEmail') : null;
-    this._search.getbyManagerId(this.UserDetails.isManager,managerId,from,to);
+    this._search.getbyManagerId(this.UserDetails.isManager,this.managerId,from,to);
     }
     else
     {
