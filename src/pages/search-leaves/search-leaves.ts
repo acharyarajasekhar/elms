@@ -16,8 +16,6 @@ import { Observable } from 'rxjs/Rx';
   templateUrl: 'search-leaves.html'
 })
 export class SearchLeavesPage {
-  uid: string;
-  Results: any = [];
   UserDetails: any;
   SearchResults: FormGroup;
   GetCurrentDate: Date = new Date();
@@ -27,6 +25,7 @@ export class SearchLeavesPage {
   check:boolean=true;
   managerId:string;
   teamId:string;
+  public edited = false;
 
   constructor(public navCtrl: NavController,
     private formgroup: FormBuilder,public modalCtrl: ModalController,
@@ -45,7 +44,16 @@ export class SearchLeavesPage {
     );
      this._search.getLeavesCollections()
       .subscribe(Leaves=>{
+        if(Leaves.length>0)
+        {
       this.IsearchResults =Leaves;
+      this.edited=false;
+        }
+      else
+      {
+      this.edited=true;
+      this.IsearchResults =Leaves;
+      }
       this._cmnMethods.loader.dismiss();
       })
   }

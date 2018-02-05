@@ -31,6 +31,7 @@ export class searchservice
   ).snapshotChanges();
     leavesCollectionRef.subscribe(leaves => {
       this.Leaves=[];
+     if(leaves.length>0){
      leaves.forEach((leaveItem:any) => { 
       var leavesArray = leaveItem.payload.doc.data();
       leavesArray.leaveId = leaveItem.payload.doc.id;
@@ -50,6 +51,11 @@ export class searchservice
           });  
       }) 
      })
+    }
+    else
+    {
+      this.myLeaveItems.next(this.Leaves);
+    }
     })
     }
     
@@ -63,6 +69,7 @@ export class searchservice
           leavesCollectionRef.subscribe(leaves => {
 
             this.Leaves=[];
+            if(leaves.length>0){
            leaves.forEach((leaveItem:any) => { 
 
             var leavesArray = leaveItem.payload.doc.data();
@@ -97,6 +104,11 @@ export class searchservice
                   }
               });
           });
+        }
+        else
+        {
+          this.myLeaves.next(this.Leaves);
+        }
         },
       err=>{
 

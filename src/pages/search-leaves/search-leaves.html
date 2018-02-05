@@ -10,7 +10,7 @@
 
 <ion-content padding>
   <form [formGroup]="SearchResults" class="list">
-    <ion-card>
+    <ion-card style="width: 95vw;margin-left: -8px;">
       <ion-card-content>
         <ion-list no-line>
           <ion-item>
@@ -23,13 +23,20 @@
           </ion-item>
 
           <ion-item>
-            <button ion-button full [disabled]="!check"  (click)="searchLeave()">Search</button>
+            <!-- <button ion-button full [disabled]="!check"  (click)="searchLeave()">Search</button> -->
+            <button ion-button round full [disabled]="!check" (click)="searchLeave()">Search</button>
           </ion-item>
         </ion-list>
       </ion-card-content>
     </ion-card>
   </form>
 <br/>
+
+<div *ngIf="edited" style="position: relative;top:10%;">
+    <img style="margin-left: auto;margin-right: auto;display: block;" [src]="'../../assets/imgs/research.png'"><br/>
+  <div style="text-align: center;"><span class="contentStyle">Whoops! &nbsp;</span><span class="itemStyle">No Results Found </span></div>
+</div>
+
 <div *ngIf="IsearchResults">
   <ion-card class="cardBorder" [ngStyle]="{'border-left-color':getColor(res.status)}" *ngFor="let res of IsearchResults ">
 
