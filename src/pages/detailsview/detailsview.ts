@@ -8,22 +8,26 @@ import { searchservice } from '../../providers/search-service/search-service';
   templateUrl: 'detailsview.html',
 })
 export class DetailsviewPage {
-  otherLeaves$;
+
   name = this.navParams.get('name');
   from = this.navParams.get('from');
   to = this.navParams.get('to');
   status = this.navParams.get('status');
   reason = this.navParams.get('reason');
   photoUrl = this.navParams.get('photoUrl');
+  TeamID=this.navParams.get('teamId');
+  ManagerID=this.navParams.get('ManagerEmail');
   leavesCollections:any;
-  leaves$Count:number = 0;
+ 
+
+
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     public toastCtrl: ToastController,
     private leaveService:searchservice,
     public viewCtrl: ViewController) {
       this.getOverlappedLeaves(this.from,this.to);
-      this.leaveService.getLeavesCollections()
+      this.leaveService.getLeaveItemsCollections()
       .subscribe(Leaves=>{
       this.leavesCollections =Leaves;
       //this._cmnMethods.loader.dismiss();
@@ -38,9 +42,10 @@ export class DetailsviewPage {
     this.viewCtrl.dismiss();
   }
 
+
    getOverlappedLeaves(frDate,toDate) {
     if (frDate != "" && toDate !="") {
-       this.leaveService.getSearchresults(true,"MSG",frDate, toDate)
+       this.leaveService.getLeaveItem(true,this.ManagerID,frDate,toDate)
     }
   }
 

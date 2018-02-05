@@ -13,6 +13,7 @@ export class searchservice
     myDate:any;
     Leaves:Array<any>;
     myLeaves= new Subject<any>();
+    myLeaveItems = new Subject<any>();
     
     constructor(public _fireStore: AngularFirestore)
     {
@@ -20,7 +21,7 @@ export class searchservice
     }
 
 
-    getbyManagerId(isManager:boolean,ManagerId:string,startDate:Date, endDate:Date)
+    getLeaveItem(isManager:boolean,ManagerId:string,startDate:Date, endDate:Date)
     {
 
       var leavesCollectionRef = this._fireStore.collection('eLeaves', 
@@ -44,7 +45,7 @@ export class searchservice
             user.team.get().then(teamref=>{user.team=teamref.data()
               leavesArray.owner = user;
               this.Leaves.push(leavesArray);
-              this.myLeaves.next(this.Leaves);
+              this.myLeaveItems.next(this.Leaves);
             })
           });  
       }) 
@@ -52,8 +53,7 @@ export class searchservice
     })
     }
     
-    getSearchresults(isManager:boolean,teamId:string,startDate:Date, endDate:Date) {
-   
+    getSearchresults(isManager:boolean,teamId:string,ManagerId:string,startDate:Date, endDate:Date) {
       if (startDate !=null && endDate != null) {
         var leavesCollectionRef = this._fireStore.collection('eLeaves', 
              ref => ref
@@ -71,7 +71,8 @@ export class searchservice
             leavesArray.owner.get()
               .then(userRef => { 
                   var user = userRef.data(); 
-                  if(teamId!=null && user.team.id==teamId)
+                  if(isManager && user.manager.id==ManagerId)
+                 {
                   user.manager.get()
                     .then(managerRef => {
                       user.manager = managerRef.data();
@@ -80,7 +81,20 @@ export class searchservice
                         this.Leaves.push(leavesArray);
                         this.myLeaves.next(this.Leaves);
                       })
-                    });   
+                    });  
+                  }
+                  else if (!isManager && teamId!=null && user.team.id==teamId) 
+                  {
+                    user.manager.get()
+                    .then(managerRef => {
+                      user.manager = managerRef.data();
+                      user.team.get().then(teamref=>{user.team=teamref.data()
+                        leavesArray.owner = user;
+                        this.Leaves.push(leavesArray);
+                        this.myLeaves.next(this.Leaves);
+                      })
+                    });  
+                  }
               });
           });
         },
@@ -94,6 +108,11 @@ export class searchservice
 getLeavesCollections():Observable<any>
 {
     return this.myLeaves.asObservable();
+}
+
+getLeaveItemsCollections():Observable<any>
+{
+    return this.myLeaveItems.asObservable();
 }
 
 

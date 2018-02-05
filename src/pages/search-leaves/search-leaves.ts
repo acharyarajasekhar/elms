@@ -69,19 +69,7 @@ export class SearchLeavesPage {
     let from: Date = new Date(this.SearchResults.value['from']);
     let to: Date = new Date(this.SearchResults.value['ToDate']);
     this._cmnMethods.InitializeLoader();
-    if(!this.UserDetails.isManager)
-    {
-
-     this._search.getSearchresults(this.UserDetails.isManager,this.teamId,from,to);
-    }
-    else if(this.UserDetails.isManager)
-    {
-    this._search.getbyManagerId(this.UserDetails.isManager,this.managerId,from,to);
-    }
-    else
-    {
-      this._cmnMethods.loader.dismiss();
-    }
+    this._search.getSearchresults(this.UserDetails.isManager,this.teamId,this.managerId,from,to);
   }
 
   getColor(status)
@@ -102,7 +90,6 @@ return 'orange';
 
   rejectLeave(keyObj:string){
     if(this.UserDetails.isManager){
-      //let managerId = localStorage.getItem('myManager');
       this._notify.declineLeave(keyObj,true,this.uid);
       this._cmnMethods.showToast('Leave request rejected succesfully');
     }   
@@ -124,7 +111,9 @@ return 'orange';
       from: obj.from, 
       to: obj.to, 
       reason: obj.reason, 
-      photoUrl:obj.owner.photoUrl
+      photoUrl:obj.owner.photoUrl,
+      teamId:this.teamId,
+      ManagerEmail:this.managerId
     };
 let myModal = this.modalCtrl.create(DetailsviewPage,leaveObj);
 myModal.present();
