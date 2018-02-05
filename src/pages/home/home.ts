@@ -236,7 +236,7 @@ export class HomePage implements OnInit {
         .subscribe((result: any) => {
           if (ctx.isManager == "true") {
             result.forEach((lvRef: any) => {
-              lvRef.owner.get().then(userRef => {
+              lvRef.data.owner.get().then(userRef => {
                 var user = userRef.data();
                 if (user.manager != null && user.manager != '') {
                   user.manager.get()
@@ -244,7 +244,7 @@ export class HomePage implements OnInit {
                       user.manager = managerRef.data();
                     });
                   if (user.manager.id == ctx.email) {
-                    lvRef.owner = user;
+                    lvRef.data.owner = user;
                     this.filteredResult$.push(lvRef);
                   }
                 }
@@ -254,7 +254,7 @@ export class HomePage implements OnInit {
           }
           else {
             let filteredResult = _.filter(result, function (obj) {
-              return obj.owner.id == ctx.email;
+              return obj.data.owner.id == ctx.email;
             });
             this.badgeCount = filteredResult.length;
           }
