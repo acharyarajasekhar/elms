@@ -44,6 +44,7 @@ export class SearchLeavesPage {
     );
      this._search.getLeavesCollections()
       .subscribe(Leaves=>{
+        
         if(Leaves.length>0)
         {
       this.IsearchResults =Leaves;
@@ -98,7 +99,7 @@ return 'orange';
 
   rejectLeave(keyObj:string){
     if(this.UserDetails.isManager){
-      this._notify.declineLeave(keyObj,true,this.uid);
+      this._notify.declineLeave(keyObj,true,this.managerId);
       this._cmnMethods.showToast('Leave request rejected succesfully');
     }   
   }
@@ -106,7 +107,7 @@ return 'orange';
   acceptLeave(keyObj:any){
 
     if(this.UserDetails.isManager){
-      this._notify.acceptleave(keyObj,true,this.uid);
+      this._notify.acceptleave(keyObj,true,this.managerId);
       this._cmnMethods.showToast('Leave request accepted succesfully');
     }   
   }
