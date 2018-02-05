@@ -15,7 +15,7 @@
             <ion-list no-line>
               <ion-item  class="ionitems">
                 <ion-label>Half Day</ion-label>
-                <ion-toggle formControlName="isHalfDay"></ion-toggle>
+                <ion-toggle formControlName="isHalfDay" (ionChange)="SetHalfDay()"></ion-toggle>
               </ion-item>
     
               <ion-item  class="ionitems"  style="margin-top: 10px;">
@@ -23,7 +23,7 @@
                 <ion-datetime displayFormat="MM/DD/YYYY" formControlName="from" required [min]="minDate" [max]="maxDate" (ionChange)="SetDate()" [(ngModel)]="FrmDate"></ion-datetime>
               </ion-item>
     
-              <ion-item  class="ionitems"  style="margin-top: 10px;">
+              <ion-item  class="ionitems" *ngIf="!HalfDay" style="margin-top: 10px;">
                 <ion-label>To</ion-label>
                 <ion-datetime displayFormat="MM/DD/YYYY" formControlName="to" required [min]="minDate" [max]="maxDate" (ionChange)="SetDate()"  [(ngModel)]="ToDate"></ion-datetime>
               </ion-item>

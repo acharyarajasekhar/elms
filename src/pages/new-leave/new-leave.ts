@@ -21,8 +21,9 @@ export class NewLeavePage {
   public minDate: string;
   public maxDate: string;
   public sameDayleaves$: any[] = [];
-  leave: Leave;
-  lent: number;
+  public leave: Leave;
+  public lent: number;
+  public Reasons:string;
   public HalfDay:boolean;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -77,21 +78,46 @@ export class NewLeavePage {
   showToast(alert_message: string) {
     let toast = this.toastCtrl.create({
       message: alert_message,
-      duration: 2000,
+      duration: 3000,
       position: 'bottom'
     });
     toast.present(toast);
   }
   SetDate(){
-     if(this.HalfDay || this.ToDate<this.FrmDate){
+     if(this.ToDate<this.FrmDate){
+      this.HalfDay =  this.LeaveForm.get(['isHalfDay']).value;
+      this.Reasons =  this.LeaveForm.get(['reason']).value;
       this.ToDate=new Date(this.FrmDate).toISOString();
       this.LeaveForm.setValue({
         isHalfDay:this.HalfDay,       
         from: this.FrmDate,
         to: this.ToDate,
-        reason:''
+        reason:this.Reasons
       });
     }
   }
+
+  SetHalfDay(){   
+    this.HalfDay =  this.LeaveForm.get(['isHalfDay']).value;
+    this.Reasons =  this.LeaveForm.get(['reason']).value;
+    if(this.HalfDay && (this.ToDate != this.FrmDate)){
+     this.ToDate=new Date(this.FrmDate).toISOString();
+     this.LeaveForm.setValue({  
+       isHalfDay:  this.HalfDay,     
+       from: this.FrmDate,
+       to: this.ToDate,
+       reason:this.Reasons
+     });
+   }
+   else if(this.ToDate != this.FrmDate){
+    this.ToDate=new Date(this.FrmDate).toISOString();
+    this.LeaveForm.setValue({  
+      isHalfDay:  this.HalfDay,     
+      from: this.FrmDate,
+      to: this.ToDate,
+      reason:this.Reasons
+    });
+  }
+ }
 
 }
