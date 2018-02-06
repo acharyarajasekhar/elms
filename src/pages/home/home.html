@@ -5,13 +5,13 @@
       </button>
       <ion-title class="fontbolder">WhosOof</ion-title>
       <ion-buttons end>
-        <button ion-button (click)="openSearch()">
+        <button ion-button (click)="goToPage('SearchLeavesPage')">
           <ion-icon name="search"></ion-icon>
         </button>
-        <button ion-button (click)="openReports()">
+        <button ion-button (click)="goToPage('ReportPage')">
           <ion-icon name="stats"></ion-icon>
         </button>
-        <button ion-button (click)="openNotifications()">
+        <button ion-button (click)="goToPage('NotificationsPage')">
           <ion-icon name="notifications"></ion-icon>
           <ion-badge item-top class="badge-custom">{{badgeCount}}</ion-badge>
         </button>
@@ -20,7 +20,7 @@
   </ion-header>
   <ion-content class="has-header">    
     <ion-slides pager="true" loop="true" id="cover" slidesPerView=1 autoplay="5000" loop="true" style="height: 200px;">
-      <ion-slide style="height: 200px;" *ngFor="let img of sliderImg$">
+      <ion-slide style="height: 200px;" *ngFor="let img of slides">
         <img [src]="img" />
       </ion-slide>
     </ion-slides>        
@@ -30,7 +30,7 @@
           <p class="itemStyleSubheaders">Today</p>
         </ion-col>
         <ion-col col-2>
-          <p class="itemStyle" style="color:#0a72dc;" (click)="openSeealltdy()">See All</p>
+          <p class="itemStyle" style="color:#0a72dc;" (click)="goToPage('SeeAllTdyPage')">See All</p>
         </ion-col>
       </ion-row>
     </ion-grid>  
@@ -51,7 +51,7 @@
           <p class="itemStyleSubheaders">Tomorrow</p>
         </ion-col>
         <ion-col col-2>
-          <p class="itemStyle" style="color:#0a72dc;" (click)="openSeealltmrw()">See All</p>
+          <p class="itemStyle" style="color:#0a72dc;" (click)="goToPage('SeeAllTmrwPage')">See All</p>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -67,7 +67,7 @@
       </ion-slide>
     </ion-slides>
     <ion-fab right bottom>
-      <button style="background-color:#039be5" ion-fab mini (click)="openNewLeave()">
+      <button style="background-color:#039be5" ion-fab mini (click)="goToPage('NewLeavePage')">
         <ion-icon style="color:white;" name="add"></ion-icon>
       </button>
     </ion-fab>

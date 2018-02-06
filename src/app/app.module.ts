@@ -36,6 +36,10 @@ import { ImageProvider } from '../providers/image-service/image-service';
 import { ChartsModule } from 'ng2-charts';
 import { EmailServiceProvider } from '../providers/email-service/email-service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { LeaveServicev2Provider } from '../providers/leave-servicev2/leave-servicev2';
+import { AppContextProvider } from '../providers/app-context/app-context';
+import { ToastMessageProvider } from '../providers/toast-message/toast-message';
+import { UserServiceV2Provider } from '../providers/user-service-v2/user-service-v2';
   
 @NgModule({
   declarations: [
@@ -72,11 +76,16 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     NotificationService,
     TeamServiceProvider,
     searchservice,
-    IonicErrorHandler,
-    [{provide: ErrorHandler, useClass: AppErrorHandlerProvider}],
     Camera,
     ImageProvider,
     EmailServiceProvider,
+    LeaveServicev2Provider,
+    UserServiceV2Provider,
+    AppContextProvider,
+    ToastMessageProvider,
+    IonicErrorHandler,
+    [{provide: ErrorHandler, useClass: AppErrorHandlerProvider}],
+    
   ]
 })
 export class AppModule {}
