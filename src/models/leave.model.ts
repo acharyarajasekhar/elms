@@ -17,7 +17,8 @@ export interface Leave {
     teamId?:string;
     managerId?: string;
     owner?:Reference<any>;
-    Cancelcomments?: string;
+    cancellationComments?: string;
+    managerComments?: string;
     CancelledAt?: Date,
     unixFrDate?:any; //~>change in name will break indexing,sorting & searching
     unixToDate?:any; //~>change in name will break indexing,sorting & searching

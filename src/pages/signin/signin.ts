@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import {commonMethods} from '../../helper/common-methods';
+import { ToastController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -33,16 +34,28 @@ export class SigninPage {
 
   signIn() {
     this._Cmmethods.InitializeLoader();
-    this.authService.signIn(this.signInForm.value).then((user) => {
-      if(this.authService.user) {
-        console.log(this.authService.user);
-        this._Cmmethods.loader.dismiss();
-        this.navCtrl.setRoot("HomePage");
-      }
-      else{
-        this.navCtrl.push('SigninPage');
-      }
-    })
+    this.authService.signIn(this.signInForm.value).then(res=>{
+      if(res!=null || res!=undefined)
+      this.navCtrl.setRoot("HomePage");
+      this._Cmmethods.loader.dismiss();
+    },err=>{
+      var errorCode = err.code;
+      var errorMessage = err.message;
+      this._Cmmethods.loader.dismiss();
+      this.authService.presentToast(errorMessage);
+    });
+    
+    // .then((user) => {
+    //   debugger;
+    //   if(this.authService.user) {
+    //     console.log(this.authService.user);
+    //     this._Cmmethods.loader.dismiss();
+    //     this.navCtrl.setRoot("HomePage");
+    //   }
+    //   else{
+    //     this.navCtrl.push('SigninPage');
+    //   }
+    // })
   }
 
 }

@@ -6,6 +6,7 @@ import { LeaveStatus } from '../../models/leavestatus.enum';
 import { AuthServiceProvider } from '../auth-service/auth-service';
 import { formatDateUsingMoment } from '../../helper/date-formatter';
 import { Subject, Observable } from 'rxjs';
+import { EmailServiceProvider } from '../email-service/email-service';
 //import { Observable } from 'rxjs/Observable';
 //import { mergeMap } from 'rxjs/operators';
 //import { forkJoin } from "rxjs/observable/forkJoin";
@@ -26,6 +27,7 @@ export class LeaveServiceProvider {
   constructor(
     public afs: AngularFirestore,
     public auth: AuthServiceProvider,
+    private emailSvc: EmailServiceProvider,
     public db: AngularFirestore,) {
   }
 
@@ -37,7 +39,11 @@ export class LeaveServiceProvider {
     leave.to = new Date(leave.to);
     leave.isRead = false;
     leave.owner = this.afs.collection("eUsers").doc(userId).ref;
-    this.afs.collection('eLeaves').add(leave);
+    this.afs.collection('eLeaves').add(leave).then(newLeave => {
+      if(newLeave && newLeave.id){
+        this.emailSvc.trigger(newLeave.id, 0);
+      }
+    })
   }
 
   getLeavesByUser(ukey: string, isManager: boolean) {
@@ -94,7 +100,10 @@ export class LeaveServiceProvider {
    console.log(leaveId);
    console.log(comments);
   this.leaveDocument = this.afs.doc('eLeaves/'+ leaveId);
-      this.leaveDocument.update({status: 3, Cancelcomments: comments , CancelledAt: new Date() });
+      this.leaveDocument.update({status: 3, cancellationComments: comments , CancelledAt: new Date() })
+      .then(result => {
+        this.emailSvc.trigger(leaveId, 3);
+      }).catch(err=>{console.log(err)});
   }
 
   getLeaveByDuration(isManager: string, teamId: string, startDate?, endDate?, userId?: string) {

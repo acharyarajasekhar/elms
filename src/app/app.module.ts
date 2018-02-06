@@ -34,6 +34,8 @@ import { IonicProConfig } from '../app/ionic.pro.config';
 import { Camera } from '@ionic-native/camera';
 import { ImageProvider } from '../providers/image-service/image-service';
 import { ChartsModule } from 'ng2-charts';
+import { EmailServiceProvider } from '../providers/email-service/email-service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
   
 @NgModule({
   declarations: [
@@ -45,7 +47,7 @@ import { ChartsModule } from 'ng2-charts';
   ],
   imports: [    
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
    // BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FirebaseConfig),
@@ -74,6 +76,7 @@ import { ChartsModule } from 'ng2-charts';
     [{provide: ErrorHandler, useClass: AppErrorHandlerProvider}],
     Camera,
     ImageProvider,
+    EmailServiceProvider,
   ]
 })
 export class AppModule {}
