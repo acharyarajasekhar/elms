@@ -7,6 +7,7 @@ import { NotificationService } from '../../providers/notification-service/notifi
 import { DetailsviewPage } from '../detailsview/detailsview';
 import {searchservice} from '../../providers/search-service/search-service';
 import { Observable } from 'rxjs/Rx';
+import { AlertController } from 'ionic-angular';
 
 
 
@@ -30,7 +31,7 @@ export class SearchLeavesPage {
   constructor(public navCtrl: NavController,
     private formgroup: FormBuilder,public modalCtrl: ModalController,
     private _cmnMethods: commonMethods,private _notify:NotificationService,private _search:searchservice,
-    public navParams: NavParams) {
+    public navParams: NavParams, private alertCtrl: AlertController) {
     this.UserDetails = localStorage.getItem('userContext') ? JSON.parse(localStorage.getItem('userContext')) : null;
      this.managerId =  localStorage.getItem('mgrEmail') ?localStorage.getItem('mgrEmail') : null;
      this.teamId= localStorage.getItem('teamId') ?localStorage.getItem('teamId') : null;
@@ -97,9 +98,41 @@ return 'orange';
 }
 }
 
-  rejectLeave(keyObj:string){
+
+presentPrompt(keyObj:string) {
+  let alert = this.alertCtrl.create({
+    title: 'Reject Leave',
+    message: 'Do you wish to reject this leave request?',
+    cssClass: 'alertCustomCss',
+    inputs: [
+      {
+        name: 'comments',
+        placeholder: 'Comments'
+      }
+    ],
+    buttons: [
+      {
+        text: 'Dismiss',
+        role: 'cancel',
+        handler: data => {
+          console.log('Cancel clicked');
+        }
+      },
+      {
+       text: 'Save',
+        handler: data => {
+          this.rejectLeave(keyObj,data.comments);
+        }
+      }
+    ]
+  });
+  alert.present();
+}
+
+
+  rejectLeave(keyObj:string,info:string){
     if(this.UserDetails.isManager){
-      this._notify.declineLeave(keyObj,true,this.managerId);
+      this._notify.declineLeave(keyObj,true,info);
       this._cmnMethods.showToast('Leave request rejected succesfully');
     }   
   }

@@ -103,7 +103,7 @@ export class NotificationsPage implements OnInit {
     }
     if (percent > 130) {
       if(this.isManagerRole)
-        this.notificationService.declineLeave(leaveId,true,mgrId);
+        this.notificationService.declineLeave(leaveId,true,"");
       else
         this.notificationService.archieveLeave(leaveId);
     }
@@ -112,9 +112,9 @@ export class NotificationsPage implements OnInit {
   swipeEvent(event,keyObj:string,managerId?:string){
     if (event.direction == 2){ //(2)swipe left direction ~ reject
       if(!this.isManagerRole && this.isManagerRole == 'true')
-        this.notificationService.declineLeave(keyObj,true,managerId);
+        this.notificationService.declineLeave(keyObj,true,"");
       else
-        this.notificationService.declineLeave(keyObj,false);
+        this.notificationService.declineLeave(keyObj,false,"");
     }
     if (event.direction == 4){ //(4)swipe right direction ~ accept
       if(!this.isManagerRole && this.isManagerRole == 'false')
@@ -126,11 +126,11 @@ export class NotificationsPage implements OnInit {
 
   rejectLeave(keyObj:string){
     if(this.isManagerRole == 'true'){
-      this.notificationService.declineLeave(keyObj,true,this.uid);
+      this.notificationService.declineLeave(keyObj,true,"");
       this.showToast('Leave request rejected succesfully');
     }   
     else{
-      this.notificationService.declineLeave(keyObj,false);
+      this.notificationService.declineLeave(keyObj,false,"");
       this.showToast('Archived');
     }
   }

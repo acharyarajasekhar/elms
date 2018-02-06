@@ -44,18 +44,6 @@ export class SigninPage {
       this._Cmmethods.loader.dismiss();
       this.authService.presentToast(errorMessage);
     });
-    
-    // .then((user) => {
-    //   debugger;
-    //   if(this.authService.user) {
-    //     console.log(this.authService.user);
-    //     this._Cmmethods.loader.dismiss();
-    //     this.navCtrl.setRoot("HomePage");
-    //   }
-    //   else{
-    //     this.navCtrl.push('SigninPage');
-    //   }
-    // })
   }
 
 }

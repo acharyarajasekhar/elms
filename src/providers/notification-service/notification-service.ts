@@ -27,10 +27,10 @@ export class NotificationService {
     }
   }
   
-  declineLeave(leaveId:string,isManager:boolean,mgrId?:string):void{
+  declineLeave(leaveId:string,isManager:boolean,comments:string):void{
     this.leaveDocument = this.afs.doc('eLeaves/'+ leaveId);
     if(isManager){
-      this.leaveDocument.update({status: 2, modifiedAt: new Date() })
+      this.leaveDocument.update({status: 2, modifiedAt: new Date(),managerComments: comments })
       .then(result => {
         this.emailSvc.trigger(leaveId, 2);
       }).catch(err=>{console.log(err)});
