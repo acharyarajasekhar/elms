@@ -8,6 +8,7 @@ import { DetailsviewPage } from '../detailsview/detailsview';
 import {searchservice} from '../../providers/search-service/search-service';
 import { Observable } from 'rxjs/Rx';
 import { AlertController } from 'ionic-angular';
+import { ISubscription } from 'rxjs/Subscription';
 
 
 
@@ -26,7 +27,8 @@ export class SearchLeavesPage {
   check:boolean=true;
   managerId:string;
   teamId:string;
-  public edited = false;
+  edited = false;
+  onChange:ISubscription;
 
   constructor(public navCtrl: NavController,
     private formgroup: FormBuilder,public modalCtrl: ModalController,
@@ -43,7 +45,7 @@ export class SearchLeavesPage {
         ToDate:  [null,Validators.compose ( [ Validators.required])],
       }
     );
-     this._search.getLeavesCollections()
+    this.onChange= this._search.getLeavesCollections()
       .subscribe(Leaves=>{
         
         if(Leaves.length>0)
@@ -74,7 +76,10 @@ export class SearchLeavesPage {
 
   ionViewDidLoad() {
   }
-
+ngOnDestroy()
+{
+  this.onChange.unsubscribe();
+}
   searchLeave() {
     let from: Date = new Date(this.SearchResults.value['from']);
     let to: Date = new Date(this.SearchResults.value['ToDate']);
