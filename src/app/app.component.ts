@@ -3,6 +3,9 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { AppContextProvider } from '../providers/app-context/app-context';
+import { LeaveServicev2Provider } from '../providers/leave-servicev2/leave-servicev2';
+import { UserServiceV2Provider } from '../providers/user-service-v2/user-service-v2';
 
 
 @Component({
@@ -45,6 +48,9 @@ export class MyApp {
   constructor(public platform: Platform, 
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
+    public appContext: AppContextProvider,
+    public leaveV2Svc: LeaveServicev2Provider,
+    public userV2Svc: UserServiceV2Provider,
     public authService: AuthServiceProvider) {
     this.initializeApp();
 //debugger;

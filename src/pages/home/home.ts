@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
-import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
-import { UserServiceV2Provider } from '../../providers/user-service-v2/user-service-v2';
+import { AppContextProvider } from '../../providers/app-context/app-context';
 
 @IonicPage()
 @Component({
@@ -20,35 +19,60 @@ export class HomePage {
     "assets/imgs/lms7.jpg"
   ];
 
+  todaysCollection: any = [];
+  tomorrowsCollection: any = [];
+  myTeamMembers: any = [];
+  myReportees: any = [];
+  myProfile: any = [];
+
   constructor(
     public navCtrl: NavController,
-    private userSvc: UserServiceV2Provider,
-    private leaveSvc: LeaveServicev2Provider) {
+    private appContext: AppContextProvider) {
 
-    this.userSvc.myProfile.subscribe(profile => {
-      console.log("Ach");
-      console.log(profile);      
+    this.appContext.myProfile.subscribe(profile => {
+      this.myProfile = profile;
     })
 
-    this.userSvc.myTeamMembers.subscribe(teamMates => {
-      console.log(teamMates);
+    this.appContext.myTeamMembers.subscribe(teamMates => {
+      this.myTeamMembers = teamMates;
     })
 
-    this.userSvc.myReportees.subscribe(reportees => {
-      console.log("report");
-      console.log(reportees);
+    this.appContext.myReportees.subscribe(reportees => {
+      this.myReportees = reportees;
     })
 
-    this.leaveSvc.todaysLeaves.subscribe(leaves => {
-      console.log("todaysLeaves");
-      console.log(leaves);
+    this.appContext.tomorrowsLeaves.subscribe(leaves => {
+      this.tomorrowsCollection = [];
+      this.UpdateCollection(leaves, this.tomorrowsCollection);
     })
 
-    this.leaveSvc.tomorrowsLeaves.subscribe(leaves => {
-      console.log("tomorrowsLeaves");
-      console.log(leaves);
+    this.appContext.todaysLeaves.subscribe(leaves => {
+      this.todaysCollection = [];
+      this.UpdateCollection(leaves, this.todaysCollection);
     })
 
+  }
+
+  private UpdateCollection(leaves: any, collection: any) {
+    if (leaves) {
+      leaves.forEach(leave => {
+        console.log(leave);
+        this.myTeamMembers.forEach(teamMember => {
+          if (leave.owner.id == teamMember.email) {
+            leave.owner = teamMember;
+            collection.push(leave);
+          }
+        });
+        if (this.myProfile.isManager) {
+          this.myReportees.forEach(reportee => {
+            if (leave.owner.id == reportee.email) {
+              leave.owner = reportee;
+              collection.push(leave);
+            }
+          });
+        }
+      });
+    }
   }
 
   // bindLeaveCarosol() {

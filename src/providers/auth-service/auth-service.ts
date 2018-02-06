@@ -6,6 +6,7 @@ import { ToastController } from 'ionic-angular';
 import { UserServiceProvider } from '../user-service/user-service';
 import { User } from '../../models/user.model';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { AppContextProvider } from '../app-context/app-context';
 
 @Injectable()
 export class AuthServiceProvider {
@@ -15,6 +16,7 @@ export class AuthServiceProvider {
   constructor(public afAuth: AngularFireAuth,
     public toastCtrl: ToastController,
     public db: AngularFirestore,
+    public appContext: AppContextProvider,
     public userService: UserServiceProvider) {
     this.user = this.afAuth.authState;
   }

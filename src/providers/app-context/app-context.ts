@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class AppContextProvider {
@@ -12,6 +12,15 @@ export class AppContextProvider {
   tomorrowsLeaves = new Subject<any>();
   searchedLeaves = new Subject<any>();
 
-  constructor() { }
+  constructor() {
+    console.log("Hello App Context");
+    this.myAccount.next([]);
+    this.myProfile.next([]);
+    this.myTeamMembers.next([]);
+    this.myReportees.next([]);
+    this.todaysLeaves.next([]);
+    this.tomorrowsLeaves.next([]);
+    this.searchedLeaves.next([]);
+  }
 
 }

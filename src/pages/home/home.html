@@ -35,7 +35,7 @@
       </ion-row>
     </ion-grid>  
     <ion-slides pager="false" id="today" slidesPerView=3 style="height: 160px;">
-      <ion-slide *ngFor="let leave of leavesToday$">
+      <ion-slide *ngFor="let leave of todaysCollection">
         <ion-card>
           <img style="width: 103px;height: 86px;" [src]="leave.owner.photoUrl ? leave.owner.photoUrl : '../../assets/imgs/user.png'"
           />
@@ -56,7 +56,7 @@
       </ion-row>
     </ion-grid>
     <ion-slides pager="false" id="tomorrow" slidesPerView=3 style="height: 160px;">
-      <ion-slide *ngFor="let leavetmr of leavesTmrw$">
+      <ion-slide *ngFor="let leavetmr of tomorrowsCollection">
         <ion-card>
           <img style="width: 103px;height: 86px;" [src]="leavetmr.owner.photoUrl ? leavetmr.owner.photoUrl : '../../assets/imgs/user.png'"
           />

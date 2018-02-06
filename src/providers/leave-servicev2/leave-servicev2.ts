@@ -3,20 +3,22 @@ import { UserServiceV2Provider } from '../user-service-v2/user-service-v2';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import { retry } from 'rxjs/operator/retry';
+import { AppContextProvider } from '../app-context/app-context';
 
 @Injectable()
 export class LeaveServicev2Provider {
 
-  todaysLeaves = new Subject<any>();
-  tomorrowsLeaves = new Subject<any>();
-  searchedLeaves = new Subject<any>();
+  private emailIds = [];
 
   constructor(private userSvc: UserServiceV2Provider,
-    private store: AngularFirestore) {
+    private store: AngularFirestore,
+    private appContext: AppContextProvider) {
+    this.appContext.myTeamMembers.subscribe(myTeamMembers => {
+      this.emailIds = myTeamMembers;
+    })
     this.getTodaysLeaves();
     this.getTomorrowsLeaves();
-    this.searchedLeaves.next([]);
+    this.appContext.searchedLeaves.next([]);
   }
 
   private getDateRange(date) {
@@ -27,11 +29,12 @@ export class LeaveServicev2Provider {
   }
 
   private getTodaysLeaves() {
+    this.appContext.todaysLeaves.next([]);
     var today = new Date();
     var range = this.getDateRange(today);
     this.getApprovedLeaves(range.start)
       .subscribe(leaves => {
-        this.updateSubject(leaves, range, this.todaysLeaves);
+        this.updateSubject(leaves, range, this.appContext.todaysLeaves);
       })
   }
 
@@ -43,6 +46,7 @@ export class LeaveServicev2Provider {
           results.push(leave);
         }
         if (lIndex == lArray.length - 1) {
+          console.log("push");
           subject.next(results);
         }
       });
@@ -50,12 +54,13 @@ export class LeaveServicev2Provider {
   }
 
   private getTomorrowsLeaves() {
+    this.appContext.tomorrowsLeaves.next([]);
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     var range = this.getDateRange(tomorrow);
     this.getApprovedLeaves(range.start)
       .subscribe(leaves => {
-        this.updateSubject(leaves, range, this.tomorrowsLeaves);
+        this.updateSubject(leaves, range, this.appContext.tomorrowsLeaves);
       })
   }
 
