@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { AppContextProvider } from '../app-context/app-context';
+import * as momento from 'moment';
 
 @Injectable()
 export class LeaveServicev2Provider {
@@ -21,7 +22,7 @@ export class LeaveServicev2Provider {
     this.appContext.searchedLeaves.next([]);
   }
 
-  private getDateRange(date) {
+  public getDateRange(date) {
     return {
       start: new Date(new Date(date).setHours(0, 0, 0, 0)),
       end: new Date(new Date(date).setHours(23, 59, 59, 0))
@@ -53,8 +54,7 @@ export class LeaveServicev2Provider {
   }
 
   private getTomorrowsLeaves() {
-    var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    var tomorrow = momento(new Date()).add(1, 'days');
     var range = this.getDateRange(tomorrow);
     this.getApprovedLeaves(range.start)
       .subscribe(leaves => {
@@ -63,11 +63,28 @@ export class LeaveServicev2Provider {
       })
   }
 
-  private getApprovedLeaves(from: Date) {
+  private getApprovedLeaves(from: Date, status: number = 1) {
     return this.store.collection('eLeaves', ref => ref
       .where('to', ">=", from)
-      .where("status", "==", 1))
+      .where("status", "==", status))
       .valueChanges()
+  }
+
+  private getLeaves(from: Date) {
+    return this.store.collection('eLeaves', ref => ref
+      .where('to', ">=", from))
+      .valueChanges()
+  }
+
+  public searchLeavesByDateRange(from: Date, to: Date) {
+    this.appContext.searchDateRange = {
+      start: from,
+      end: to
+    };
+    this.getLeaves(this.appContext.searchDateRange.start).subscribe(results => {
+      this.appContext.searchedLeaves.next([]);
+      this.updateSubject(results, this.appContext.searchDateRange, this.appContext.searchedLeaves);
+    })
   }
 
 }

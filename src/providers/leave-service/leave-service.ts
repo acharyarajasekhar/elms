@@ -32,7 +32,7 @@ export class LeaveServiceProvider {
   }
 
   createNewLeave(leave: Leave) {
-    let userId = JSON.parse(localStorage.getItem('userContext')).email;
+    let userId = "madhithya@csc.com";
     leave.status = LeaveStatus.Requested;
     leave.createdAt = new Date();
     leave.from = new Date(leave.from);

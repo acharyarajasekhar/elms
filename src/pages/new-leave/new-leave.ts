@@ -66,13 +66,14 @@ export class NewLeavePage {
   }
   addNewLeave() {
     this.leave = this.LeaveForm.value;
-    let dd: Date = new Date(this.leave.from);
-    let frmdate: any = dd.getMonth() + 1 + "/" + dd.getDate() + "/" + dd.getFullYear();
-    let isManager = localStorage.getItem('isManagerRole');
-    let myTeam = localStorage.getItem('myTeam');
-    let myId = JSON.parse(localStorage.getItem('userContext')).email;
-    var toDTTMtdy = new Date(new Date(this.leave.to).setHours(23, 59, 59, 0));
-    this.leaveService.getExistingleavelist(isManager, myTeam, frmdate, myId, toDTTMtdy);
+    // let dd: Date = new Date(this.leave.from);
+    // let frmdate: any = dd.getMonth() + 1 + "/" + dd.getDate() + "/" + dd.getFullYear();
+    // let isManager = localStorage.getItem('isManagerRole');
+    // let myTeam = localStorage.getItem('myTeam');
+    // let myId = JSON.parse(localStorage.getItem('userContext')).email;
+    // var toDTTMtdy = new Date(new Date(this.leave.to).setHours(23, 59, 59, 0));
+    // this.leaveService.getExistingleavelist(isManager, myTeam, frmdate, myId, toDTTMtdy);
+    this.leaveService.createNewLeave(this.leave);
   }
 
   showToast(alert_message: string) {

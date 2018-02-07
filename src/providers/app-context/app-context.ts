@@ -20,6 +20,8 @@ export class AppContextProvider {
   tomorrowsLeaves = new Subject<any>();
   searchedLeaves = new Subject<any>();
 
+  searchDateRange: any = {};
+
   constructor() {
     console.log("Hello App Context");
 
