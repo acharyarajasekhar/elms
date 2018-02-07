@@ -34,7 +34,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>  
-    <ion-slides pager="false" id="today" slidesPerView=3 style="height: 160px;">
+    <ion-slides pager="false" id="today" slidesPerView=3 style="height: 130px;" *ngIf="todaysCollection.length > 0">
       <ion-slide *ngFor="let leave of todaysCollection">
         <ion-card>
           <img style="width: 103px;height: 86px;" [src]="leave.owner.photoUrl ? leave.owner.photoUrl : '../../assets/imgs/user.png'"
@@ -44,7 +44,12 @@
           </ion-card-content>
         </ion-card>
       </ion-slide>
-    </ion-slides>    
+    </ion-slides>  
+    <ion-slides  pager="false" id="tomorrow" slidesPerView=1 style="height:130px;"  *ngIf="todaysCollection.length == 0">
+      <ion-slide>     
+        <p align="center" style="color:#0a72dc;font-weight:bold;font-size:14px" >No Events :)</p>  
+   </ion-slide>
+    </ion-slides>   
     <ion-grid class="gridStyle">
       <ion-row>
         <ion-col col-10>
@@ -55,7 +60,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-slides pager="false" id="tomorrow" slidesPerView=3 style="height: 160px;">
+    <ion-slides pager="false" id="tomorrow" slidesPerView=3 style="height: 160px;" *ngIf="tomorrowsCollection.length > 0">
       <ion-slide *ngFor="let leavetmr of tomorrowsCollection">
         <ion-card>
           <img style="width: 103px;height: 86px;" [src]="leavetmr.owner.photoUrl ? leavetmr.owner.photoUrl : '../../assets/imgs/user.png'"
@@ -66,6 +71,11 @@
         </ion-card>
       </ion-slide>
     </ion-slides>
+    <ion-slides  pager="false" id="tomorrow" slidesPerView=1 style="height:130px;"  *ngIf="tomorrowsCollection.length == 0">
+      <ion-slide>     
+        <p align="center" style="color:#0a72dc;font-weight:bold;font-size:14px" >No Events :)</p>  
+   </ion-slide>
+    </ion-slides> 
     <ion-fab right bottom>
       <button style="background-color:#039be5" ion-fab mini (click)="goToPage('NewLeavePage')">
         <ion-icon style="color:white;" name="add"></ion-icon>

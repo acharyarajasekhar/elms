@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Tomorrow Leaves</ion-title>
+    <ion-title>WhosOof Tomorrow</ion-title>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -34,6 +34,9 @@
         </div>
       </ion-card-content>
     </ion-card>
+  </div>
+  <div *ngIf="!leavesTmrw$">
+    <p align="center" style="color:#0699b3;font-weight:bold;font-size:small" >No Events </p>  
   </div>
   <br/>
 </ion-content>
