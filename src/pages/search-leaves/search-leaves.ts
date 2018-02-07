@@ -4,6 +4,7 @@ import { AlertController } from 'ionic-angular';
 import * as momento from 'moment';
 import { AppContextProvider } from '../../providers/app-context/app-context';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
+import {LeaveStatus} from '../../models/leavestatus.enum'
 
 
 
@@ -45,12 +46,12 @@ export class SearchLeavesPage {
   }
 
   rejectLeave(leaveID: string, info: string) {
-    this.leavesSvc.updateLeaveStatus(leaveID, 2)
+    this.leavesSvc.updateLeaveStatus(leaveID,LeaveStatus.Declined ,info)
     //this._cmnMethods.showToast('Leave request rejected succesfully');
   }
 
   acceptLeave(leaveID: any) {
-    this.leavesSvc.updateLeaveStatus(leaveID, 1)
+    this.leavesSvc.updateLeaveStatus(leaveID,LeaveStatus.Accepted,"Approved")
     //this._cmnMethods.showToast('Leave request accepted succesfully');
   }
 

@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { AppContextProvider } from '../app-context/app-context';
+import { EmailServiceProvider } from '../email-service/email-service';
 import * as momento from 'moment';
 
 @Injectable()
@@ -13,7 +14,7 @@ export class LeaveServicev2Provider {
 
   constructor(private userSvc: UserServiceV2Provider,
     private store: AngularFirestore,
-    private appContext: AppContextProvider) {
+    private appContext: AppContextProvider,private emailSP :EmailServiceProvider) {
     this.appContext.myTeamMembers.subscribe(myTeamMembers => {
       this.emailIds = myTeamMembers;
     })
@@ -97,11 +98,12 @@ export class LeaveServicev2Provider {
 
 
 
-  public updateLeaveStatus(Id:string,toUpdate:number)
+  public updateLeaveStatus(Id:string,toUpdate:number,comments:string)
   {
-    this.store.doc('eLeaves/'+ Id).update({status:toUpdate,modifiedAt:new Date()})
+ 
+    this.store.doc('eLeaves/'+ Id).update({status:toUpdate,modifiedAt:new Date(),ManagerComments:comments})
     .then(status=>{
-      // this.emailSvc.trigger(leaveId, 1);
+    this.emailSP.trigger(Id, toUpdate);
     }).catch(err=>{console.log(err)});
   }
 
