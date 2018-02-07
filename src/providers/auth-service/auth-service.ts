@@ -25,6 +25,10 @@ export class AuthServiceProvider {
     return this.afAuth.auth.signInWithEmailAndPassword(credentials.userid, credentials.password)
   }
 
+  forgotPassword(credentials) {
+    return firebase.auth().sendPasswordResetEmail(credentials.userid)
+  }
+
   signOut() {
     firebase.auth().signOut().then(()=>{
       localStorage.removeItem('userContext');

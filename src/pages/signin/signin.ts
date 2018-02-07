@@ -32,6 +32,10 @@ export class SigninPage {
     this.navCtrl.push('SignupPage');
   }
 
+  forgotPassword() {        
+    this.navCtrl.push('ForgotPasswordPage');
+  }
+
   signIn() {
     this._Cmmethods.InitializeLoader();
     this.authService.signIn(this.signInForm.value).then(res=>{
