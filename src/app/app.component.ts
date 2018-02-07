@@ -64,7 +64,7 @@ export class MyApp {
     ];
 
     this.Userdetails =localStorage.getItem('userContext') ? JSON.parse(localStorage.getItem('userContext')) : null;
-    this.photoURL=this.Userdetails ? this.Userdetails.photoUrl : "../assets/imgs/user.png";
+    this.photoURL=this.Userdetails ? this.Userdetails.photoUrl : "../assets/imgs/user.png";    
   }
 
   initializeApp() {

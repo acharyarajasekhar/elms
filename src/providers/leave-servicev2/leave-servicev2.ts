@@ -29,11 +29,11 @@ export class LeaveServicev2Provider {
   }
 
   private getTodaysLeaves() {
-    this.appContext.todaysLeaves.next([]);
     var today = new Date();
     var range = this.getDateRange(today);
     this.getApprovedLeaves(range.start)
       .subscribe(leaves => {
+        this.appContext.todaysLeaves.next([]);
         this.updateSubject(leaves, range, this.appContext.todaysLeaves);
       })
   }
@@ -46,7 +46,6 @@ export class LeaveServicev2Provider {
           results.push(leave);
         }
         if (lIndex == lArray.length - 1) {
-          console.log("push");
           subject.next(results);
         }
       });
@@ -54,12 +53,12 @@ export class LeaveServicev2Provider {
   }
 
   private getTomorrowsLeaves() {
-    this.appContext.tomorrowsLeaves.next([]);
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     var range = this.getDateRange(tomorrow);
     this.getApprovedLeaves(range.start)
       .subscribe(leaves => {
+        this.appContext.tomorrowsLeaves.next([]);
         this.updateSubject(leaves, range, this.appContext.tomorrowsLeaves);
       })
   }

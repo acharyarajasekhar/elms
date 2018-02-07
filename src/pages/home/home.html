@@ -1,84 +1,84 @@
 <ion-header>
-    <ion-navbar>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title class="fontbolder">WhosOof</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="goToPage('SearchLeavesPage')">
+        <ion-icon name="search"></ion-icon>
       </button>
-      <ion-title class="fontbolder">WhosOof</ion-title>
-      <ion-buttons end>
-        <button ion-button (click)="goToPage('SearchLeavesPage')">
-          <ion-icon name="search"></ion-icon>
-        </button>
-        <button ion-button (click)="goToPage('ReportPage')">
-          <ion-icon name="stats"></ion-icon>
-        </button>
-        <button ion-button (click)="goToPage('NotificationsPage')">
-          <ion-icon name="notifications"></ion-icon>
-          <ion-badge item-top class="badge-custom">{{badgeCount}}</ion-badge>
-        </button>
-      </ion-buttons>
-    </ion-navbar>
-  </ion-header>
-  <ion-content class="has-header">    
-    <ion-slides pager="true" loop="true" id="cover" slidesPerView=1 autoplay="5000" loop="true" style="height: 200px;">
-      <ion-slide style="height: 200px;" *ngFor="let img of slides">
-        <img [src]="img" />
-      </ion-slide>
-    </ion-slides>        
-    <ion-grid class="gridStyle">
-      <ion-row>
-        <ion-col col-10>
-          <p class="itemStyleSubheaders">Today</p>
-        </ion-col>
-        <ion-col col-2>
-          <p class="itemStyle" style="color:#0a72dc;" (click)="goToPage('SeeAllTdyPage')">See All</p>
-        </ion-col>
-      </ion-row>
-    </ion-grid>  
-    <ion-slides pager="false" id="today" slidesPerView=3 style="height: 130px;" *ngIf="todaysCollection.length > 0">
-      <ion-slide *ngFor="let leave of todaysCollection">
-        <ion-card>
-          <img style="width: 103px;height: 86px;" [src]="leave.owner.photoUrl ? leave.owner.photoUrl : '../../assets/imgs/user.png'"
-          />
-          <ion-card-content>
-            <p style="font-weight:800">{{leave.owner.name | nametrim : 8}}</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-slide>
-    </ion-slides>  
-    <ion-slides  pager="false" id="tomorrow" slidesPerView=1 style="height:130px;"  *ngIf="todaysCollection.length == 0">
-      <ion-slide>     
-        <p align="center" style="color:#0a72dc;font-weight:bold;font-size:14px" >No Events :)</p>  
-   </ion-slide>
-    </ion-slides>   
-    <ion-grid class="gridStyle">
-      <ion-row>
-        <ion-col col-10>
-          <p class="itemStyleSubheaders">Tomorrow</p>
-        </ion-col>
-        <ion-col col-2>
-          <p class="itemStyle" style="color:#0a72dc;" (click)="goToPage('SeeAllTmrwPage')">See All</p>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    <ion-slides pager="false" id="tomorrow" slidesPerView=3 style="height: 160px;" *ngIf="tomorrowsCollection.length > 0">
-      <ion-slide *ngFor="let leavetmr of tomorrowsCollection">
-        <ion-card>
-          <img style="width: 103px;height: 86px;" [src]="leavetmr.owner.photoUrl ? leavetmr.owner.photoUrl : '../../assets/imgs/user.png'"
-          />
-          <ion-card-content>
-            <p style="font-weight:800">{{leavetmr.owner.name | nametrim : 8}}</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-slide>
-    </ion-slides>
-    <ion-slides  pager="false" id="tomorrow" slidesPerView=1 style="height:130px;"  *ngIf="tomorrowsCollection.length == 0">
-      <ion-slide>     
-        <p align="center" style="color:#0a72dc;font-weight:bold;font-size:14px" >No Events :)</p>  
-   </ion-slide>
-    </ion-slides> 
-    <ion-fab right bottom>
-      <button style="background-color:#039be5" ion-fab mini (click)="goToPage('NewLeavePage')">
-        <ion-icon style="color:white;" name="add"></ion-icon>
+      <button ion-button (click)="goToPage('ReportPage')">
+        <ion-icon name="stats"></ion-icon>
       </button>
-    </ion-fab>
-  </ion-content>
+      <button ion-button (click)="goToPage('NotificationsPage')">
+        <ion-icon name="notifications"></ion-icon>
+        <ion-badge item-top class="badge-custom">{{badgeCount}}</ion-badge>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content class="has-header">
+  <ion-slides pager="true" loop="true" id="cover" slidesPerView=1 autoplay="5000" loop="true" style="height: 200px;">
+    <ion-slide style="height: 200px;" *ngFor="let img of slides">
+      <img [src]="img" />
+    </ion-slide>
+  </ion-slides>
+  <ion-grid class="gridStyle">
+    <ion-row>
+      <ion-col col-10>
+        <p class="itemStyleSubheaders">Today</p>
+      </ion-col>
+      <ion-col col-2>
+        <p class="itemStyle" style="color:#0a72dc;" (click)="goToPage('SeeAllTdyPage')">See All</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-slides pager="false" id="today" slidesPerView=3 style="height: 130px;">
+    <ion-slide *ngFor="let leave of appContext.todaysLeavesCollection | filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject">
+      <ion-card>
+        <img style="width: 103px;height: 86px;" [src]="leave.owner.photoUrl ? leave.owner.photoUrl : '../../assets/imgs/user.png'"
+        />
+        <ion-card-content>
+          <p style="font-weight:800; white-space: nowrap;overflow: hidden;">{{ leave?.owner?.name }}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+  <!-- <ion-slides pager="false" id="tomorrow" slidesPerView=1 style="height:130px;" *ngIf="todaysCollection.length == 0">
+    <ion-slide>
+      <p align="center" style="color:#0a72dc;font-weight:bold;font-size:14px">No Events :)</p>
+    </ion-slide>
+  </ion-slides> -->
+  <ion-grid class="gridStyle">
+    <ion-row>
+      <ion-col col-10>
+        <p class="itemStyleSubheaders">Tomorrow</p>
+      </ion-col>
+      <ion-col col-2>
+        <p class="itemStyle" style="color:#0a72dc;" (click)="goToPage('SeeAllTmrwPage')">See All</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-slides pager="false" id="tomorrow" slidesPerView=3 style="height: 160px;">
+    <ion-slide *ngFor="let leave of appContext.tomorrowsLeavesCollection">
+      <ion-card>
+        <img style="width: 103px;height: 86px;" [src]="leave.owner.photoUrl ? leave.owner.photoUrl : '../../assets/imgs/user.png'"
+        />
+        <ion-card-content>
+            <p style="font-weight:800; white-space: nowrap;overflow: hidden;">{{ appContext.myTeamMembersCollection | filterByEmailId: leave.owner.id }}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+  <!-- <ion-slides pager="false" id="tomorrow" slidesPerView=1 style="height:130px;" *ngIf="tomorrowsCollection.length == 0">
+    <ion-slide>
+      <p align="center" style="color:#0a72dc;font-weight:bold;font-size:14px">No Events :)</p>
+    </ion-slide>
+  </ion-slides> -->
+  <ion-fab right bottom>
+    <button style="background-color:#039be5" ion-fab mini (click)="goToPage('NewLeavePage')">
+      <ion-icon style="color:white;" name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>
