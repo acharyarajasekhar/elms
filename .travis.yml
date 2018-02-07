@@ -21,6 +21,7 @@ script:
 
 after_success:  
   - firebase deploy --token "${FIREBASE_TOKEN}"
+  - ionic login ${IONIC_EMAIL} ${IONIC_PASSWORD}
   - eval "$(ssh-agent -s)"
   - chmod 600 ./.travis/deploy_rsa
   - ssh-add ./.travis/deploy_rsa
