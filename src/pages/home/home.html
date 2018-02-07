@@ -61,12 +61,12 @@
     </ion-row>
   </ion-grid>
   <ion-slides pager="false" id="tomorrow" slidesPerView=3 style="height: 160px;">
-    <ion-slide *ngFor="let leave of appContext.tomorrowsLeavesCollection">
+    <ion-slide *ngFor="let leave of appContext.tomorrowsLeavesCollection | filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject">
       <ion-card>
         <img style="width: 103px;height: 86px;" [src]="leave.owner.photoUrl ? leave.owner.photoUrl : '../../assets/imgs/user.png'"
         />
         <ion-card-content>
-            <p style="font-weight:800; white-space: nowrap;overflow: hidden;">{{ appContext.myTeamMembersCollection | filterByEmailId: leave.owner.id }}</p>
+            <p style="font-weight:800; white-space: nowrap;overflow: hidden;">{{ leave?.owner?.name }}</p>
         </ion-card-content>
       </ion-card>
     </ion-slide>

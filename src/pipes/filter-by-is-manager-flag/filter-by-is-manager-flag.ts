@@ -14,13 +14,13 @@ export class FilterByIsManagerFlagPipe implements PipeTransform {
       if (myProfile) {
         leaves.forEach((leave: any, i, arr) => {
 
-          var owner = this.appContext.myTeamMembersCollection.filter((t: any) => (t.email == leave.owner.id || t.email == leave.owner.email))[0];
+          var owner = teamCollection.filter((t: any) => (t.email == leave.owner.id || t.email == leave.owner.email))[0];
           if (owner) {
             leave.owner = owner;
           }
 
           if (myProfile.isManager) {
-            var owner = this.appContext.myReporteesCollection.filter((t: any) => (t.email == leave.owner.id || t.email == leave.owner.email))[0];
+            var owner = reporteesCollection.filter((t: any) => (t.email == leave.owner.id || t.email == leave.owner.email))[0];
             if (owner) {
               leave.owner = owner;
             }
