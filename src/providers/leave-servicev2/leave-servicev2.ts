@@ -73,7 +73,7 @@ export class LeaveServicev2Provider {
   private getLeaves(from: Date) {
     return this.store.collection('eLeaves', ref => ref
       .where('to', ">=", from))
-      .valueChanges()
+      .snapshotChanges()
   }
 
   public searchLeavesByDateRange(from: Date, to: Date) {
@@ -82,9 +82,27 @@ export class LeaveServicev2Provider {
       end: to
     };
     this.getLeaves(this.appContext.searchDateRange.start).subscribe(results => {
+          if (results && results.length > 0) {
+      var resultitems = [];
+      results.forEach((leave: any, lIndex, lArray) => {
+        var leavesArray = leave.payload.doc.data();
+        leavesArray.leaveId = leave.payload.doc.id;
+          resultitems.push(leavesArray);
+      });
+    }
       this.appContext.searchedLeaves.next([]);
-      this.updateSubject(results, this.appContext.searchDateRange, this.appContext.searchedLeaves);
+      this.updateSubject(resultitems, this.appContext.searchDateRange, this.appContext.searchedLeaves);
     })
+  }
+
+
+
+  public updateLeaveStatus(Id:string,toUpdate:number)
+  {
+    this.store.doc('eLeaves/'+ Id).update({status:toUpdate,modifiedAt:new Date()})
+    .then(status=>{
+      // this.emailSvc.trigger(leaveId, 1);
+    }).catch(err=>{console.log(err)});
   }
 
 }

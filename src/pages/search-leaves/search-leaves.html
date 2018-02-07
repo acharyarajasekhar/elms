@@ -61,7 +61,7 @@
         </div>
       </ion-card-content>
 
-      <ng-container *ngIf="appContext.myProfileObject.isManager && res?.status=='0' && res?.owner.manager.email == appContext.myProfileObject.email">
+      <ng-container *ngIf="res?.status=='0' && res?.owner.manager.email == appContext.myProfileObject.email">
         <hr>
         <ion-row>
           <ion-col (click)=acceptLeave(res?.leaveId) item-start style="text-align: center;">
@@ -76,7 +76,7 @@
               </button>
             </div>
           </ion-col>
-          <ion-col (click)=presentPrompt(res.leaveId) item-end style="text-align: center;">
+          <ion-col (click)=presentPrompt(res?.leaveId) item-end style="text-align: center;">
             <div>
               <button ion-button icon-left clear small>
                 <img src="../../assets/imgs/angryblack.png" />
