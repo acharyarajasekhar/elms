@@ -4,8 +4,8 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class AppContextProvider {
 
-  myAccountObject = {};
-  myProfileObject = {};
+  myAccountObject: any = {};
+  myProfileObject: any = {};
   myTeamMembersCollection = [];
   myReporteesCollection = [];
   todaysLeavesCollection = [];

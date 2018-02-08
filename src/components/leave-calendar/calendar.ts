@@ -3,7 +3,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { CalendarService } from './calendar.service';
 import { AlertController } from 'ionic-angular';
-import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
+import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
+
 export interface IEvent {
     allDay?: boolean;
     endTime?: Date;
@@ -13,7 +14,7 @@ export interface IEvent {
     photoUrl?: string;
     name?: string;
     reqDate?: Date;
-    Leaveid?:string;
+    Leaveid?: string;
 }
 
 export interface IRange {
@@ -84,8 +85,8 @@ export interface ICalendarComponent {
     currentViewIndex: number;
     direction: number;
     eventSource: IEvent[];
-    getRange: { (date:Date): IRange; };
-    getViewData: { (date:Date): IView };
+    getRange: { (date: Date): IRange; };
+    getViewData: { (date: Date): IView };
     mode: CalendarMode;
     range: IRange;
     views: IView[];
@@ -111,14 +112,14 @@ export interface IMonthViewEventDetailTemplateContext {
 }
 
 export interface IDateFormatter {
-    formatMonthViewDay?: { (date:Date): string; };
-    formatMonthViewDayHeader?: { (date:Date): string; };
-    formatMonthViewTitle?: { (date:Date): string; };
-    formatWeekViewDayHeader?: { (date:Date): string; };
-    formatWeekViewTitle?: { (date:Date): string; };
-    formatWeekViewHourColumn?: { (date:Date): string; };
-    formatDayViewTitle?: { (date:Date): string; };
-    formatDayViewHourColumn?: { (date:Date): string; };
+    formatMonthViewDay?: { (date: Date): string; };
+    formatMonthViewDayHeader?: { (date: Date): string; };
+    formatMonthViewTitle?: { (date: Date): string; };
+    formatWeekViewDayHeader?: { (date: Date): string; };
+    formatWeekViewTitle?: { (date: Date): string; };
+    formatWeekViewHourColumn?: { (date: Date): string; };
+    formatDayViewTitle?: { (date: Date): string; };
+    formatDayViewHourColumn?: { (date: Date): string; };
 }
 
 export type CalendarMode = 'day' | 'month' | 'week';
@@ -296,11 +297,11 @@ export enum Step {
 })
 export class CalendarComponent implements OnInit {
     @Input()
-    get currentDate():Date {
+    get currentDate(): Date {
         return this._currentDate;
     }
 
-    set currentDate(val:Date) {
+    set currentDate(val: Date) {
         if (!val) {
             val = new Date();
         }
@@ -310,41 +311,41 @@ export class CalendarComponent implements OnInit {
         this.onCurrentDateChanged.emit(this._currentDate);
     }
 
-    @Input() eventSource:IEvent[] = [];
-    @Input() calendarMode:CalendarMode = 'month';
-    @Input() formatDay:string = 'd';
-    @Input() formatDayHeader:string = 'EEE';
-    @Input() formatDayTitle:string = 'MMMM dd, yyyy';
-    @Input() formatWeekTitle:string = 'MMMM yyyy, Week $n';
-    @Input() formatMonthTitle:string = 'MMMM yyyy';
-    @Input() formatWeekViewDayHeader:string = 'EEE d';
-    @Input() formatHourColumn:string = 'j';
-    @Input() showEventDetail:boolean = true;
-    @Input() startingDayMonth:number = 0;
-    @Input() startingDayWeek:number = 0;
-    @Input() allDayLabel:string = 'all day';
-    @Input() noEventsLabel:string = 'No Events';
-    @Input() queryMode:QueryMode = 'local';
-    @Input() step:Step = Step.Hour;
-    @Input() autoSelect:boolean = true;
-    @Input() markDisabled:(date:Date) => boolean;
-    @Input() monthviewDisplayEventTemplate:TemplateRef<IMonthViewDisplayEventTemplateContext>;
-    @Input() monthviewInactiveDisplayEventTemplate:TemplateRef<IMonthViewDisplayEventTemplateContext>;
-    @Input() monthviewEventDetailTemplate:TemplateRef<IMonthViewEventDetailTemplateContext>;
-    @Input() weekviewAllDayEventTemplate:TemplateRef<IDisplayAllDayEvent>;
-    @Input() weekviewNormalEventTemplate:TemplateRef<IDisplayEvent>;
-    @Input() dayviewAllDayEventTemplate:TemplateRef<IDisplayAllDayEvent>;
-    @Input() dayviewNormalEventTemplate:TemplateRef<IDisplayEvent>;
-    @Input() dateFormatter:IDateFormatter;
-    @Input() dir:string = "";
-    @Input() scrollToHour:number = 0;
-    @Input() preserveScrollPosition:boolean = false;
-    @Input() lockSwipeToPrev:boolean = false;
-    @Input() lockSwipes:boolean = false;
-    @Input() locale:string = "";
-    @Input() startHour:number = 0;
-    @Input() endHour:number = 24;
-    @Input() spaceBetween:number = 0;
+    @Input() eventSource: IEvent[] = [];
+    @Input() calendarMode: CalendarMode = 'month';
+    @Input() formatDay: string = 'd';
+    @Input() formatDayHeader: string = 'EEE';
+    @Input() formatDayTitle: string = 'MMMM dd, yyyy';
+    @Input() formatWeekTitle: string = 'MMMM yyyy, Week $n';
+    @Input() formatMonthTitle: string = 'MMMM yyyy';
+    @Input() formatWeekViewDayHeader: string = 'EEE d';
+    @Input() formatHourColumn: string = 'j';
+    @Input() showEventDetail: boolean = true;
+    @Input() startingDayMonth: number = 0;
+    @Input() startingDayWeek: number = 0;
+    @Input() allDayLabel: string = 'all day';
+    @Input() noEventsLabel: string = 'No Events';
+    @Input() queryMode: QueryMode = 'local';
+    @Input() step: Step = Step.Hour;
+    @Input() autoSelect: boolean = true;
+    @Input() markDisabled: (date: Date) => boolean;
+    @Input() monthviewDisplayEventTemplate: TemplateRef<IMonthViewDisplayEventTemplateContext>;
+    @Input() monthviewInactiveDisplayEventTemplate: TemplateRef<IMonthViewDisplayEventTemplateContext>;
+    @Input() monthviewEventDetailTemplate: TemplateRef<IMonthViewEventDetailTemplateContext>;
+    @Input() weekviewAllDayEventTemplate: TemplateRef<IDisplayAllDayEvent>;
+    @Input() weekviewNormalEventTemplate: TemplateRef<IDisplayEvent>;
+    @Input() dayviewAllDayEventTemplate: TemplateRef<IDisplayAllDayEvent>;
+    @Input() dayviewNormalEventTemplate: TemplateRef<IDisplayEvent>;
+    @Input() dateFormatter: IDateFormatter;
+    @Input() dir: string = "";
+    @Input() scrollToHour: number = 0;
+    @Input() preserveScrollPosition: boolean = false;
+    @Input() lockSwipeToPrev: boolean = false;
+    @Input() lockSwipes: boolean = false;
+    @Input() locale: string = "";
+    @Input() startHour: number = 0;
+    @Input() endHour: number = 24;
+    @Input() spaceBetween: number = 0;
 
     @Output() onCurrentDateChanged = new EventEmitter<Date>();
     @Output() onRangeChanged = new EventEmitter<IRange>();
@@ -352,11 +353,11 @@ export class CalendarComponent implements OnInit {
     @Output() onTimeSelected = new EventEmitter<ITimeSelected>();
     @Output() onTitleChanged = new EventEmitter<string>();
 
-    private _currentDate:Date;
+    private _currentDate: Date;
     private hourParts = 1;
-    private currentDateChangedFromChildrenSubscription:Subscription;
-    private tdydate :Date;
-    constructor(private calendarService:CalendarService,  private leaveService: LeaveServiceProvider, private alertCtrl: AlertController, @Inject(LOCALE_ID) private appLocale:string) {
+    private currentDateChangedFromChildrenSubscription: Subscription;
+    private tdydate: Date;
+    constructor(private calendarService: CalendarService, private leaveSvc: LeaveServicev2Provider, private alertCtrl: AlertController, @Inject(LOCALE_ID) private appLocale: string) {
         this.locale = appLocale;
         this.tdydate = new Date();
     }
@@ -387,19 +388,19 @@ export class CalendarComponent implements OnInit {
         }
     }
 
-    rangeChanged(range:IRange) {
+    rangeChanged(range: IRange) {
         this.onRangeChanged.emit(range);
     }
 
-    eventSelected(event:IEvent) {
+    eventSelected(event: IEvent) {
         this.onEventSelected.emit(event);
     }
 
-    timeSelected(timeSelected:ITimeSelected) {
+    timeSelected(timeSelected: ITimeSelected) {
         this.onTimeSelected.emit(timeSelected);
     }
 
-    titleChanged(title:string) {
+    titleChanged(title: string) {
         this.onTitleChanged.emit(title);
     }
 
@@ -407,38 +408,36 @@ export class CalendarComponent implements OnInit {
         this.calendarService.loadEvents();
     }
 
-    presentPrompt(leaveid:string) {
+    presentPrompt(leaveid: string) {
         let alert = this.alertCtrl.create({
-          title: 'Cancel Leave',
-          message: 'Do you wish to cancel leave request?',
-          inputs: [
-            {
-              name: 'comments',
-              placeholder: 'Comments'
-            }
-          ],
-          buttons: [
-            {
-              text: 'Dismiss',
-              role: 'cancel',
-              handler: data => {
-                console.log('Cancel clicked');
-              }
-            },
-            {
-             text: 'Save',
-              handler: data => {
-                this.CancelLeave(leaveid,data.comments);
-              }
-            }
-          ]
+            title: 'Cancel Leave',
+            message: 'Do you wish to cancel leave request?',
+            inputs: [
+                {
+                    name: 'comments',
+                    placeholder: 'Comments'
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Dismiss',
+                    role: 'cancel',
+                    handler: data => {
+                        console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'Save',
+                    handler: data => {
+                        this.CancelLeave(leaveid, data.comments);
+                    }
+                }
+            ]
         });
         alert.present();
-      }
+    }
 
-     CancelLeave(leaveid:string,comment?:string){
-          this.leaveService.CancelLeave(leaveid,comment);
-          //this._cmnMethods.showToast('Leave request rejected succesfully');
-    
-      }
+    CancelLeave(leaveid: string, comment?: string) {
+        this.leaveSvc.updateLeaveStatus(leaveid, 3, comment);
+    }
 }

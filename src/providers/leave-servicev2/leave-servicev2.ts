@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { AppContextProvider } from '../app-context/app-context';
 import { EmailServiceProvider } from '../email-service/email-service';
-import * as momento from 'moment';
+import * as moment from 'moment';
 
 @Injectable()
 export class LeaveServicev2Provider {
@@ -55,7 +55,7 @@ export class LeaveServicev2Provider {
   }
 
   private getTomorrowsLeaves() {
-    var tomorrow = momento(new Date()).add(1, 'days');
+    var tomorrow = moment(new Date()).add(1, 'days');
     var range = this.getDateRange(tomorrow);
     this.getApprovedLeaves(range.start)
       .subscribe(leaves => {
@@ -77,12 +77,24 @@ export class LeaveServicev2Provider {
       .snapshotChanges()
   }
 
+  private getMyLeaves(from: Date) {
+    return this.store.collection('eLeaves', ref => ref
+      .where('to', ">=", from)
+      .where('owner', "==", this.store.doc('eUsers/' + this.appContext.myProfileObject.email).ref))
+      .snapshotChanges()
+  }
+
   public searchLeavesByDateRange(from: Date, to: Date) {
     this.appContext.searchDateRange = {
       start: from,
       end: to
     };
-    this.getLeaves(this.appContext.searchDateRange.start).subscribe(results => {
+    this.updateSearchResults(this.getLeaves(this.appContext.searchDateRange.start));
+  }
+
+  private updateSearchResults(source: Observable<any>) {
+    source.subscribe(results => {
+      this.appContext.searchedLeaves.next([]);
       if (results && results.length > 0) {
         var resultitems = [];
         results.forEach((leave: any, lIndex, lArray) => {
@@ -90,7 +102,6 @@ export class LeaveServicev2Provider {
           leaveItem.leaveId = leave.payload.doc.id;
           resultitems.push(leaveItem);
           if (lIndex == lArray.length - 1) {
-            this.appContext.searchedLeaves.next([]);
             this.updateSubject(resultitems, this.appContext.searchDateRange, this.appContext.searchedLeaves);
           }
         });
@@ -98,13 +109,25 @@ export class LeaveServicev2Provider {
     });
   }
 
+  private searchMyLeavesByDateRange(from: Date, to: Date) {
+    this.appContext.searchDateRange = {
+      start: from,
+      end: to
+    };
+    this.updateSearchResults(this.getMyLeaves(this.appContext.searchDateRange.start));
+  }
 
+  public getMyLeavesByMonth(month: string) {
+    var startDate = moment(month).startOf('month').toDate();
+    var endDate = moment(month).endOf('month').toDate();
+    this.searchMyLeavesByDateRange(startDate, endDate)
+  }
 
-  public updateLeaveStatus(Id: string, toUpdate: number, comments: string) {
+  public updateLeaveStatus(Id: string, newStatus: number, comments: string) {
 
-    this.store.doc('eLeaves/' + Id).update({ status: toUpdate, modifiedAt: new Date(), ManagerComments: comments })
+    this.store.doc('eLeaves/' + Id).update({ status: newStatus, modifiedAt: new Date(), ManagerComments: comments })
       .then(status => {
-        this.emailSP.trigger(Id, toUpdate);
+        this.emailSP.trigger(Id, newStatus);
       }).catch(err => { console.log(err) });
   }
 

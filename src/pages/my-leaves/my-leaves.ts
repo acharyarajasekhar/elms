@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
+import { AppContextProvider } from '../../providers/app-context/app-context';
 import { LeaveStatus } from '../../models/leavestatus.enum';
+import * as moment from 'moment';
 
 @IonicPage()
 @Component({
@@ -9,81 +11,63 @@ import { LeaveStatus } from '../../models/leavestatus.enum';
   templateUrl: 'my-leaves.html',
 })
 export class MyLeavesPage {
-  history$ :any[]=[];
+
   eventSource = [];
   viewTitle: string;
   selectedDay = new Date();
-  user:any = JSON.parse(localStorage.getItem('userContext'));
-  calendar = {
+
+  calendarDefaults = {
     mode: 'month',
     currentDate: new Date()
   };
 
-  constructor(public navCtrl: NavController, 
-    private leaveService: LeaveServiceProvider,
-    public toastCtrl: ToastController,
-    public navParams: NavParams) {
-     
-  }
+  constructor(private navCtrl: NavController,
+    private navParams: NavParams,
+    private leaveSvc: LeaveServicev2Provider,
+    private appContext: AppContextProvider) {
 
-  ionViewDidLoad() {
-    this.bindCalender();
+    this.appContext.myProfile.subscribe(profile => {
+      this.updateSourceEvents();
+    });
+
+    this.appContext.searchedLeaves.subscribe(leaves => {
+      this.eventSource = [];
+      leaves.forEach(leave => {
+        this.eventSource.push({
+          "allDay": !leave.isHalfDay,
+          startTime: leave.from,
+          endTime: leave.to,
+          status: (LeaveStatus[(Number(leave.status))]),
+          title: leave.reason,
+          photoUrl: this.appContext.myProfileObject.photoUrl,
+          name: this.appContext.myProfileObject.name,
+          reqDate: leave.createdAt,
+          Leaveid: leave.leaveId
+        })
+      })
+    })
+
   }
 
   openNewLeave() {
     this.navCtrl.push("NewLeavePage");
   }
- 
+
   onViewTitleChanged(title) {
     this.viewTitle = title;
-  }
- 
-  onEventSelected(event) {
-  }
- 
-  onTimeSelected(ev) {
-    this.selectedDay = ev.selectedTime;
-  }
-  
-  bindCalender(){
-    this.leaveService.getMyLeaveHistory_mylvs(this.user.email)
-    .subscribe(history=>{
-
-      history.forEach((lv:any)=>{
-        //console.log(lv);
-        var leavesArray = lv.payload.doc.data();
-        leavesArray.leaveId = lv.payload.doc.id;
-       // console.log(leavesArray);
-        leavesArray.owner.get().then(userRef=>{
-             let userId= userRef.data().email;
-             if(userId == this.user.email){
-               this.eventSource.push({                
-                "allDay": !leavesArray.isHalfDay,
-                startTime: leavesArray.from,
-                endTime: leavesArray.to,
-                status: (LeaveStatus[(Number(leavesArray.status))]).toString(),
-                title: leavesArray.reason,
-                photoUrl: this.user.photoUrl,
-                name: this.user.name,
-                reqDate: leavesArray.createdAt,
-                Leaveid:leavesArray.leaveId
-              })
-             }
-         });
-      })
-
-    },err=>{
-      this.showToast(err);
-    });
+    this.updateSourceEvents();
   }
 
-  showToast(alert_message:string){
-    let toast = this.toastCtrl.create({
-      message: alert_message,
-      duration: 2000,
-      position: 'bottom'
-    }); 
-    toast.present(toast);
+  onEventSelected(event) { }
+
+  onTimeSelected(ev) { this.selectedDay = ev.selectedTime; }
+
+  updateSourceEvents() {
+    this.leaveSvc.getMyLeavesByMonth(this.viewTitle);
+  }
+
+  ionViewWillLeave() {
+    this.appContext.searchedLeaves.next([]);
   }
 
 }
