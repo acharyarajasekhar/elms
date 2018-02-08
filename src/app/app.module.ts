@@ -40,6 +40,7 @@ import { LeaveServicev2Provider } from '../providers/leave-servicev2/leave-servi
 import { AppContextProvider } from '../providers/app-context/app-context';
 import { ToastMessageProvider } from '../providers/toast-message/toast-message';
 import { UserServiceV2Provider } from '../providers/user-service-v2/user-service-v2';
+import{commentsController} from '../components/controllers/comments-controller';
   
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { UserServiceV2Provider } from '../providers/user-service-v2/user-service
     EmailServiceProvider,
     LeaveServicev2Provider,
     UserServiceV2Provider,
+    commentsController,
     AppContextProvider,
     ToastMessageProvider,
     IonicErrorHandler,
