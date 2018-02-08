@@ -7,6 +7,7 @@ import { DetailsviewPage } from '../detailsview/detailsview';
 import * as _ from 'lodash';
 import { AppContextProvider } from '../../providers/app-context/app-context';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
+import * as moment from 'moment';
 
 @IonicPage()
 @Component({
@@ -25,7 +26,7 @@ export class NotificationsPage {
   constructor(
     private notificationService:NotificationService,
     public auth: AuthServiceProvider,
-    private leaveService:LeaveServicev2Provider,
+    private leavesSvc:LeaveServicev2Provider,
     public toastCtrl: ToastController,
     public modalCtrl: ModalController,
     private appContext: AppContextProvider
@@ -34,11 +35,14 @@ export class NotificationsPage {
   }
 
   bindNotificationList(){
-    this.leaveService.loadNotification();
+    var from = moment(new Date()).startOf('day').toDate();
+    var to = moment(new Date()).add(90, 'days').endOf('day').toDate();
+    this.leavesSvc.searchLeavesByDateRange(from, to);
+    // this.leaveService.loadNotification();
   }
 
   ionViewWillLeave() {
-    this.appContext.notificationLeaves.next([]);
+    this.appContext.searchedLeaves.next([]);
   }
 
   //left drag ~> positive value

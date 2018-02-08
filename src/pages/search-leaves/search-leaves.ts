@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
-import * as momento from 'moment';
+import * as moment from 'moment';
 import { AppContextProvider } from '../../providers/app-context/app-context';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
 import {LeaveStatus} from '../../models/leavestatus.enum'
@@ -17,8 +17,8 @@ export class SearchLeavesPage {
 
   fromDate = new Date().toISOString();
   toDate = new Date().toISOString();
-  maxToDate = momento(new Date()).add(90, 'days').format('YYYY-MM-DD');
-  minFromDate = momento(new Date()).add(-90, 'days').format('YYYY-MM-DD');
+  maxToDate = moment(new Date()).add(90, 'days').format('YYYY-MM-DD');
+  minFromDate = moment(new Date()).add(-90, 'days').format('YYYY-MM-DD');
 
 
 
@@ -28,11 +28,11 @@ export class SearchLeavesPage {
   }
 
   getMaxFromDate(toDate) {
-    return momento(toDate).format('YYYY-MM-DD');
+    return moment(toDate).format('YYYY-MM-DD');
   }
 
   getMinToDate(fromDate) {
-    return momento(fromDate).format('YYYY-MM-DD');
+    return moment(fromDate).format('YYYY-MM-DD');
   }
 
   searchLeave(fromDate, toDate) {
