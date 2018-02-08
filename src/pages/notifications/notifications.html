@@ -5,7 +5,7 @@
 </ion-header>
 <ion-content class="has-header">
     <ion-list>
-        <ion-item-sliding  (ionDrag)="dragEvent($event,leave.id)" *ngFor="let leave of leaves$">
+        <ion-item-sliding  (ionDrag)="dragEvent($event,leave.id)" *ngFor="let leave of appContext.notificationLeavesCollection">
             <ion-item (click)="openModal(leave.data)">
                 <ion-avatar item-start>
                     <img [src]="leave.photoUrl" *ngIf="leave.photoUrl">
