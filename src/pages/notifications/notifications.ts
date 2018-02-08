@@ -4,7 +4,6 @@ import { NotificationService } from '../../providers/notification-service/notifi
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { Leave } from '../../models/leave.model';
 import { DetailsviewPage } from '../detailsview/detailsview';
-import * as _ from 'lodash';
 import { AppContextProvider } from '../../providers/app-context/app-context';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
 import * as moment from 'moment';
@@ -38,7 +37,6 @@ export class NotificationsPage {
     var from = moment(new Date()).startOf('day').toDate();
     var to = moment(new Date()).add(90, 'days').endOf('day').toDate();
     this.leavesSvc.searchLeavesByDateRange(from, to);
-    // this.leaveService.loadNotification();
   }
 
   ionViewWillLeave() {
@@ -47,85 +45,51 @@ export class NotificationsPage {
 
   //left drag ~> positive value
   //right drag ~> negative value
-  // dragEvent(item,leaveId:string,mgrId?:string) {
-  //   let percent = item.getOpenAmount();
-  //   console.log(percent);
-  //   console.log(leaveId);
-  //   if (percent < -130) {
-  //     if(this.isManagerRole)
-  //       this.notificationService.acceptleave(leaveId,true,mgrId);
-  //     else
-  //       this.notificationService.archieveLeave(leaveId);
-  //   }
-  //   if (percent > 130) {
-  //     if(this.isManagerRole)
-  //       this.notificationService.declineLeave(leaveId,true,"");
-  //     else
-  //       this.notificationService.archieveLeave(leaveId);
-  //   }
-  // }
+  dragEvent(item,leaveId:string,userId:string) {
+    let percent = item.getOpenAmount();
+    console.log(this.appContext.myProfileObject.isManager);
+    if (percent < -130) {
+      if(this.appContext.myProfileObject.isManager){
+        this.notificationService.acceptleave(leaveId,true,userId);
+        this.showToast('Leave request accepted succesfully');
+      }
+      else{
+        this.notificationService.archieveLeave(leaveId);
+        this.showToast('Archived');
+      }
+    }
+    if (percent > 130) {
+      if(this.appContext.myProfileObject.isManager){
+        this.notificationService.declineLeave(leaveId,true,userId);
+        this.showToast('Leave request rejected succesfully');
+      }
+      else{
+        this.notificationService.archieveLeave(leaveId);
+        this.showToast('Archived');
+      }
+    }
+  }
 
-  // swipeEvent(event,keyObj:string,managerId?:string){
-  //   if (event.direction == 2){ //(2)swipe left direction ~ reject
-  //     if(!this.isManagerRole && this.isManagerRole == 'true')
-  //       this.notificationService.declineLeave(keyObj,true,"");
-  //     else
-  //       this.notificationService.declineLeave(keyObj,false,"");
-  //   }
-  //   if (event.direction == 4){ //(4)swipe right direction ~ accept
-  //     if(!this.isManagerRole && this.isManagerRole == 'false')
-  //       this.notificationService.acceptleave(keyObj,true,managerId);
-  //     else
-  //       this.notificationService.acceptleave(keyObj,false);
-  //   } 
-  // }
+  showToast(alert_message:string){
+    let toast = this.toastCtrl.create({
+      message: alert_message,
+      duration: 2000,
+      position: 'bottom'
+    }); 
+    toast.present(toast);
+  }
 
-  // rejectLeave(keyObj:string){
-  //   if(this.isManagerRole == 'true'){
-  //     this.notificationService.declineLeave(keyObj,true,"");
-  //     this.showToast('Leave request rejected succesfully');
-  //   }   
-  //   else{
-  //     this.notificationService.declineLeave(keyObj,false,"");
-  //     this.showToast('Archived');
-  //   }
-  // }
-
-  // acceptLeave(keyObj:string){
-  //   if(this.isManagerRole == 'true'){
-  //     this.notificationService.acceptleave(keyObj,true,this.uid);
-  //     this.showToast('Leave request accepted succesfully');
-  //   }   
-  //   else{
-  //     this.notificationService.acceptleave(keyObj,false);
-  //     this.showToast('Archived');
-  //   }
-  // }
-
-  // readOnly(keyObj,userId){
-  //   this.notificationService.archieveLeave(keyObj);
-  // }
-
-  // showToast(alert_message:string){
-  //   let toast = this.toastCtrl.create({
-  //     message: alert_message,
-  //     duration: 2000,
-  //     position: 'bottom'
-  //   }); 
-  //   toast.present(toast);
-  // }
-
-  // openModal(leave:Leave) {
-  //   let leaveObj = { 
-  //                     userId: leave.userId, 
-  //                     name: leave.name, 
-  //                     from: leave.from, 
-  //                     to: leave.to, 
-  //                     status:leave.status,
-  //                     reason: leave.reason, 
-  //                     photoUrl:leave.photoUrl
-  //                   };
-  //   let myModal = this.modalCtrl.create(DetailsviewPage,leaveObj);
-  //   myModal.present();
-  // }
+  openModal(leave:any) {
+    let leaveObj = { 
+                      userId: leave.owner.userId, 
+                      name: leave.owner.name, 
+                      from: leave.from, 
+                      to: leave.to, 
+                      status:leave.status,
+                      reason: leave.reason, 
+                      photoUrl:leave.owner.photoUrl
+                    };
+    let myModal = this.modalCtrl.create(DetailsviewPage,leaveObj);
+    myModal.present();
+  }
 }
