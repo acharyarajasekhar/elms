@@ -14,7 +14,7 @@ export class LeaveServicev2Provider {
 
   constructor(private userSvc: UserServiceV2Provider,
     private store: AngularFirestore,
-    private appContext: AppContextProvider,private emailSP :EmailServiceProvider) {
+    private appContext: AppContextProvider, private emailSP: EmailServiceProvider) {
     this.appContext.myTeamMembers.subscribe(myTeamMembers => {
       this.emailIds = myTeamMembers;
     })
@@ -83,28 +83,29 @@ export class LeaveServicev2Provider {
       end: to
     };
     this.getLeaves(this.appContext.searchDateRange.start).subscribe(results => {
-          if (results && results.length > 0) {
-      var resultitems = [];
-      results.forEach((leave: any, lIndex, lArray) => {
-        var leavesArray = leave.payload.doc.data();
-        leavesArray.leaveId = leave.payload.doc.id;
-          resultitems.push(leavesArray);
-      });
-    }
-      this.appContext.searchedLeaves.next([]);
-      this.updateSubject(resultitems, this.appContext.searchDateRange, this.appContext.searchedLeaves);
-    })
+      if (results && results.length > 0) {
+        var resultitems = [];
+        results.forEach((leave: any, lIndex, lArray) => {
+          var leaveItem = leave.payload.doc.data();
+          leaveItem.leaveId = leave.payload.doc.id;
+          resultitems.push(leaveItem);
+          if (lIndex == lArray.length - 1) {
+            this.appContext.searchedLeaves.next([]);
+            this.updateSubject(resultitems, this.appContext.searchDateRange, this.appContext.searchedLeaves);
+          }
+        });
+      }
+    });
   }
 
 
 
-  public updateLeaveStatus(Id:string,toUpdate:number,comments:string)
-  {
- 
-    this.store.doc('eLeaves/'+ Id).update({status:toUpdate,modifiedAt:new Date(),ManagerComments:comments})
-    .then(status=>{
-    this.emailSP.trigger(Id, toUpdate);
-    }).catch(err=>{console.log(err)});
+  public updateLeaveStatus(Id: string, toUpdate: number, comments: string) {
+
+    this.store.doc('eLeaves/' + Id).update({ status: toUpdate, modifiedAt: new Date(), ManagerComments: comments })
+      .then(status => {
+        this.emailSP.trigger(Id, toUpdate);
+      }).catch(err => { console.log(err) });
   }
 
 }
