@@ -131,16 +131,68 @@ export class LeaveServicev2Provider {
       }).catch(err => { console.log(err) });
   }
 
-  public createLeave(leave) {
-    leave.owner = this.store.doc('eUsers/' + this.appContext.myProfileObject.email).ref;
-    this.getMyLeaves(leave.from).subscribe(results => {
-      console.log(results);
-    })
+  private addLeave(leave) {
+    this.store.collection('eLeaves').add(leave)
+      .then(result => {
+        // this.emailSP.trigger(result.id, 0);
+      }).catch(err => { console.log(err) });
+  }
 
-    // this.store.collection('eLeaves').add(leave)
-    //   .then(result => {
-    //     this.emailSP.trigger(result.id, 0);
-    //   }).catch(err => { console.log(err) });
+  public createLeave(leave) {
+    leave.from = moment(leave.from).startOf('day').toDate();
+    leave.to = moment(leave.to).endOf('day').toDate();
+    leave.owner = this.store.doc('eUsers/' + this.appContext.myProfileObject.email).ref;
+    console.log(leave);
+
+    this.store.collection('eLeaves', ref => ref
+      .where('to', ">=", leave.from)
+      .where('owner', "==", this.store.doc('eUsers/' + this.appContext.myProfileObject.email).ref))
+      .ref.get().then(results => {
+        var canCreateLeave = true;
+        if (results && results.docs && results.docs.length > 0) {
+          results.docs.forEach((doc, i, arr) => {
+            var l = doc.data();
+
+            if (l.from <= leave.to) {
+              canCreateLeave = false;
+              console.log(doc.data());
+            }
+            if (i == arr.length - 1) {
+              console.log(canCreateLeave);
+              if (canCreateLeave) {
+                this.addLeave(leave);
+              } else {
+                console.log("Can't create leave. there is an overlapping leave request with your name...");
+              }
+            }
+          })
+        } else {
+          this.addLeave(leave);
+        }
+      })
+
+    //  this.store.collection('eLeaves').add(leave)
+    // .then(result => {
+    //   // this.emailSP.trigger(result.id, 0);
+    // }).catch(err => { console.log(err) });
+
+    // this.getMyLeaves(leave.from).subscribe(results => {
+    //   console.log(results);
+    //   // if (results && results.length > 0) {
+    //   //   var overlap = results.filter(result => {
+    //   //     result.payload.doc.data().from <= leave.to;
+    //   //   });
+    //   //   console.log("overlap" + overlap);
+    //   //   if (overlap && overlap.length > 0) {
+    //   //     console.log("Can't create leave. there is an overlapping leave request with your name...");
+    //   //   } else {
+    //   //     // this.store.collection('eLeaves').add(leave)
+    //   //     //   .then(result => {
+    //   //     //     // this.emailSP.trigger(result.id, 0);
+    //   //     //   }).catch(err => { console.log(err) });
+    //   //   }
+    //   // }
+    // })
   }
 
 }

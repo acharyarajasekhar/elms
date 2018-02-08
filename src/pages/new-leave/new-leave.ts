@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import * as moment from 'moment';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
+import { leave } from '@angular/core/src/profile/wtf_impl';
 
 @IonicPage()
 @Component({
@@ -32,23 +33,9 @@ export class NewLeavePage {
   createLeave() {
     if (this.leave.isHalfDay) {
       this.leave.to = this.leave.from;
-    }
-    //this.leaveSvc.createLeave(this.leave);
+    }    
+    this.leaveSvc.createLeave(this.leave);
   }
-
-
-  // public createLeave(leave) {
-  //   leave.owner = this.store.doc('eUsers/' + this.appContext.myProfileObject.email).ref;
-  //   this.getMyLeaves(leave.from).subscribe(results => {
-  //     console.log(results);
-  //   })
-
-  //   // this.store.collection('eLeaves').add(leave)
-  //   //   .then(result => {
-  //   //     this.emailSP.trigger(result.id, 0);
-  //   //   }).catch(err => { console.log(err) });
-  // }
-  
 
   constructor(private leaveSvc: LeaveServicev2Provider) { }
 }
