@@ -27,6 +27,14 @@
                 <ion-label>To</ion-label>
                 <ion-datetime displayFormat="MM/DD/YYYY" formControlName="to" required [min]="minDate" [max]="maxDate" (ionChange)="SetDate()"  [(ngModel)]="ToDate"></ion-datetime>
               </ion-item>
+              <ion-item  class="ionitems"  style="margin-top: 10px;">
+                <ion-label>Type</ion-label>
+                <ion-select formControlName="lvType">
+                  <ion-option  value="Planned" *ngIf="plnType">Planned</ion-option>
+                  <ion-option value="Un-Planned">Un-Planned</ion-option>
+                  <ion-option value="Sick">Sick</ion-option>
+                </ion-select>
+              </ion-item>
     
               <ion-item  class="ionitems"  style="margin-top: 10px;">
                 <ion-textarea placeholder="Reason for leave" maxlength="50" required formControlName="reason"></ion-textarea>
