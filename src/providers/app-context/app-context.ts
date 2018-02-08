@@ -49,13 +49,13 @@ export class AppContextProvider {
       this.searchedLeavesCollection = leaves;
     })
 
-    // this.myAccount.next([]);
-    // this.myProfile.next([]);
-    // this.myTeamMembers.next([]);
-    // this.myReportees.next([]);
-    // this.todaysLeaves.next([]);
-    // this.tomorrowsLeaves.next([]);
-    // this.searchedLeaves.next([]);
+    this.myAccount.next([]);
+    this.myProfile.next([]);
+    this.myTeamMembers.next([]);
+    this.myReportees.next([]);
+    this.todaysLeaves.next([]);
+    this.tomorrowsLeaves.next([]);
+    this.searchedLeaves.next([]);
   }
 
 }
