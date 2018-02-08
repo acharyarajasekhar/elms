@@ -31,11 +31,7 @@ export class AuthServiceProvider {
 
   signOut() {
     firebase.auth().signOut().then(()=>{
-      localStorage.removeItem('userContext');
-      localStorage.removeItem('mgrName');
-      localStorage.removeItem('mgrEmail');
-      localStorage.removeItem('teamName');
-      localStorage.removeItem('teamId');
+      localStorage.removeItem('isManager');
       localStorage.clear();
     });
   }

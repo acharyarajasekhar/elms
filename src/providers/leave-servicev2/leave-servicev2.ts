@@ -130,47 +130,4 @@ export class LeaveServicev2Provider {
         this.emailSP.trigger(Id, newStatus);
       }).catch(err => { console.log(err) });
   }
-
-  /***********NOTIFICATION******************/
-  private getLeavesByUser(from:Date) {
-    if (this.appContext.myProfileObject.isManager) {
-      return this.store.collection('eLeaves', ref => 
-              ref.where('status', '==', 0)
-                 .where('from','==', from))
-                 .snapshotChanges();
-    }
-    else {
-      return this.store.collection('eLeaves', ref => 
-              ref.where('isRead', '==', false)
-                 .where('from','==', from)
-                 .orderBy("from", "asc"))
-                 .snapshotChanges();
-    }
-  }
-
-  public loadNotification(){
-    this.appContext.searchDateRange = {
-      start: new Date(new Date().setHours(0, 0, 0, 0)),
-      end: moment().add(12, 'months').format('MM/DD/YYYY')
-    };
-    this.updateNotificationResults(this.getLeavesByUser(this.appContext.searchDateRange.start));
-  }
-
-  private updateNotificationResults(source: Observable<any>) {
-    source.subscribe(results => {
-      this.appContext.notificationLeaves.next([]);
-      if (results && results.length > 0) {
-        var resultitems = [];
-        results.forEach((leave: any, lIndex, lArray) => {
-          var leaveItem = leave.payload.doc.data();
-          leaveItem.leaveId = leave.payload.doc.id;
-          resultitems.push(leaveItem);
-          if (lIndex == lArray.length - 1) {
-            this.updateSubject(resultitems, this.appContext.searchDateRange, this.appContext.notificationLeaves);
-          }
-        });
-      }
-    });
-  }
-
 }

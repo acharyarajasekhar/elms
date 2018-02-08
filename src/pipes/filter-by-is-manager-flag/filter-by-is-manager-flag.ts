@@ -20,6 +20,7 @@ export class FilterByIsManagerFlagPipe implements PipeTransform {
           }
 
           if (myProfile.isManager) {
+            localStorage.setItem('isManager','true');
             var owner = reporteesCollection.filter((t: any) => (t.email == leave.owner.id || t.email == leave.owner.email))[0];
             if (owner) {
               leave.owner = owner;
