@@ -124,7 +124,7 @@ export class NewLeavePage {
     }
 
 
-     if(this.ToDate<this.FrmDate){
+     if(this.ToDate!=this.FrmDate && this.ToDate<this.FrmDate){
   
       this.ToDate=new Date(this.FrmDate).toISOString();
      
