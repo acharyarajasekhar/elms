@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { AppContextProvider } from '../app-context/app-context';
 import { EmailServiceProvider } from '../email-service/email-service';
 import * as moment from 'moment';
+import{ ToastMessageProvider } from '../toast-message/toast-message';
 
 @Injectable()
 export class LeaveServicev2Provider {
@@ -14,7 +15,7 @@ export class LeaveServicev2Provider {
 
   constructor(private userSvc: UserServiceV2Provider,
     private store: AngularFirestore,
-    private appContext: AppContextProvider, private emailSP: EmailServiceProvider) {
+    private appContext: AppContextProvider, private emailSP: EmailServiceProvider, private toastMP:ToastMessageProvider) {
     this.appContext.myTeamMembers.subscribe(myTeamMembers => {
       this.emailIds = myTeamMembers;
     })
@@ -124,11 +125,11 @@ export class LeaveServicev2Provider {
   }
 
   public updateLeaveStatus(Id: string, newStatus: number, comments: string) {
-
     this.store.doc('eLeaves/' + Id).update({ status: newStatus, modifiedAt: new Date(), ManagerComments: comments })
       .then(status => {
+        this.toastMP.showToast("Leave request updated successfully!",false);
         this.emailSP.trigger(Id, newStatus);
-      }).catch(err => { console.log(err) });
+      }).catch(err => {   this.toastMP.showToast(err,true) });
   }
 
   public createLeave(leave) {
