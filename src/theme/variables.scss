@@ -67,6 +67,28 @@ hr
 {
   height: 1px !important;
 }
+
+.toast-success {
+  > div{
+       background-color:#3BC75F!important;
+       font-family: g_bold;
+       text-align: center;
+       color:white;
+       font-weight: 500;
+   }
+}
+
+.toast-error {
+  > div{
+       background-color:rgb(231, 123, 123) !important;
+       font-family: g_bold;
+       text-align: center;
+       color:white;
+       font-weight: 500;
+
+
+   }
+}
 /*.scroll-content
 {
 background-color:#eeeeee !important;

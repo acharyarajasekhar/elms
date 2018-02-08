@@ -46,13 +46,11 @@ export class SearchLeavesPage {
   }
 
   rejectLeave(leaveID: string, info: string) {
-    this.leavesSvc.updateLeaveStatus(leaveID,LeaveStatus.Declined ,info)
-    //this._cmnMethods.showToast('Leave request rejected succesfully');
+    this.leavesSvc.updateLeaveStatus(leaveID,LeaveStatus.Declined ,info);
   }
 
   acceptLeave(leaveID: any) {
-    this.leavesSvc.updateLeaveStatus(leaveID,LeaveStatus.Accepted,"Approved")
-    //this._cmnMethods.showToast('Leave request accepted succesfully');
+    this.leavesSvc.updateLeaveStatus(leaveID,LeaveStatus.Accepted,"Approved");
   }
 
   getColor(status) {
