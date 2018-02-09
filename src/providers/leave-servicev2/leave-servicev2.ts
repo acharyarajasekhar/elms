@@ -15,7 +15,8 @@ export class LeaveServicev2Provider {
 
   constructor(private userSvc: UserServiceV2Provider,
     private store: AngularFirestore,
-    private appContext: AppContextProvider, private emailSP: EmailServiceProvider, private toastMP:ToastMessageProvider) {
+    private appContext: AppContextProvider, 
+    private emailSP: EmailServiceProvider, private toastMP:ToastMessageProvider) {
     this.appContext.myTeamMembers.subscribe(myTeamMembers => {
       this.emailIds = myTeamMembers;
     })

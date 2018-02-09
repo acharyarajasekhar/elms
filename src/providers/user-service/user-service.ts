@@ -74,12 +74,10 @@ export class UserServiceProvider {
 
   /***UPDATE User Object By Id***/
   updateUserById(userId, userObj) {        
-    let mgrRef = this.afs.collection("eUsers").doc(userObj.manager).ref;
-    let teamRef = this.afs.collection("eTeam").doc(userObj.team).ref
+   // let mgrRef = this.afs.collection("eUsers").doc(userObj.manager).ref;
+    //let teamRef = this.afs.collection("eTeam").doc(userObj.team).ref
     this.userDocument = this.afs.doc('eUsers/' + userId);
-    userObj.manager = mgrRef;
-    userObj.team = teamRef;    
-    this.userDocument.update(userObj);       
+    this.userDocument.update({name: userObj.name, phoneNumber: userObj.phoneNumber});       
   }
 
   updatePhotoUrl(userId, photoUrl)  {

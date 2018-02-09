@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
+import { commentsController } from '../../components/controllers/comments-controller';
 import * as moment from 'moment';
 import { AppContextProvider } from '../../providers/app-context/app-context';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
@@ -23,7 +23,7 @@ export class SearchLeavesPage {
 
 
   constructor(private appContext: AppContextProvider,
-    private leavesSvc: LeaveServicev2Provider, private alertCtrl: AlertController) {
+    private leavesSvc: LeaveServicev2Provider, private alertCtrl: commentsController) {
     this.appContext.searchedLeaves.subscribe(leaves => { console.log(leaves) });
   }
 
@@ -43,10 +43,6 @@ export class SearchLeavesPage {
 
   isSearchResultsAvailable() {
     return this.appContext.searchedLeavesCollection && this.appContext.searchedLeavesCollection.length > 0;
-  }
-
-  rejectLeave(leaveID: string, info: string) {
-    this.leavesSvc.updateLeaveStatus(leaveID,LeaveStatus.Declined ,info);
   }
 
   acceptLeave(leaveID: any) {
@@ -70,34 +66,11 @@ export class SearchLeavesPage {
     this.appContext.searchedLeaves.next([]);
   }
 
-  presentPrompt(keyObj: string) {
-    let alert = this.alertCtrl.create({
-      title: 'Reject Leave',
-      message: 'Do you wish to reject this leave request?',
-      cssClass: 'alertCustomCss',
-      inputs: [
-        {
-          name: 'comments',
-          placeholder: 'Comments'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Dismiss',
-          role: 'cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Save',
-          handler: data => {
-            this.rejectLeave(keyObj, data.comments);
-          }
-        }
-      ]
-    });
-    alert.present();
+  CallPrompt(keyObj: string)
+  {
+    let Modaltitle="Reject Leave";
+    let Modalmsg="Do you wish to reject this leave request?";
+    this.alertCtrl.presentPrompt(keyObj,Modaltitle,Modalmsg,LeaveStatus.Declined);
   }
 
   // MoreInfo(obj: any) {

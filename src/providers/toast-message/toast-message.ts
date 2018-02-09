@@ -11,10 +11,10 @@ export class ToastMessageProvider {
 
   showToast(msg:string,err:boolean) {
     let Class:string;
-    if(err) //Success
-    Class="toast-success";
-    else //Error
+    if(err) //Error
     Class="toast-error";
+    else //Success
+    Class="toast-success";
 
     let toast = this.toastCtrl.create({
       message: msg,

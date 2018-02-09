@@ -4,7 +4,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { TeamServiceProvider } from '../../providers/team-service/team-service';
-
+import { AppContextProvider } from '../../providers/app-context/app-context';
 @IonicPage()
 @Component({
   selector: 'page-edit-user-profile',
@@ -21,50 +21,46 @@ export class EditUserProfilePage {
     private formBuilder: FormBuilder,
     public userService: UserServiceProvider,
     private teamService:TeamServiceProvider,
+    private appContext: AppContextProvider,
     public authService: AuthServiceProvider) {
       this.profileForm = this.formBuilder.group({
         name: ['', Validators.required],
-        manager: [''],
-        team: [''],
+        // manager: [{value: '',disabled: true}],
+        // team: [{value: '',disabled: true}],
         phoneNumber: ['']
       });
-      this.user = JSON.parse(localStorage.getItem('userContext'));
+      this.user =this.appContext.myProfileObject;
   }
   
-  updateProfile(){    
-    localStorage.setItem('mgrEmail', this.user.manager);
-    localStorage.setItem('teamId', this.user.team);
-    localStorage.setItem('teamName', this.user.team);
-    localStorage.setItem('mgrName', this.user.manager);
+  updateProfile(){   
     this.userService.updateUserById(this.user.email,this.user);
-    this.navCtrl.push("UserProfilePage",{user: this.user});
+    //this.navCtrl.push("UserProfilePage",{user: this.user});
+    this.navCtrl.pop();
   }
 
   ionViewDidLoad() {
   }
 
-  ngOnInit(){ 
-    this.user.manager = localStorage.getItem("mgrEmail");
-    this.user.team = localStorage.getItem("teamId");
-    this.userService.getManagers().subscribe(mgrs=>{      
-      this.managers$ = mgrs;      
-    });
-    this.teamService.getTeams().subscribe(teams=>{
-      this.teams$ = teams;   
-    });
-  }
+  // ngOnInit(){ 
+  //   this.userService.getManagers().subscribe(mgrs=>{      
+  //     this.managers$ = mgrs;      
+  //   });
+  //   this.teamService.getTeams().subscribe(teams=>{
+  //     this.teams$ = teams;   
+  //   });
+  // }
 
-  onChange(mgrId){
-    this.teams$ = [];
-    this.teamService.getTeams().subscribe(teams=>{
-      teams.forEach((tmItem:any)=>{
-        tmItem.managerid.get()
-        .then(userRef => { 
-            if(userRef.data().email == mgrId){
-              this.teams$.push(tmItem);
-            }
-        });
-      });  
-    });
-  }
+  // onChange(mgrId){
+  //   this.teams$ = [];
+  //   this.teamService.getTeams().subscribe(teams=>{
+  //     teams.forEach((tmItem:any)=>{
+  //       tmItem.managerid.get()
+  //       .then(userRef => { 
+  //           if(userRef.data().email == mgrId){
+  //             this.teams$.push(tmItem);
+  //           }
+  //       });
+  //     });  
+  //   });
+  // }
 }

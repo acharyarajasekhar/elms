@@ -7,6 +7,7 @@ import { DetailsviewPage } from '../detailsview/detailsview';
 import { AppContextProvider } from '../../providers/app-context/app-context';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
 import * as moment from 'moment';
+import { ToastMessageProvider } from '../../providers/toast-message/toast-message';
 
 @IonicPage()
 @Component({
@@ -26,7 +27,7 @@ export class NotificationsPage {
     private notificationService:NotificationService,
     public auth: AuthServiceProvider,
     private leavesSvc:LeaveServicev2Provider,
-    public toastCtrl: ToastController,
+    public toastMP: ToastMessageProvider,
     public modalCtrl: ModalController,
     private appContext: AppContextProvider
   ) {
@@ -51,32 +52,23 @@ export class NotificationsPage {
     if (percent < -130) {
       if(this.appContext.myProfileObject.isManager){
         this.notificationService.acceptleave(leaveId,true,userId);
-        this.showToast('Leave request accepted succesfully');
+        this.toastMP.showToast('Leave request accepted succesfully',false);
       }
       else{
         this.notificationService.archieveLeave(leaveId);
-        this.showToast('Archived');
+        this.toastMP.showToast('Archived',false);
       }
     }
     if (percent > 130) {
       if(this.appContext.myProfileObject.isManager){
         this.notificationService.declineLeave(leaveId,true,userId);
-        this.showToast('Leave request rejected succesfully');
+        this.toastMP.showToast('Leave request rejected succesfully',false);
       }
       else{
         this.notificationService.archieveLeave(leaveId);
-        this.showToast('Archived');
+        this.toastMP.showToast('Archived',false);
       }
     }
-  }
-
-  showToast(alert_message:string){
-    let toast = this.toastCtrl.create({
-      message: alert_message,
-      duration: 2000,
-      position: 'bottom'
-    }); 
-    toast.present(toast);
   }
 
   openModal(leave:any) {
