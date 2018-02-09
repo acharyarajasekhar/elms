@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { AppContextProvider } from '../app-context/app-context';
 import { EmailServiceProvider } from '../email-service/email-service';
 import * as moment from 'moment';
-import{ ToastMessageProvider } from '../toast-message/toast-message';
+import { ToastMessageProvider } from '../toast-message/toast-message';
 
 @Injectable()
 export class LeaveServicev2Provider {
@@ -15,8 +15,8 @@ export class LeaveServicev2Provider {
 
   constructor(private userSvc: UserServiceV2Provider,
     private store: AngularFirestore,
-    private appContext: AppContextProvider, 
-    private emailSP: EmailServiceProvider, private toastMP:ToastMessageProvider) {
+    private appContext: AppContextProvider,
+    private emailSP: EmailServiceProvider, private toastMP: ToastMessageProvider) {
     this.appContext.myTeamMembers.subscribe(myTeamMembers => {
       this.emailIds = myTeamMembers;
     })
@@ -128,73 +128,41 @@ export class LeaveServicev2Provider {
   public updateLeaveStatus(Id: string, newStatus: number, comments: string) {
     this.store.doc('eLeaves/' + Id).update({ status: newStatus, modifiedAt: new Date(), ManagerComments: comments })
       .then(status => {
-        this.toastMP.showToast("Leave request updated successfully!",false);
+        this.toastMP.showToast("Leave request updated successfully!", false);
         this.emailSP.trigger(Id, newStatus);
-      }).catch(err => {   this.toastMP.showToast(err,true) });
+      }).catch(err => { this.toastMP.showToast(err, true) });
   }
 
   private addLeave(leave) {
     this.store.collection('eLeaves').add(leave)
       .then(result => {
-        // this.emailSP.trigger(result.id, 0);
+        this.emailSP.trigger(result.id, 0);
+        this.toastMP.showToast("Leave request submitted...", false);
       }).catch(err => { console.log(err) });
   }
 
-  public createLeave(leave) {
+  public createLeave(leave): Observable<any> {
     leave.from = moment(leave.from).startOf('day').toDate();
     leave.to = moment(leave.to).endOf('day').toDate();
     leave.owner = this.store.doc('eUsers/' + this.appContext.myProfileObject.email).ref;
-    console.log(leave);
 
-    this.store.collection('eLeaves', ref => ref
-      .where('to', ">=", leave.from)
-      .where('owner', "==", this.store.doc('eUsers/' + this.appContext.myProfileObject.email).ref))
-      .ref.get().then(results => {
-        var canCreateLeave = true;
-        if (results && results.docs && results.docs.length > 0) {
-          results.docs.forEach((doc, i, arr) => {
-            var l = doc.data();
-
-            if (l.from <= leave.to) {
-              canCreateLeave = false;
-              console.log(doc.data());
-            }
-            if (i == arr.length - 1) {
-              console.log(canCreateLeave);
-              if (canCreateLeave) {
-                this.addLeave(leave);
-              } else {
-                console.log("Can't create leave. there is an overlapping leave request with your name...");
-              }
-            }
-          })
-        } else {
-          this.addLeave(leave);
-        }
-      })
-
-    //  this.store.collection('eLeaves').add(leave)
-    // .then(result => {
-    //   // this.emailSP.trigger(result.id, 0);
-    // }).catch(err => { console.log(err) });
-
-    // this.getMyLeaves(leave.from).subscribe(results => {
-    //   console.log(results);
-    //   // if (results && results.length > 0) {
-    //   //   var overlap = results.filter(result => {
-    //   //     result.payload.doc.data().from <= leave.to;
-    //   //   });
-    //   //   console.log("overlap" + overlap);
-    //   //   if (overlap && overlap.length > 0) {
-    //   //     console.log("Can't create leave. there is an overlapping leave request with your name...");
-    //   //   } else {
-    //   //     // this.store.collection('eLeaves').add(leave)
-    //   //     //   .then(result => {
-    //   //     //     // this.emailSP.trigger(result.id, 0);
-    //   //     //   }).catch(err => { console.log(err) });
-    //   //   }
-    //   // }
-    // })
+    return new Observable(observer => {
+      var sub = this.store.collection('eLeaves', ref => ref
+        .where('owner', "==", leave.owner)
+        .where('to', ">=", leave.from))
+        .valueChanges()
+        .subscribe(results => {
+          sub.unsubscribe();
+          var overlap = results.filter((item: any) => item.from <= leave.to);
+          if (overlap && overlap.length > 0) {
+            this.toastMP.showToast("This leave request is overlapping with other request...", true);
+          } else {
+            this.addLeave(leave);
+            observer.next({});
+            observer.complete();
+          }
+        })
+    });
   }
 
 }

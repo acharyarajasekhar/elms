@@ -3,6 +3,7 @@ import { IonicPage } from 'ionic-angular';
 import * as moment from 'moment';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
 import { leave } from '@angular/core/src/profile/wtf_impl';
+import { NavController } from 'ionic-angular/navigation/nav-controller';
 
 @IonicPage()
 @Component({
@@ -33,9 +34,12 @@ export class NewLeavePage {
   createLeave() {
     if (this.leave.isHalfDay) {
       this.leave.to = this.leave.from;
-    }    
-    this.leaveSvc.createLeave(this.leave);
+    }
+    var sub = this.leaveSvc.createLeave(this.leave).subscribe(() => {
+      sub.unsubscribe();
+      this.navCtrl.pop();
+    })
   }
 
-  constructor(private leaveSvc: LeaveServicev2Provider) { }
+  constructor(private leaveSvc: LeaveServicev2Provider, private navCtrl: NavController) { }
 }
