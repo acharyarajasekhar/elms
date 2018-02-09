@@ -22,7 +22,6 @@ import { UserServiceProvider } from '../providers/user-service/user-service';
 import { LeaveServiceProvider } from '../providers/leave-service/leave-service';
 import { AppErrorHandlerProvider } from '../providers/app-error-handler/app-error-handler';
 import { NotificationService } from '../providers/notification-service/notification-service';
-import {searchservice} from '../providers/search-service/search-service';
 import { ReportTeamPage } from '../pages/report-team/report-team';
 import { ReportAnnualPage } from '../pages/report-annual/report-annual';
 import { ReportReporteePage } from '../pages/report-reportee/report-reportee';
@@ -76,7 +75,6 @@ import{commentsController} from '../components/controllers/comments-controller';
     LeaveServiceProvider,
     NotificationService,
     TeamServiceProvider,
-    searchservice,
     Camera,
     ImageProvider,
     EmailServiceProvider,

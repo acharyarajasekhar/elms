@@ -4,7 +4,8 @@ import { commentsController } from '../../components/controllers/comments-contro
 import * as moment from 'moment';
 import { AppContextProvider } from '../../providers/app-context/app-context';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
-import {LeaveStatus} from '../../models/leavestatus.enum'
+import {LeaveStatus} from '../../models/leavestatus.enum';
+import {DetailsviewPage} from '../detailsview/detailsview';
 
 
 
@@ -23,7 +24,7 @@ export class SearchLeavesPage {
 
 
   constructor(private appContext: AppContextProvider,
-    private leavesSvc: LeaveServicev2Provider, private alertCtrl: commentsController) {
+    private leavesSvc: LeaveServicev2Provider, private alertCtrl: commentsController,private modalCtrl:ModalController) {
     this.appContext.searchedLeaves.subscribe(leaves => { console.log(leaves) });
   }
 
@@ -73,19 +74,16 @@ export class SearchLeavesPage {
     this.alertCtrl.presentPrompt(keyObj,Modaltitle,Modalmsg,LeaveStatus.Declined);
   }
 
-  // MoreInfo(obj: any) {
-
-  //   let leaveObj = {
-  //     name: obj.owner.name,
-  //     from: obj.from,
-  //     to: obj.to,
-  //     reason: obj.reason,
-  //     photoUrl: obj.owner.photoUrl,
-  //     teamId: this.teamId,
-  //     ManagerEmail: this.managerId
-  //   };
-  //   let myModal = this.modalCtrl.create(DetailsviewPage, leaveObj);
-  //   myModal.present();
-  // }
+  MoreInfo(obj: any) {
+    let leaveObj = {
+      name: obj.owner.name,
+      from: obj.from,
+      to: obj.to,
+      reason: obj.reason,
+      photoUrl: obj.owner.photoUrl
+    };
+    let myModal = this.modalCtrl.create(DetailsviewPage, leaveObj);
+    myModal.present();
+  }
 
 }

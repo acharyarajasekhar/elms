@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
-import { searchservice } from '../../providers/search-service/search-service';
 
 @IonicPage()
 @Component({
@@ -24,14 +23,14 @@ export class DetailsviewPage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     public toastCtrl: ToastController,
-    private leaveService:searchservice,
+    //private leaveService:searchservice,
     public viewCtrl: ViewController) {
       this.getOverlappedLeaves(this.from,this.to);
-      this.leaveService.getLeaveItemsCollections()
-      .subscribe(Leaves=>{
-      this.leavesCollections =Leaves;
-      //this._cmnMethods.loader.dismiss();
-      })
+      // this.leaveService.getLeaveItemsCollections()
+      // .subscribe(Leaves=>{
+      // this.leavesCollections =Leaves;
+      // //this._cmnMethods.loader.dismiss();
+      // })
   }
 
   ionViewDidLoad() {
@@ -45,7 +44,7 @@ export class DetailsviewPage {
 
    getOverlappedLeaves(frDate,toDate) {
     if (frDate != "" && toDate !="") {
-       this.leaveService.getLeaveItem(true,this.ManagerID,frDate,toDate)
+      // this.leaveService.getLeaveItem(true,this.ManagerID,frDate,toDate)
     }
   }
 
