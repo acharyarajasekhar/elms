@@ -5,66 +5,35 @@
 </ion-header>
 <ion-content class="has-header">
     <ion-list>
-        <ion-item-sliding  (ionDrag)="dragEvent($event,leave.leaveId,leave.owner.email)" *ngFor="let leave of appContext.searchedLeavesCollection| filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject">
+        <ion-item-sliding *ngFor="let leave of appContext.searchedLeavesCollection| filterNotification: appContext.myReporteesCollection: appContext.myProfileObject">
             <ion-item (click)="openModal(leave)">
                 <ion-avatar item-start>
                     <img [src]="leave.owner.photoUrl ? leave.owner.photoUrl : '../../assets/imgs/user.png'">
                 </ion-avatar>
-                <div *ngIf="leave.status == 0;then pendingBlock" class="container"></div>
-                <div *ngIf="leave.status == 1;then acceptBlock" class="container"></div>
-                <div *ngIf="leave.status == 2;then rejectBlock" class="container"></div>
-                <ng-template #pendingBlock>
-                    <div class="info1">
-                        <h2>{{ leave?.owner?.name }}</h2>
-                        <span style="clear:both"></span>
-                        <p>
-                            <ion-icon name="alarm"></ion-icon> {{leave?.from | date : "MMM/dd"}} - {{leave?.to | date:"MMM/dd"}}, {{leave?.to
-                            | date:"yyyy"}}</p>
-                    </div>
-                    <div class="info2">
-                        <p item-content item-end class="ts-globe">{{leave?.createdAt | timeAgo }}
-                            <ion-icon name="md-globe"></ion-icon>
-                        </p>
-                    </div>
-                </ng-template>
-                <ng-template #acceptBlock>
-                    <div class="info1">
-                        <h2>{{ leave?.owner?.name }}</h2>
-                        <span style="clear:both"></span>
-                        <p>
-                            <ion-icon name="alarm"></ion-icon> {{leave?.from | date : "MMM/dd"}} - {{leave?.to | date:"MMM/dd"}}, {{leave?.to
-                            | date:"yyyy"}}</p>
-                    </div>
-                    <div class="info2">
-                        <p item-content item-end class="ts-globe">{{leave?.createdAt | timeAgo }}
-                            <ion-icon name="md-globe"></ion-icon>
-                        </p>
-                    </div>
-                    <div class="info3">
-                        <ion-icon name="md-checkmark-circle-outline" item-end color="primary" style="margin-bottom:-10px;font-size:15px;"></ion-icon>
-                    </div>
-                </ng-template>
-                <ng-template #rejectBlock>
-                    <div class="info1">
-                        <h2>{{ leave?.owner?.name }}</h2>
-                        <span style="clear:both"></span>
-                        <p>
-                            <ion-icon name="alarm"></ion-icon> {{leave?.from | date : "MMM/dd"}} - {{leave?.to | date:"MMM/dd"}}, {{leave?.to
-                            | date:"yyyy"}}</p>
-                    </div>
-                    <div class="info2">
-                        <p item-content item-end class="ts-globe">{{leave?.createdAt | timeAgo }}
-                            <ion-icon name="md-globe"></ion-icon>
-                        </p>
-                    </div>
-                    <div class="info3">
-                        <ion-icon name="md-checkmark-circle-outline" item-end color="danger" style="margin-bottom:-10px;font-size:15px;"></ion-icon>
-                    </div>
-                </ng-template>
+                <div class="info1">
+                    <h2>{{ leave?.owner?.name }}</h2>
+                    <p>{{ appContext?.myProfileObject?.email }}</p>
+                    <p>{{ leave?.owner?.manager?.email }}</p>
+                    <span style="clear:both"></span>
+                    <p>
+                        <ion-icon name="alarm"></ion-icon> {{leave?.from | date : "MMM/dd"}} - {{leave?.to | date:"MMM/dd"}}, {{leave?.to | date:"yyyy"}}
+                    </p>
+                </div>
+                <div class="info2">
+                    <p item-content item-end class="ts-globe">{{leave?.createdAt | timeAgo }}
+                        <ion-icon name="md-globe"></ion-icon>
+                    </p>
+                </div>
+                <div class="info3" *ngIf="leave.status == 1 || leave.status == 2">
+                    <ion-icon name="md-checkmark-circle-outline" item-end [color]="leave.status == 1 ? 'primary' : 'danger'" style="margin-bottom:-10px;font-size:15px;"></ion-icon>
+                </div>
             </ion-item>
-            <ion-item-options side="left">
+            <ion-item-options side="left" (ionSwipe)="onSwipe(leave)">
+                <button ion-button color="primary" *ngIf="canShowClear(leave)" expandable (click)="markAsRead(leave.leaveId)">Clear</button>
+                <button ion-button color="secondary" *ngIf="canShowApproveDecline(leave)" expandable (click)="approve(leave.leaveId)">Approve</button>
             </ion-item-options>
             <ion-item-options side="right">
+                <button ion-button color="danger" *ngIf="canShowApproveDecline(leave)" (click)="tryDecline(leave.leaveId)">Decline</button>
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>

@@ -126,7 +126,7 @@ export class LeaveServicev2Provider {
   }
 
   public updateLeaveStatus(Id: string, newStatus: number, comments: string) {
-    this.store.doc('eLeaves/' + Id).update({ status: newStatus, modifiedAt: new Date(), ManagerComments: comments })
+    this.store.doc('eLeaves/' + Id).update({ status: newStatus, modifiedAt: new Date(), managerComments: comments })
       .then(status => {
         this.toastMP.showToast("Leave request updated successfully!", false);
         this.emailSP.trigger(Id, newStatus);
@@ -144,6 +144,8 @@ export class LeaveServicev2Provider {
   public createLeave(leave): Observable<any> {
     leave.from = moment(leave.from).startOf('day').toDate();
     leave.to = moment(leave.to).endOf('day').toDate();
+    leave.createdAt = new Date();
+    leave.isRead = false;
     leave.owner = this.store.doc('eUsers/' + this.appContext.myProfileObject.email).ref;
 
     return new Observable(observer => {
@@ -163,6 +165,13 @@ export class LeaveServicev2Provider {
           }
         })
     });
+  }
+
+  public markAsRead(leaveId: string) {
+    this.store.doc('eLeaves/' + leaveId).update({ isRead: true, modifiedAt: new Date() })
+      .then(status => {
+        console.log("Marked as red...");
+      }).catch(err => { this.toastMP.showToast(err, true) });
   }
 
 }

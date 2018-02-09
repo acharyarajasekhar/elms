@@ -5,6 +5,7 @@ import { NamePipe } from '../helper/name-pipe';
 import { NametrimPipe } from './../helper/name-trim';
 import { FilterByEmailIdPipe } from './filter-by-email-id/filter-by-email-id';
 import { FilterByIsManagerFlagPipe } from './filter-by-is-manager-flag/filter-by-is-manager-flag';
+import { FilterNotificationPipe } from './filter-notification/filter-notification';
 @NgModule({
 	declarations: [
 		TrimTextPipe,
@@ -12,7 +13,8 @@ import { FilterByIsManagerFlagPipe } from './filter-by-is-manager-flag/filter-by
 		NamePipe,
 		NametrimPipe,
     FilterByEmailIdPipe,
-    FilterByIsManagerFlagPipe
+    FilterByIsManagerFlagPipe,
+    FilterNotificationPipe
 	],
 	imports: [],
 	exports: [
@@ -21,7 +23,8 @@ import { FilterByIsManagerFlagPipe } from './filter-by-is-manager-flag/filter-by
 		NamePipe,
 		NametrimPipe,
     FilterByEmailIdPipe,
-    FilterByIsManagerFlagPipe
+    FilterByIsManagerFlagPipe,
+    FilterNotificationPipe
 	]
 })
 export class PipesModule {}
