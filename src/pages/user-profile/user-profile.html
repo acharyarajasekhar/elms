@@ -16,29 +16,29 @@
     <div style="display:table-cell;vertical-align:middle;">          
         <img [src]="user.photoUrl ? user.photoUrl : '../../assets/imgs/user.png'" style="width:100px;height:100px;border-radius:50%"/>
         <ion-icon name="camera" (click)="changePicture()" style="color:white"></ion-icon>
-        <h2 style="color:white">{{ user.name }}</h2>          
+        <h2 style="color:white">{{ user?.name }}</h2>          
     </div>
   </div>    
   <ion-list>
     <ion-item>
       <ion-icon name="mail" style="color:rgb(238, 198, 22)" item-start></ion-icon>
       <h2>Email</h2>
-      <p>{{ user.email }}</p>          
+      <p>{{ user?.email }}</p>          
     </ion-item>
     <ion-item>
       <ion-icon name="call" style="color:rgb(16, 160, 59)" item-start></ion-icon>
       <h2>Mobile</h2>
-      <p>{{ user.phoneNumber }}</p>          
+      <p>{{ user?.phoneNumber }}</p>          
     </ion-item>
     <ion-item>
       <ion-icon name="person" style="color:rgb(38, 113, 226)" item-start></ion-icon>
       <h2>Manager</h2>
-      <p>{{ managerName }}</p>          
+      <p>{{ user?.manager?.name }}</p>          
     </ion-item>
     <ion-item>
       <ion-icon name="people" style="color:rgb(116, 75, 21)" item-start></ion-icon>
       <h2>Team</h2>
-      <p>{{ teamName }}</p>          
+      <p>{{ user?.team?.name }}</p>          
     </ion-item>
   </ion-list>
 </ion-content>

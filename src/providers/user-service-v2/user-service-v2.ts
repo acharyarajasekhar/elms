@@ -14,6 +14,7 @@ export class UserServiceV2Provider {
     this.auth.user.subscribe(account => {
       this.appContext.myAccount.next(account);
       this.getUserProfileByEmailID(account.email).subscribe((profile: any) => {
+        if(profile !=null){
         this.getUserProfileByEmailID(profile.manager.id).subscribe((manager: any) => {
           profile.manager = manager;
           var teamId = profile.team.id;
@@ -31,7 +32,8 @@ export class UserServiceV2Provider {
             })
           })
         })
-        if (profile.isManager) {
+        }
+        if (profile !=null && profile.isManager) {
           this.getReporteesByManagerEmailID(profile.email).subscribe(reportees => {
             if (reportees || reportees.length == 0) { this.appContext.myReportees.next([]) }
             reportees.forEach((reportee: any, i, arr) => {
