@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
 import { leave } from '@angular/core/src/profile/wtf_impl';
 import { NavController } from 'ionic-angular/navigation/nav-controller';
+import { AppContextProvider } from '../../providers/app-context/app-context';
 
 @IonicPage()
 @Component({
@@ -51,5 +52,7 @@ export class NewLeavePage {
 
   }
 
-  constructor(private leaveSvc: LeaveServicev2Provider, private navCtrl: NavController) { }
+  constructor(private leaveSvc: LeaveServicev2Provider,
+    private appContext: AppContextProvider,
+    private navCtrl: NavController) { }
 }
