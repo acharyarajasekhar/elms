@@ -14,14 +14,14 @@
         </ion-item>
 
         <ion-item class="ionitems" style="margin-top: 10px;">
-          <ion-label>From</ion-label>
-          <ion-datetime displayFormat="MMM DD, YYYY" [min]="minFromDate" [max]="getMaxFromDate(toDate)" [(ngModel)]="leave.from"></ion-datetime>
+          <ion-label>{{ leave.isHalfDay ? "On" : "To" }}</ion-label>
+          <ion-datetime displayFormat="MMM DD, YYYY" [min]="getMinToDate(fromDate)" [max]="maxToDate" [(ngModel)]="leave.to" (ionChange)="onDateChange()"></ion-datetime>
         </ion-item>
 
         <ion-item class="ionitems" style="margin-top: 10px;" [hidden]="leave.isHalfDay">
-          <ion-label>To</ion-label>
-          <ion-datetime displayFormat="MMM DD, YYYY" [min]="getMinToDate(fromDate)" [max]="maxToDate" [(ngModel)]="leave.to"></ion-datetime>
-        </ion-item>
+          <ion-label>From</ion-label>
+          <ion-datetime displayFormat="MMM DD, YYYY" [min]="minFromDate" [max]="getMaxFromDate(toDate)" [(ngModel)]="leave.from" (ionChange)="onDateChange()"></ion-datetime>
+        </ion-item>        
         <!-- <ion-item class="ionitems" style="margin-top: 10px;">
           <ion-label>Type</ion-label>
           <ion-select formControlName="lvType">

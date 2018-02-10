@@ -33,12 +33,22 @@ export class NewLeavePage {
 
   createLeave() {
     if (this.leave.isHalfDay) {
-      this.leave.to = this.leave.from;
+      this.leave.from = this.leave.to;
     }
     var sub = this.leaveSvc.createLeave(this.leave).subscribe(() => {
       sub.unsubscribe();
       this.navCtrl.pop();
     })
+  }
+
+  onDateChange() {
+    if (new Date(this.leave.from) > new Date(this.leave.to)) {
+      this.leave.to = this.leave.from;
+    }
+  }
+
+  onFromSelect() {
+
   }
 
   constructor(private leaveSvc: LeaveServicev2Provider, private navCtrl: NavController) { }
