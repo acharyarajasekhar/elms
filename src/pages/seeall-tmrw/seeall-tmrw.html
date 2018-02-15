@@ -7,8 +7,8 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="has-header">
-  <div *ngIf="leavesTmrw$">
-    <ion-card *ngFor="let res of leavesTmrw$">
+  <div>
+    <ion-card *ngFor="let res of appContext.tomorrowsLeavesCollection | filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject">
       <!-- <img src="img/nin-live.png"/> -->
 
       <div  style="background-color:#f5f8fb;">
@@ -35,7 +35,7 @@
       </ion-card-content>
     </ion-card>
   </div>
-  <div *ngIf="!leavesTmrw$">
+  <div *ngIf="appContext.tomorrowsLeavesCollection.length == 0">
     <p align="center" style="color:#0699b3;font-weight:bold;font-size:small" >No Events </p>  
   </div>
   <br/>
