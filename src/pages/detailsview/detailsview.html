@@ -31,20 +31,20 @@
     <hr>
   </ion-card>
 
-<div *ngIf="leavesCollections">
+<div *ngIf="appContext.searchedLeavesCollection">
   <h3 style="position: relative;left: 6px;">During This Time</h3>
 
   <ion-list>
-    <ion-item *ngFor="let res of leavesCollections">
+    <ion-item  *ngFor="let res of appContext.searchedLeavesCollection | filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject">
       <ion-thumbnail item-start>
         <img [src]="res.owner.photoUrl ? res.owner.photoUrl : '../../assets/imgs/user.png'">
       </ion-thumbnail>
-      <h2 class="itemStyle">{{res.owner.name}}</h2>
-      <p class="contentStyle">{{res.owner.team.name}}</p>
+      <h2 class="itemStyle">{{res?.owner?.name }}</h2>
+      <p class="contentStyle"> {{res?.owner?.team?.name }}</p>
 
-      <p>{{res.from | date : "MMM d, y"}}&nbsp;
+      <p>{{res?.from | date : "MMM d, y"}}&nbsp;
         <ion-icon name="arrow-round-forward"></ion-icon>&nbsp;
-        {{res.to | date : "MMM d, y"}}
+        {{res?.to | date : "MMM d, y"}}
       </p>
       <hr>
     </ion-item>

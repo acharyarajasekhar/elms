@@ -40,6 +40,7 @@ import { AppContextProvider } from '../providers/app-context/app-context';
 import { ToastMessageProvider } from '../providers/toast-message/toast-message';
 import { UserServiceV2Provider } from '../providers/user-service-v2/user-service-v2';
 import{commentsController} from '../components/controllers/comments-controller';
+import { PipesModule } from '../pipes/pipes.module';
   
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import{commentsController} from '../components/controllers/comments-controller';
     AngularFireModule.initializeApp(FirebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    ChartsModule
+    ChartsModule,
+    PipesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
