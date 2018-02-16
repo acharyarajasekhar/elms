@@ -137,7 +137,7 @@ import { IMonthViewDisplayEventTemplateContext } from "./calendar";
     `,
     styles: [`
         .text-muted {
-          color: #999;
+          color: #dcdcdc;
         }
 
         .table-fixed {
@@ -500,7 +500,8 @@ export class MonthViewComponent implements ICalendarComponent, OnInit, OnChanges
             if (className) {
                 className += ' ';
             }
-            className += 'monthview-current';
+            if(className == '')
+                className = 'monthview-current';
         }
 
         if (date.secondary) {
