@@ -23,7 +23,7 @@ export class NotificationsPage {
 
     var from = moment(new Date()).startOf('day').toDate();
     var to = moment(new Date()).add(90, 'days').endOf('day').toDate();
-    this.leavesSvc.searchLeavesByDateRange(from, to);
+    this.leavesSvc.searchLeavesByDateRange(from, to,this.appContext.searchedLeaves);
 
   }
 

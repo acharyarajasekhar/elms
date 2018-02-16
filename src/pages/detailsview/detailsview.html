@@ -31,11 +31,11 @@
     <hr>
   </ion-card>
 
-<div *ngIf="appContext.searchedLeavesCollection">
+<div *ngIf="appContext.duringthisTimeCollection">
   <h3 style="position: relative;left: 6px;">During This Time</h3>
 
   <ion-list>
-    <ion-item  *ngFor="let res of appContext.searchedLeavesCollection | filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject">
+    <ion-item  *ngFor="let res of appContext.duringthisTimeCollection | filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject">
       <ion-thumbnail item-start>
         <img [src]="res.owner.photoUrl ? res.owner.photoUrl : '../../assets/imgs/user.png'">
       </ion-thumbnail>

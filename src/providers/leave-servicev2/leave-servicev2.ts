@@ -85,18 +85,19 @@ export class LeaveServicev2Provider {
       .where('owner', "==", this.store.doc('eUsers/' + this.appContext.myProfileObject.email).ref))
       .snapshotChanges()
   }
-
-  public searchLeavesByDateRange(from: Date, to: Date) {
+          
+  public searchLeavesByDateRange(from: Date, to: Date,currsubject: Subject<any>) {
     this.appContext.searchDateRange = {
       start: from,
       end: to
     };
-    this.updateSearchResults(this.getLeaves(this.appContext.searchDateRange.start));
+    this.updateSearchResults(this.getLeaves(this.appContext.searchDateRange.start),currsubject);
   }
 
-  private updateSearchResults(source: Observable<any>) {
+  private updateSearchResults(source: Observable<any>,InvokeSubject:Subject<any>) {
     source.subscribe(results => {
-      this.appContext.searchedLeaves.next([]);
+      //this.appContext.searchedLeaves.next([]);
+      InvokeSubject.next([]);
       if (results && results.length > 0) {
         var resultitems = [];
         results.forEach((leave: any, lIndex, lArray) => {
@@ -104,7 +105,8 @@ export class LeaveServicev2Provider {
           leaveItem.leaveId = leave.payload.doc.id;
           resultitems.push(leaveItem);
           if (lIndex == lArray.length - 1) {
-            this.updateSubject(resultitems, this.appContext.searchDateRange, this.appContext.searchedLeaves);
+            //this.updateSubject(resultitems, this.appContext.searchDateRange, this.appContext.searchedLeaves);
+            this.updateSubject(resultitems, this.appContext.searchDateRange, InvokeSubject);
           }
         });
       }
@@ -116,7 +118,7 @@ export class LeaveServicev2Provider {
       start: from,
       end: to
     };
-    this.updateSearchResults(this.getMyLeaves(this.appContext.searchDateRange.start));
+    this.updateSearchResults(this.getMyLeaves(this.appContext.searchDateRange.start),this.appContext.searchedLeaves);
   }
 
   public getMyLeavesByMonth(month: string) {

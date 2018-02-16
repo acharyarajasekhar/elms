@@ -37,7 +37,7 @@ export class DetailsviewPage {
 
    getOverlappedLeaves(frDate,toDate) {
     if (frDate != "" && toDate !="") {
-       this.leavesSvc.searchLeavesByDateRange(frDate,toDate);
+       this.leavesSvc.searchLeavesByDateRange(frDate,toDate,this.appContext.duringthistimeleaves);
     }
   }
 

@@ -17,8 +17,9 @@ import {DetailsviewPage} from '../detailsview/detailsview';
 export class SearchLeavesPage {
 
   fromDate = new Date().toISOString();
-  toDate = new Date().toISOString();
+  //toDate = new Date().toISOString();
   maxToDate = moment(new Date()).add(90, 'days').format('YYYY-MM-DD');
+  toDate=this.maxToDate;
   minFromDate = moment(new Date()).add(-90, 'days').format('YYYY-MM-DD');
 
 
@@ -39,7 +40,7 @@ export class SearchLeavesPage {
   searchLeave(fromDate, toDate) {
     var from = this.leavesSvc.getDateRange(fromDate);
     var to = this.leavesSvc.getDateRange(toDate);
-    this.leavesSvc.searchLeavesByDateRange(from.start, to.end);
+    this.leavesSvc.searchLeavesByDateRange(from.start, to.end,this.appContext.searchedLeaves);
   }
 
   isSearchResultsAvailable() {
@@ -82,6 +83,7 @@ export class SearchLeavesPage {
       reason: obj.reason,
       photoUrl: obj.owner.photoUrl
     };
+  
     let myModal = this.modalCtrl.create(DetailsviewPage, leaveObj);
     myModal.present();
   }
