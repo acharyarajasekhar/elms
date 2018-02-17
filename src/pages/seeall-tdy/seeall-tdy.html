@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>WhosOof Today</ion-title>
+    <ion-title>WhosOff Today</ion-title>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -18,8 +18,9 @@
             <!-- <ion-icon style="font-size:2.2em" name="md-contact"></ion-icon> -->
           </ion-avatar>
           <h2>{{res.owner.name }}</h2>   
-          <h2  style="font-size:12px">Team: {{res.owner.team.name}}</h2>
-          <h6 style="font-size:12px">Requested On: {{res.createdAt | date : "MMM d, y" }}</h6>
+          <h2  style="font-size:12px">&bull;{{res.owner.team.name}}</h2>
+          <h6 style="font-size:12px">Req. On: {{res.createdAt | date : "MMM d, y" }}</h6>
+          <h6 style="font-size:12px">Leave Type: {{res.lveType}}</h6>
         </ion-item>
       </div>
       <hr>

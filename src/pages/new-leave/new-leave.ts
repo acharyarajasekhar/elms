@@ -18,12 +18,14 @@ export class NewLeavePage {
     to: new Date().toISOString(),
     isHalfDay: false,
     reason: "",
-    status: 0
+    status: 0,
+    lveType: "Un-Planned"
   };
 
   maxToDate = moment(new Date()).add(90, 'days').format('YYYY-MM-DD');
   minFromDate = moment(new Date()).add(0, 'days').format('YYYY-MM-DD');
-
+  PlnFrmDate = moment(new Date()).add(2, 'days').format('YYYY-MM-DD');
+  LveType:boolean = false;
   getMaxFromDate(toDate) {
     return moment(this.leave.to).format('YYYY-MM-DD');
   }
@@ -34,7 +36,7 @@ export class NewLeavePage {
 
   createLeave() {
     if (this.leave.isHalfDay) {
-      this.leave.from = this.leave.to;
+      this.leave.to = this.leave.from;
     }
     var sub = this.leaveSvc.createLeave(this.leave).subscribe(() => {
       sub.unsubscribe();
@@ -46,10 +48,22 @@ export class NewLeavePage {
     if (new Date(this.leave.from) > new Date(this.leave.to)) {
       this.leave.to = this.leave.from;
     }
+
+    if(new Date(this.leave.from) >= new Date(this.PlnFrmDate)){
+      this.leave.lveType= "Planned";
+      this.LveType = true;
+    }
+    else{
+      this.leave.lveType= "Un-Planned";
+      this.LveType = false;
+    }
   }
 
   onFromSelect() {
 
+  }
+  onHlfDayChange(){
+    this.leave.to = this.leave.from;
   }
 
   constructor(private leaveSvc: LeaveServicev2Provider,

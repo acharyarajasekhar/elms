@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { commonMethods } from '../../helper/common-methods';
-
+import { AppContextProvider } from '../../providers/app-context/app-context';
 /**
  * Generated class for the FeedbackPage page.
  *
@@ -19,8 +19,9 @@ export class FeedbackPage {
 
   title:string;
   description:string;
-  
-  constructor(public navCtrl: NavController, public navParams: NavParams, public _firestore:AngularFirestore,public _CmnMthd:commonMethods) {
+  user:any = {};
+  constructor(public navCtrl: NavController,   private appContext: AppContextProvider,public navParams: NavParams, public _firestore:AngularFirestore,public _CmnMthd:commonMethods) {
+    this.user =this.appContext.myProfileObject;
   }
 
   ionViewDidLoad() {
@@ -30,7 +31,7 @@ export class FeedbackPage {
   submitFeedback()
   {
     var objFeedback={};
-    let userId =JSON.parse(localStorage.getItem('userContext')).email;
+    let userId = this.user.email;
     let consUserRef=this._firestore.collection("eUsers").doc(userId).ref;
 
 
@@ -42,6 +43,7 @@ export class FeedbackPage {
 
     this._firestore.collection('eFeedbacks').add(objFeedback);
     this._CmnMthd.showToast("Thank you for your feedback");
+    this.navCtrl.pop();
   }
 
 }

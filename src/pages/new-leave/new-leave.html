@@ -10,30 +10,32 @@
       <ion-list no-line>
         <ion-item class="ionitems">
           <ion-label>Half Day</ion-label>
-          <ion-toggle [(ngModel)]="leave.isHalfDay"></ion-toggle>
+          <ion-toggle [(ngModel)]="leave.isHalfDay" (ionChange)="onHlfDayChange()"></ion-toggle>
         </ion-item>
 
         <ion-item class="ionitems" style="margin-top: 10px;">
-          <ion-label>{{ leave.isHalfDay ? "On" : "To" }}</ion-label>
-          <ion-datetime displayFormat="MMM DD, YYYY" [min]="getMinToDate(fromDate)" [max]="maxToDate" [(ngModel)]="leave.to" (ionChange)="onDateChange()"></ion-datetime>
+          <ion-label>{{ leave.isHalfDay ? "On" : "From" }}</ion-label>
+          <ion-datetime displayFormat="MMM DD, YYYY" [min]="minFromDate" [max]="maxToDate" [(ngModel)]="leave.from" (ionChange)="onDateChange()"></ion-datetime>
         </ion-item>
 
         <ion-item class="ionitems" style="margin-top: 10px;" [hidden]="leave.isHalfDay">
-          <ion-label>From</ion-label>
-          <ion-datetime displayFormat="MMM DD, YYYY" [min]="minFromDate" [max]="getMaxFromDate(toDate)" [(ngModel)]="leave.from" (ionChange)="onDateChange()"></ion-datetime>
+          <ion-label>To</ion-label>
+          <ion-datetime displayFormat="MMM DD, YYYY" [min]="getMaxFromDate(fromDate)" [max]="maxToDate" [(ngModel)]="leave.to" (ionChange)="onDateChange()"></ion-datetime>
+        </ion-item>
+
+        <ion-item  class="ionitems"  style="margin-top: 10px;">
+          <ion-label>Type</ion-label>
+          <ion-select [(ngModel)]="leave.lveType">
+            <ion-option  value="Planned" *ngIf="LveType">Planned</ion-option>
+            <ion-option value="Un-Planned" *ngIf="!LveType">Un-Planned</ion-option>
+            <ion-option value="Sick" *ngIf="!LveType">Sick</ion-option>
+          </ion-select>
         </ion-item>
 
         <ion-item class="ionitems" style="margin-top: 10px;">
           <ion-label>Approver : {{ appContext?.myProfileObject?.manager?.name }}</ion-label>
         </ion-item>
-        <!-- <ion-item class="ionitems" style="margin-top: 10px;">
-          <ion-label>Type</ion-label>
-          <ion-select formControlName="lvType">
-            <ion-option value="Planned" *ngIf="plnType">Planned</ion-option>
-            <ion-option value="Un-Planned">Un-Planned</ion-option>
-            <ion-option value="Sick">Sick</ion-option>
-          </ion-select>
-        </ion-item> -->
+
         <ion-item class="ionitems" style="margin-top: 10px;">
           <ion-textarea placeholder="Reason for leave" maxlength="50" [(ngModel)]="leave.reason"></ion-textarea>
         </ion-item>

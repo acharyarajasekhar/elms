@@ -5,7 +5,7 @@ import { ReportTeamPage } from '../report-team/report-team';
 import { ReportReporteePage } from '../report-reportee/report-reportee';
 import { LeaveServiceProvider } from '../../providers/leave-service/leave-service';
 import { buildChartData } from '../../helper/date-formatter';
-
+import { AppContextProvider } from '../../providers/app-context/app-context';
 @IonicPage()
 @Component({
   selector: 'page-report',
@@ -16,12 +16,17 @@ export class ReportPage implements OnInit{
   tab1Root = ReportAnnualPage;
   tab2Root = ReportTeamPage;
   tab3Root = ReportReporteePage;
-  userId:string = this.userContext.email;
-  isManager =this.userContext.isManager;
+  user : any = {};
+  userId:string;
+  isManager :string;
   annualCount:number[]=[];
   constructor(public navCtrl: NavController, 
     private leaveService:LeaveServiceProvider,
+    private appContext: AppContextProvider,
     public navParams: NavParams) {
+      this.user =this.appContext.myProfileObject;
+      this.userId = this.user.email;
+      this.isManager = this.user.isManager;
   }
 
   ionViewDidLoad() {
