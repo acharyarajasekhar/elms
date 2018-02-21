@@ -5,7 +5,7 @@ import { AvatarDirective } from '../../components/avatar/avatar';
 
 @NgModule({
   declarations: [
-    AvatarDirective,
+    // AvatarDirective,
     UserProfilePage,    
   ],
   imports: [

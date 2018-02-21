@@ -45,10 +45,10 @@ import { PipesModule } from '../pipes/pipes.module';
 @NgModule({
   declarations: [
     MyApp,
-    ReportTeamPage,
-    ReportAnnualPage,
-    ReportReporteePage,
-    DetailsviewPage
+    // ReportTeamPage,
+    // ReportAnnualPage,
+    // ReportReporteePage,
+    //DetailsviewPage
   ],
   imports: [    
     BrowserModule,
@@ -64,10 +64,10 @@ import { PipesModule } from '../pipes/pipes.module';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    ReportTeamPage,
-    ReportAnnualPage,
-    ReportReporteePage,
-    DetailsviewPage,
+    // ReportTeamPage,
+    // ReportAnnualPage,
+    // ReportReporteePage,
+    // DetailsviewPage,
   ],
   providers: [
     StatusBar,

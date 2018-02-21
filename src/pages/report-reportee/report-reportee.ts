@@ -15,10 +15,10 @@ export class ReportReporteePage {
   }
 
   ionViewDidLoad() {
-    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+    var temp: any = {
  
       type: 'doughnut',
-      data: {
+      data:  {
           labels: ["EL", "CL", "Others"],
           datasets: [{
               label: 'Leave Count',
@@ -42,7 +42,8 @@ export class ReportReporteePage {
           }]
       }
 
-  });
+  };
+    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, temp);
   }
 
 }
