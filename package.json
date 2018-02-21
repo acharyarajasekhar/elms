@@ -9,7 +9,12 @@
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:serve": "ionic-app-scripts serve",
+    "apk": "ionic cordova build --release --prod android",
+    "testapk": "ionic cordova run android -lc",
+    "apksign": "jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore .\\elms.keystore .\\platforms\\android\\app\\build\\outputs\\apk\\release\\app-release-unsigned.apk elmskeys",
+    "prodapk": "zipalign -v 4 .\\platforms\\android\\app\\build\\outputs\\apk\\release\\app-release-unsigned.apk .\\whosoff.apk",
+    "releaseapk": "npm run apk && npm run apksign && npm run prodapk"
   },
   "dependencies": {
     "@angular/common": "5.0.3",
