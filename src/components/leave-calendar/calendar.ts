@@ -161,7 +161,7 @@ export enum Step {
                         </div>
                         <div class="contentStyle">
                             Status : {{event.status}}
-                            <button  style="float:right;" (click)="presentPrompt(event.Leaveid)" ion-button icon-left clear small *ngIf="(event.status == 'Accepted' || event.status == 'Requested')">
+                            <button  style="float:right;" (click)="presentPrompt(event.Leaveid)" ion-button icon-left clear small *ngIf="((event.status == 'Accepted' || event.status == 'Requested') && (event.startTime >= this.tdydate))">
                                 <u>Cancel</u>
                             </button>
                         </div>

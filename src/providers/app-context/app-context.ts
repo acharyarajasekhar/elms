@@ -61,6 +61,10 @@ export class AppContextProvider {
       this.notificationLeavesCollection = leaves;
     })
 
+    this.clearAppState();
+  }
+
+  public clearAppState() {
     this.myAccount.next([]);
     this.myProfile.next([]);
     this.myTeamMembers.next([]);

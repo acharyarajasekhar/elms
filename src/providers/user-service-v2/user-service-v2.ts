@@ -11,8 +11,7 @@ export class UserServiceV2Provider {
   constructor(private auth: AuthServiceProvider,
     private store: AngularFirestore,
     private appContext: AppContextProvider) {
-    this.auth.user.subscribe(account => {
-      this.appContext.myAccount.next(account);
+    this.appContext.myAccount.subscribe(account => {
       this.getUserProfileByEmailID(account.email).subscribe((profile: any) => {
         if(profile !=null){
         this.getUserProfileByEmailID(profile.manager.id).subscribe((manager: any) => {
