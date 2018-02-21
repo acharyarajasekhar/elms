@@ -11,15 +11,21 @@ import { ToastMessageProvider } from '../toast-message/toast-message';
 @Injectable()
 export class LeaveServicev2Provider {
 
-  private emailIds = [];
-
   constructor(private userSvc: UserServiceV2Provider,
     private store: AngularFirestore,
     private appContext: AppContextProvider,
     private emailSP: EmailServiceProvider, private toastMP: ToastMessageProvider) {
-    this.appContext.myTeamMembers.subscribe(myTeamMembers => {
-      this.emailIds = myTeamMembers;
+    this.appContext.myAccount.subscribe(account => {      
+      if(account) {
+        this.initHome();
+      }
     })
+    this.initHome();
+  }
+
+  private initHome() {
+    console.log('Hello');
+    console.log(this.appContext.myProfileObject);
     this.getTodaysLeaves();
     this.getTomorrowsLeaves();
     this.appContext.searchedLeaves.next([]);
@@ -118,7 +124,7 @@ export class LeaveServicev2Provider {
       start: from,
       end: to
     };
-    this.updateSearchResults(this.getMyLeaves(this.appContext.searchDateRange.start),this.appContext.searchedLeaves);
+    this.updateSearchResults(this.getMyLeaves(this.appContext.searchDateRange.start),this.appContext.myLeaves);
   }
 
   public getMyLeavesByMonth(month: string) {
@@ -144,6 +150,13 @@ export class LeaveServicev2Provider {
   }
 
   public createLeave(leave): Observable<any> {
+
+    if(!(this.appContext.myProfileObject && this.appContext.myProfileObject.email))
+    {
+      this.toastMP.showToast("User context is empty...", true);
+      return;
+    }
+
     leave.from = moment(leave.from).startOf('day').toDate();
     leave.to = moment(leave.to).endOf('day').toDate();
     leave.createdAt = new Date();

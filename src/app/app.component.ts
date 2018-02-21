@@ -89,7 +89,9 @@ export class MyApp {
   }
 
   signOut(){
-    this.authService.signOut();
-    this.nav.setRoot("SigninPage");
+    this.authService.signOut().then(()=>{
+      this.appContext.clearAppState();
+      this.nav.setRoot("SigninPage");
+    });    
   }
 }

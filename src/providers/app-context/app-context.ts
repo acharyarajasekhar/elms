@@ -13,6 +13,7 @@ export class AppContextProvider {
   searchedLeavesCollection = [];
   duringthisTimeCollection = [];
   notificationLeavesCollection = [];
+  myLeavesCollection = [];
 
   myAccount = new Subject<any>();
   myProfile = new Subject<any>();
@@ -23,6 +24,7 @@ export class AppContextProvider {
   searchedLeaves = new Subject<any>();
   notificationLeaves = new Subject<any>();
   duringthistimeleaves= new Subject<any>();
+  myLeaves = new Subject<any>();
 
   searchDateRange: any = {};
 
@@ -61,12 +63,19 @@ export class AppContextProvider {
       this.notificationLeavesCollection = leaves;
     })
 
+    this.myLeaves.subscribe(leaves => {
+      leaves.forEach(leave => {
+        leave.owner = this.myProfileObject;
+      });
+      this.myLeavesCollection = leaves;
+    })
+
     this.clearAppState();
   }
 
-  public clearAppState() {
-    this.myAccount.next([]);
-    this.myProfile.next([]);
+  clearAppState() {
+    this.myAccount.next({});
+    this.myProfile.next({});
     this.myTeamMembers.next([]);
     this.myReportees.next([]);
     this.todaysLeaves.next([]);
@@ -74,6 +83,7 @@ export class AppContextProvider {
     this.searchedLeaves.next([]);
     this.duringthistimeleaves.next([]);
     this.notificationLeaves.next([]);
+    this.myLeaves.next([]);
   }
 
 }

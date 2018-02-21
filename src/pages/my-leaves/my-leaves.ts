@@ -30,7 +30,7 @@ export class MyLeavesPage {
       this.updateSourceEvents();
     });
 
-    this.appContext.searchedLeaves.subscribe(leaves => {
+    this.appContext.myLeaves.subscribe(leaves => {
       this.eventSource = [];
       leaves.forEach(leave => {
         this.eventSource.push({

@@ -41,10 +41,12 @@ export class SigninPage {
   signIn() {
     this._Cmmethods.InitializeLoader();
     this.authService.signIn(this.signInForm.value).then(res => {
-      if (res != null || res != undefined) {
+      if(res) {
         this.appContext.myAccount.next(res);
         this.navCtrl.setRoot("HomePage");
         this._Cmmethods.loader.dismiss();
+      } else {
+        this.appContext.clearAppState();
       }
     }, err => {
       var errorCode = err.code;

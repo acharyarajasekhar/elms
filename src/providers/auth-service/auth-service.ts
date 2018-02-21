@@ -30,10 +30,7 @@ export class AuthServiceProvider {
   }
 
   signOut() {
-    firebase.auth().signOut().then(()=>{
-      localStorage.clear();
-      this.appContext.clearAppState();
-    });
+    return firebase.auth().signOut();
   }
 
   signUp(credentials) {
