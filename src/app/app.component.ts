@@ -59,7 +59,7 @@ export class MyApp {
       { title: 'Home', component: "HomePage" },
       { title: 'Profile', component: "UserProfilePage" },
       { title: 'Leaves', component: "MyLeavesPage" },
-      { title: 'Reports', component: "ReportPage" },
+      // { title: 'Reports', component: "ReportPage" },
       { title: 'Feedback', component: "FeedbackPage" }
     ];
 
