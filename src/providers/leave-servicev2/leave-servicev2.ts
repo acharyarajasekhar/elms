@@ -134,7 +134,7 @@ export class LeaveServicev2Provider {
   }
 
   public updateLeaveStatus(Id: string, newStatus: number, comments: string) {
-    this.store.doc('eLeaves/' + Id).update({ status: newStatus, modifiedAt: new Date(), managerComments: comments,isRead: true })
+    this.store.doc('eLeaves/' + Id).update({ status: newStatus, modifiedAt: new Date(), managerComments: comments})
       .then(status => {
         this.toastMP.showToast("Leave request updated successfully!", false);
         this.emailSP.trigger(Id, newStatus);
@@ -166,14 +166,13 @@ export class LeaveServicev2Provider {
     return new Observable(observer => {
       var sub = this.store.collection('eLeaves', ref => ref
         .where('owner', "==", leave.owner)
-        .where('to', ">=", leave.from)
-        .where('status', "==", 0)
-        .where('status', "==", 1))
+        .where('to', ">=", leave.from))
         .valueChanges()
         .subscribe(results => {
           sub.unsubscribe();
 
-          var overlap = results.filter((item: any) => item.from <= leave.to);
+          var overlap = results.filter((item: any) => item.from <= leave.to && (item.status == 0 || item.status == 1));
+          console.log(overlap);
           if (overlap && overlap.length > 0) {
             this.toastMP.showToast("This leave request is overlapping with other request...", true);
           } else {
