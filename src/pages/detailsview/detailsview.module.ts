@@ -6,7 +6,7 @@ import { DetailsviewPage } from './detailsview';
 
 @NgModule({
   declarations: [
-    DetailsviewPage
+    // DetailsviewPage
   ],
   imports: [
     IonicPageModule.forChild(DetailsviewPage),
