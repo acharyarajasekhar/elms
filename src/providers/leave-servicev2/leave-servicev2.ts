@@ -24,7 +24,7 @@ export class LeaveServicev2Provider {
   }
 
   private initHome() {
-    console.log('Hello');
+    //console.log('Hello');
     console.log(this.appContext.myProfileObject);
     this.getTodaysLeaves();
     this.getTomorrowsLeaves();
@@ -134,7 +134,7 @@ export class LeaveServicev2Provider {
   }
 
   public updateLeaveStatus(Id: string, newStatus: number, comments: string) {
-    this.store.doc('eLeaves/' + Id).update({ status: newStatus, modifiedAt: new Date(), managerComments: comments })
+    this.store.doc('eLeaves/' + Id).update({ status: newStatus, modifiedAt: new Date(), managerComments: comments,isRead: true })
       .then(status => {
         this.toastMP.showToast("Leave request updated successfully!", false);
         this.emailSP.trigger(Id, newStatus);
@@ -166,10 +166,13 @@ export class LeaveServicev2Provider {
     return new Observable(observer => {
       var sub = this.store.collection('eLeaves', ref => ref
         .where('owner', "==", leave.owner)
-        .where('to', ">=", leave.from))
+        .where('to', ">=", leave.from)
+        .where('status', "==", 0)
+        .where('status', "==", 1))
         .valueChanges()
         .subscribe(results => {
           sub.unsubscribe();
+
           var overlap = results.filter((item: any) => item.from <= leave.to);
           if (overlap && overlap.length > 0) {
             this.toastMP.showToast("This leave request is overlapping with other request...", true);
@@ -185,7 +188,7 @@ export class LeaveServicev2Provider {
   public markAsRead(leaveId: string) {
     this.store.doc('eLeaves/' + leaveId).update({ isRead: true, modifiedAt: new Date() })
       .then(status => {
-        console.log("Marked as red...");
+        console.log("Marked as read...");
       }).catch(err => { this.toastMP.showToast(err, true) });
   }
 
