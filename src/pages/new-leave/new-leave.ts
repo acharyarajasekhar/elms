@@ -5,7 +5,7 @@ import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-se
 import { leave } from '@angular/core/src/profile/wtf_impl';
 import { NavController } from 'ionic-angular/navigation/nav-controller';
 import { AppContextProvider } from '../../providers/app-context/app-context';
-
+import { commonMethods } from '../../helper/common-methods';
 @IonicPage()
 @Component({
   selector: 'page-new-leave',
@@ -38,10 +38,12 @@ export class NewLeavePage {
     if (this.leave.isHalfDay) {
       this.leave.to = this.leave.from;
     }
+    this._Cmmethods.InitializeLoader();
     var sub = this.leaveSvc.createLeave(this.leave).subscribe(() => {
-      sub.unsubscribe();
+      sub.unsubscribe();    
       this.navCtrl.pop();
     })
+    this._Cmmethods.loader.dismiss();
   }
 
   onDateChange() {
@@ -68,5 +70,5 @@ export class NewLeavePage {
 
   constructor(private leaveSvc: LeaveServicev2Provider,
     private appContext: AppContextProvider,
-    private navCtrl: NavController) { }
+    private navCtrl: NavController,private _Cmmethods: commonMethods) { }
 }
