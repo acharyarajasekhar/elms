@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { DetailsviewPage } from '../detailsview/detailsview';
 import { AppContextProvider } from '../../providers/app-context/app-context';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
@@ -63,12 +63,12 @@ export class NotificationsPage {
   }
 
   openModal(leave: any) {
+    debugger;
+    console.log(leave);
     let leaveObj = {
-      userId: leave.owner.userId,
       name: leave.owner.name,
       from: leave.from,
       to: leave.to,
-      status: leave.status,
       reason: leave.reason,
       photoUrl: leave.owner.photoUrl
     };

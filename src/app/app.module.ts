@@ -48,7 +48,7 @@ import { PipesModule } from '../pipes/pipes.module';
     // ReportTeamPage,
     // ReportAnnualPage,
     // ReportReporteePage,
-    //DetailsviewPage
+    DetailsviewPage
   ],
   imports: [    
     BrowserModule,
@@ -67,7 +67,7 @@ import { PipesModule } from '../pipes/pipes.module';
     // ReportTeamPage,
     // ReportAnnualPage,
     // ReportReporteePage,
-    // DetailsviewPage,
+    DetailsviewPage,
   ],
   providers: [
     StatusBar,
