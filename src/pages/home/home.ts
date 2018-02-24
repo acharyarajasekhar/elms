@@ -10,7 +10,6 @@ import { AppContextProvider } from '../../providers/app-context/app-context';
 export class HomePage {
 
   private slides: Array<string> = [
-    "assets/imgs/lms7.jpg",
     "assets/imgs/lms1.jpg",
     "assets/imgs/lms2.jpg",
     "assets/imgs/lms3.jpg",
