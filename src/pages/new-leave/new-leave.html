@@ -20,7 +20,7 @@
 
         <ion-item class="ionitems" style="margin-top: 10px;" [hidden]="leave.isHalfDay">
           <ion-label>To</ion-label>
-          <ion-datetime displayFormat="MMM DD, YYYY" [min]="getMaxFromDate(fromDate)" [max]="maxToDate" [(ngModel)]="leave.to" (ionChange)="onDateChange()"></ion-datetime>
+          <ion-datetime displayFormat="MMM DD, YYYY" [min]="getMinToDate(fromDate)" [max]="maxToDate" [(ngModel)]="leave.to" (ionChange)="onDateChange()"></ion-datetime>
         </ion-item>
 
         <ion-item  class="ionitems"  style="margin-top: 10px;">

@@ -13,18 +13,10 @@ import { commonMethods } from '../../helper/common-methods';
 })
 export class NewLeavePage {
 
-  leave: any = {
-    from: new Date().toISOString(),
-    to: new Date().toISOString(),
-    isHalfDay: false,
-    reason: "",
-    status: 0,
-    lveType: "Un-Planned"
-  };
-
+  leave: any;
   maxToDate = moment(new Date()).add(90, 'days').format('YYYY-MM-DD');
   minFromDate = moment(new Date()).add(0, 'days').format('YYYY-MM-DD');
-  PlnFrmDate = moment(new Date()).add(2, 'days').format('YYYY-MM-DD');
+  PlnFrmDate :any ;
   LveType:boolean = false;
   getMaxFromDate(toDate) {
     return moment(this.leave.to).format('YYYY-MM-DD');
@@ -35,9 +27,6 @@ export class NewLeavePage {
   }
 
   createLeave() {
-    if (this.leave.isHalfDay) {
-      this.leave.to = this.leave.from;
-    }
     this._Cmmethods.InitializeLoader();
     var sub = this.leaveSvc.createLeave(this.leave).subscribe(() => {
       sub.unsubscribe();    
@@ -51,24 +40,36 @@ export class NewLeavePage {
       this.leave.to = this.leave.from;
     }
 
-    if(new Date(this.leave.from) >= new Date(this.PlnFrmDate)){
+    if(new Date(moment(this.leave.from).format('YYYY-MM-DD'))>= new Date(moment(this.PlnFrmDate).add(2, 'days').format('YYYY-MM-DD'))){
       this.leave.lveType= "Planned";
       this.LveType = true;
     }
     else{
-      this.leave.lveType= "Un-Planned";
+      if(this.leave.lveType== "Sick"){
+        this.leave.lveType= "Sick";
+      }  
+      else{
+        this.leave.lveType= "Un-Planned";
+      }  
       this.LveType = false;
     }
   }
 
-  onFromSelect() {
-
-  }
   onHlfDayChange(){
     this.leave.to = this.leave.from;
   }
 
   constructor(private leaveSvc: LeaveServicev2Provider,
     private appContext: AppContextProvider,
-    private navCtrl: NavController,private _Cmmethods: commonMethods) { }
+    private navCtrl: NavController,private _Cmmethods: commonMethods) {
+     this.PlnFrmDate =new Date(new Date()).toISOString();
+      this.leave = {
+        from: new Date().toISOString(),
+        to: new Date().toISOString(),
+        isHalfDay: false,
+        reason: "",
+        status: 0,
+        lveType: "Un-Planned"
+      };
+     }
 }
