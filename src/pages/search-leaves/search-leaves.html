@@ -20,9 +20,16 @@
           <ion-label>To</ion-label>
           <ion-datetime displayFormat="MMM DD, YYYY" [min]="getMinToDate(fromDate)" [max]="maxToDate" [(ngModel)]="toDate"></ion-datetime>
         </ion-item>
-
         <ion-item>
-          <button ion-button round full (click)="searchLeave(fromDate, toDate)">Search</button>
+          <ion-label>Team</ion-label>
+          <ion-select [(ngModel)]="Myteam" [disabled]="disableSelector">
+              <ion-option [value]="res.name" *ngFor="let res of responseteam">
+                  {{res.name}}
+              </ion-option>
+            </ion-select>
+      </ion-item>
+        <ion-item>
+          <button ion-button round full (click)="searchLeave(fromDate, toDate,Myteam)">Search</button>
         </ion-item>
       </ion-list>
     </ion-card-content>
@@ -39,7 +46,8 @@
   </div>
 
   <div *ngIf="isSearchResultsAvailable()">
-    <ion-card class="cardBorder" [ngStyle]="{'border-left-color':getColor(res.status)}" *ngFor="let res of appContext.searchedLeavesCollection | filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject">
+    <!-- <ion-card class="cardBorder" [ngStyle]="{'border-left-color':getColor(res.status)}" *ngFor="let res of appContext.searchedLeavesCollection | filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject"> -->
+        <ion-card class="cardBorder" [ngStyle]="{'border-left-color':getColor(res.status)}" *ngFor="let res of appContext.searchedLeavesCollection | filterBySearch: appContext.getAllTeamsCollection: appContext.myReporteesCollection: appContext.myProfileObject: Myteam ">
 
       <div class="itemStyle">
         <ion-item>
@@ -69,7 +77,8 @@
           <ion-col (click)=acceptLeave(res?.leaveId) item-start style="text-align: center;">
             <div>
               <button class="child" ion-button icon-left clear small>
-                <img src="../../assets/imgs/happy (3).png" />
+                <!-- <img src="../../assets/imgs/happy (3).png" /> -->
+                <ion-icon style="font-size:2em; color:#238527;" name="checkmark"></ion-icon>
               </button>
             </div>
             <div>
@@ -81,7 +90,8 @@
           <ion-col (click)=CallPrompt(res?.leaveId) item-end style="text-align: center;">
             <div>
               <button ion-button icon-left clear small>
-                <img src="../../assets/imgs/angryblack.png" />
+                <!-- <img src="../../assets/imgs/angryblack.png" /> -->
+                <ion-icon style="font-size:2em; color:#E57373;" name="close"></ion-icon>
               </button>
             </div>
             <div>

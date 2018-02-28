@@ -4,6 +4,7 @@ import { commentsController } from '../../components/controllers/comments-contro
 import * as moment from 'moment';
 import { AppContextProvider } from '../../providers/app-context/app-context';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
+import {UserServiceV2Provider} from '../../providers/user-service-v2/user-service-v2';
 import {LeaveStatus} from '../../models/leavestatus.enum';
 import {DetailsviewPage} from '../detailsview/detailsview';
 
@@ -17,16 +18,29 @@ import {DetailsviewPage} from '../detailsview/detailsview';
 export class SearchLeavesPage {
 
   fromDate = new Date().toISOString();
-  //toDate = new Date().toISOString();
   maxToDate = moment(new Date()).add(90, 'days').format('YYYY-MM-DD');
   toDate=this.maxToDate;
   minFromDate = moment(new Date()).add(-90, 'days').format('YYYY-MM-DD');
-
+  responseteam=[];  
+  Myteam:string;
+  disableSelector:boolean;
 
 
   constructor(private appContext: AppContextProvider,
-    private leavesSvc: LeaveServicev2Provider, private alertCtrl: commentsController,private modalCtrl:ModalController) {
+    private leavesSvc: LeaveServicev2Provider, private _userV2:UserServiceV2Provider,private alertCtrl: commentsController,private modalCtrl:ModalController) {
     this.appContext.searchedLeaves.subscribe(leaves => { console.log(leaves) });
+    this.leavesSvc.getTeams().subscribe(teamsList=>{
+      this.responseteam = teamsList});
+      
+    if (this.appContext.myProfileObject.isManager) {
+    this.disableSelector = this.appContext.myProfileObject.isManager;
+      this.Myteam = "All";
+    }
+    else {
+      this.disableSelector = this.appContext.myProfileObject.isManager;
+      this.Myteam = this.appContext.myProfileObject.team.id;
+    }
+     
   }
 
   getMaxFromDate(toDate) {
@@ -37,10 +51,16 @@ export class SearchLeavesPage {
     return moment(fromDate).format('YYYY-MM-DD');
   }
 
-  searchLeave(fromDate, toDate) {
+  searchLeave(fromDate, toDate,value) {
     var from = this.leavesSvc.getDateRange(fromDate);
     var to = this.leavesSvc.getDateRange(toDate);
-    this.leavesSvc.searchLeavesByDateRange(from.start, to.end,this.appContext.searchedLeaves);
+    this._userV2.getUsersByTeamID(value.trim()).subscribe(
+      UsersbyTeam=>{
+        this.appContext.getAllTeams.next(UsersbyTeam);
+        this.appContext.searchedLeaves.next([]);
+        this.leavesSvc.searchLeavesByDateRange(from.start, to.end,this.appContext.searchedLeaves);
+      }
+    )
   }
 
   isSearchResultsAvailable() {

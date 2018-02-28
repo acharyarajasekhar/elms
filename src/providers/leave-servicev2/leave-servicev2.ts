@@ -30,7 +30,10 @@ export class LeaveServicev2Provider {
     this.getTomorrowsLeaves();
     this.appContext.searchedLeaves.next([]);
   }
-
+  public getTeams() {
+    return this.store.collection('eTeam', ref => ref)
+      .valueChanges()
+  }
   public getDateRange(date) {
     return {
       start: new Date(new Date(date).setHours(0, 0, 0, 0)),
