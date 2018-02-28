@@ -63,7 +63,6 @@ export class NotificationsPage {
   }
 
   openModal(leave: any) {
-    debugger;
     console.log(leave);
     let leaveObj = {
       name: leave.owner.name,
