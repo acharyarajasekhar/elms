@@ -13,10 +13,10 @@ import {filterBySearchPipe} from './filter-by-search/filter-by-search';
 		SummaryPipe,
 		NamePipe,
 		NametrimPipe,
-    FilterByEmailIdPipe,
-    FilterByIsManagerFlagPipe,
-	FilterNotificationPipe,
-	filterBySearchPipe
+		FilterByEmailIdPipe,
+		FilterByIsManagerFlagPipe,
+		FilterNotificationPipe,
+		filterBySearchPipe
 	],
 	imports: [],
 	exports: [
@@ -24,10 +24,10 @@ import {filterBySearchPipe} from './filter-by-search/filter-by-search';
 		SummaryPipe,
 		NamePipe,
 		NametrimPipe,
-    FilterByEmailIdPipe,
-    FilterByIsManagerFlagPipe,
-	FilterNotificationPipe,
-	filterBySearchPipe
+		FilterByEmailIdPipe,
+		FilterByIsManagerFlagPipe,
+		FilterNotificationPipe,
+		filterBySearchPipe
 	]
 })
 export class PipesModule {}

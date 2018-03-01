@@ -23,20 +23,19 @@ export class NotificationsPage {
 
     var from = moment(new Date()).startOf('day').toDate();
     var to = moment(new Date()).add(90, 'days').endOf('day').toDate();
-    this.leavesSvc.searchLeavesByDateRange(from, to,this.appContext.searchedLeaves);
-
+    //this.leavesSvc.searchLeavesByDateRange(from, to,this.appContext.searchedLeaves);
+    this.leavesSvc.getNotifications(from, to,this.appContext.notificationLeaves);
   }
 
   ionViewWillLeave() {
     this.appContext.searchedLeaves.next([]);
   }
 
-  approve(leaveId) {
-    console.log(leaveId);
+  approveLeave(leaveId) {
     this.leavesSvc.updateLeaveStatus(leaveId, 1, "Approved");
   }
 
-  tryDecline(leaveId) {
+  declineLeave(leaveId) {
     let Modaltitle = "Reject Leave";
     let Modalmsg = "Do you wish to reject this leave request?";
     this.alertCtrl.presentPrompt(leaveId, Modaltitle, Modalmsg, 2);
@@ -50,7 +49,7 @@ export class NotificationsPage {
     if (this.canShowClear(leave)) {
       this.markAsRead(leave.leaveId);
     } else {
-      this.approve(leave.leaveId);
+      this.approveLeave(leave.leaveId);
     }
   }
 
@@ -59,7 +58,7 @@ export class NotificationsPage {
   }
 
   canShowApproveDecline(leave) {
-    return leave.status == '0' && leave.owner.manager.email == this.appContext.myProfileObject.email
+    return !leave.isMyLeave && (leave.owner.manager.email == this.appContext.myProfileObject.email);
   }
 
   openModal(leave: any) {

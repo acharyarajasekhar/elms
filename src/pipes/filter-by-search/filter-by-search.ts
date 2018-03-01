@@ -9,7 +9,6 @@ export class filterBySearchPipe implements PipeTransform
 {
     transform(leaves: [{}], usersByteamCollection: [{}], reporteesCollection: [{}], myProfile: any,selectedTeam : any)
     {
-        debugger;
         var results = [];
         if (leaves && leaves.length > 0) {
           if (myProfile) {
@@ -21,7 +20,6 @@ export class filterBySearchPipe implements PipeTransform
                 }
     
                 if (myProfile.isManager) {
-                    debugger;
                     var owner = reporteesCollection.filter((t: any) => (t.email == leave.owner.id || t.email == leave.owner.email))[0];
                     if (owner) {
                       leave.owner = owner;

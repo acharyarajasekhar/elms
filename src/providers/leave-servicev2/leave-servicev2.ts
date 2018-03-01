@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserServiceV2Provider } from '../user-service-v2/user-service-v2';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { AppContextProvider } from '../app-context/app-context';
@@ -11,10 +10,11 @@ import { ToastMessageProvider } from '../toast-message/toast-message';
 @Injectable()
 export class LeaveServicev2Provider {
 
-  constructor(private userSvc: UserServiceV2Provider,
+  constructor(
     private store: AngularFirestore,
     private appContext: AppContextProvider,
-    private emailSP: EmailServiceProvider, private toastMP: ToastMessageProvider) {
+    private emailSP: EmailServiceProvider, 
+    private toastMP: ToastMessageProvider) {
     this.appContext.myAccount.subscribe(account => {      
       if(account) {
         this.initHome();
@@ -88,6 +88,15 @@ export class LeaveServicev2Provider {
       .snapshotChanges()
   }
 
+  private getUnReadNotification(from: Date) {
+    return this.store.collection('eLeaves', ref => {
+      return ref.where('to', ">=", from)
+                .where('isRead','==',false)
+                //.orderBy('createdAt', 'asc')
+    })
+    .snapshotChanges()
+  }
+
   private getMyLeaves(from: Date) {
     return this.store.collection('eLeaves', ref => ref
       .where('to', ">=", from)
@@ -137,9 +146,14 @@ export class LeaveServicev2Provider {
   }
 
   public updateLeaveStatus(Id: string, newStatus: number, comments: string) {
-    this.store.doc('eLeaves/' + Id).update({ status: newStatus, modifiedAt: new Date(), managerComments: comments})
+    this.store.doc('eLeaves/' + Id).update({ status: newStatus,isRead: true, modifiedAt: new Date(), managerComments: comments})
       .then(status => {
-        this.toastMP.showToast("Leave request updated successfully!", false);
+        if(newStatus === 1){
+          this.toastMP.showToast("Leave request accepted successfully!", false);
+        }
+        else if(newStatus === 2){
+          this.toastMP.showToast("Leave request rejected successfully!", true);
+        }
         this.emailSP.trigger(Id, newStatus);
       }).catch(err => { this.toastMP.showToast(err, true) });
   }
@@ -194,4 +208,30 @@ export class LeaveServicev2Provider {
       }).catch(err => { this.toastMP.showToast(err, true) });
   }
 
+  /*****************NOTIFICATION*******************/
+  public getNotifications(from: Date, to: Date,currsubject: Subject<any>) {
+    this.appContext.searchDateRange = {
+      start: from,
+      end: to
+    };
+    this.updateNotificationResult(this.getUnReadNotification(this.appContext.searchDateRange.start),currsubject);
+  }
+
+  private updateNotificationResult(source: Observable<any>,InvokeSubject:Subject<any>) {
+    source.subscribe(results => {
+      InvokeSubject.next([]);
+      if (results && results.length > 0) {
+        var resultitems = [];
+        results.forEach((leave: any, lIndex, lArray) => {
+          var leaveItem = leave.payload.doc.data();
+          leaveItem.leaveId = leave.payload.doc.id;
+          resultitems.push(leaveItem);
+          if (lIndex == lArray.length - 1) {
+            this.updateSubject(resultitems, this.appContext.searchDateRange, InvokeSubject);
+          }
+        });
+      }
+    });
+  }
+  /*************************************************/
 }
