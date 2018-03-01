@@ -83,7 +83,10 @@ export class SearchLeavesPage {
         return 'orange';
     }
   }
-
+  
+  ionViewWillEnter () {
+	this.appContext.searchedLeaves.next([]);
+  }
   ionViewWillLeave() {
     this.appContext.searchedLeaves.next([]);
   }
