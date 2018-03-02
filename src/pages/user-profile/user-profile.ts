@@ -22,14 +22,14 @@ export class UserProfilePage {
     private imageSrv: ImageProvider,
     private appContext: AppContextProvider,
     private actionSheetCtrl: ActionSheetController) { 
-      console.log(this.appContext.myProfileObject);
+      //console.log(this.appContext.myProfileObject);
        this.user =this.appContext.myProfileObject;
   }
 
   editProfile(){
     this.navCtrl.push("EditUserProfilePage",{user: this.user});
   }
-
+  
  changePicture() {
     let actionSheet = this.actionSheetCtrl.create({
       enableBackdropDismiss: true,

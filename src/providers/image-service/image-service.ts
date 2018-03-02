@@ -3,7 +3,7 @@ import 'rxjs/add/operator/map';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { storage } from 'firebase';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
-
+import { AppContextProvider } from '../app-context/app-context';
 declare var window: any;
 
 @Injectable()
@@ -12,7 +12,7 @@ export class ImageProvider {
   objectToSave: Array<any> = new Array;
   captureDataUrl: string;
   file: File;
-
+  user:any = {};
   private takePictureOptions: CameraOptions = {
     quality: 50,   
     targetWidth: 600,
@@ -36,17 +36,17 @@ export class ImageProvider {
 
   constructor( 
     private camera: Camera,
+    private appContext: AppContextProvider,
     private userService: UserServiceProvider) {
+      this.user = this.appContext.myProfileObject;
   }
-
   //Take a picture and return a promise with the image data
  async uploadFromCamera() {  
     try{
       const result = await this.camera.getPicture(this.takePictureOptions);
-      const image = `data:image/jpeg:base64,${result}`;
-      let user = JSON.parse(localStorage.getItem('userContext'));      
-      let uploadTask = await storage().ref().child('photos/' + user.email + '.jpg').put(this.dataURItoBlob(image));
-      this.userService.updatePhotoUrl(user.email, uploadTask.downloadURL);      
+      const image = `data:image/jpeg:base64,${result}`; 
+      let uploadTask = await storage().ref().child('photos/' + this.user.email + '.jpg').put(this.dataURItoBlob(image));
+      this.userService.updatePhotoUrl(this.user.email, uploadTask.downloadURL);      
       return uploadTask.downloadURL;
     }
     catch(e){
@@ -58,10 +58,9 @@ export class ImageProvider {
    async uploadFromGallery() {    
       try{
       const result = await this.camera.getPicture(this.galleryOptions);
-      const image = `data:image/jpeg:base64,${result}`;  
-      let user = JSON.parse(localStorage.getItem('userContext'));
-      let uploadTask = await storage().ref().child('photos/' + user.email + '.jpg').put(this.dataURItoBlob(image));
-      this.userService.updatePhotoUrl(user.email, uploadTask.downloadURL);
+      const image = `data:image/jpeg:base64,${result}`; 
+      let uploadTask = await storage().ref().child('photos/' +this.user.email + '.jpg').put(this.dataURItoBlob(image));
+      this.userService.updatePhotoUrl(this.user.email, uploadTask.downloadURL);
       return uploadTask.downloadURL;
       }
       catch(e){
