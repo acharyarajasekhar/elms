@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, Inject, LOCALE_ID } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-
+import * as moment from 'moment';
 import { CalendarService } from './calendar.service';
 import { AlertController } from 'ionic-angular';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
@@ -162,7 +162,7 @@ export enum Step {
                         <div class="contentStyle">
                             Status : {{event.status}}
                             <button  style="float:right;" (click)="presentPrompt(event.Leaveid)" ion-button icon-left clear small *ngIf="((event.status == 'Accepted' || event.status == 'Requested') && (event.startTime >= this.tdydate))">
-                                <u>Cancel</u>
+                                <u>Withdraw</u>
                             </button>
                         </div>
                     </ion-card-content>
@@ -359,7 +359,7 @@ export class CalendarComponent implements OnInit {
     private tdydate: Date;
     constructor(private calendarService: CalendarService, private leaveSvc: LeaveServicev2Provider, private alertCtrl: AlertController, @Inject(LOCALE_ID) private appLocale: string) {
         this.locale = appLocale;
-        this.tdydate = new Date();
+        this.tdydate = new Date(moment(new Date()).format('YYYY-MM-DD'));
     }
 
     ngOnInit() {

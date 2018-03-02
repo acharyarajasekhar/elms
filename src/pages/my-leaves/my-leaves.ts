@@ -35,7 +35,7 @@ export class MyLeavesPage {
       leaves.forEach(leave => {
         this.eventSource.push({
           "allDay": !leave.isHalfDay,
-          startTime: leave.from,
+          startTime: new Date(moment(leave.from).format('YYYY-MM-DD')),
           endTime: leave.to,
           status: (LeaveStatus[(Number(leave.status))]),
           title: leave.reason,
