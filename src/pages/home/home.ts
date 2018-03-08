@@ -12,13 +12,13 @@ import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-se
 export class HomePage {
 
   private slides: Array<string> = [
-    "assets/imgs/lms1.jpg",
-    "assets/imgs/lms2.jpg",
-    "assets/imgs/lms3.jpg",
-    "assets/imgs/lms4.jpg",
-    "assets/imgs/lms5.jpg",
-    "assets/imgs/lms6.jpg",
-    "assets/imgs/lms7.jpg"
+    "assets/imgs/slides/1.jpg",
+    "assets/imgs/slides/2.jpg",
+    "assets/imgs/slides/3.jpg",
+    "assets/imgs/slides/4.jpg",
+    "assets/imgs/slides/5.jpg",
+    "assets/imgs/slides/6.jpg",
+    "assets/imgs/slides/7.jpg"
   ];
 
   constructor(
