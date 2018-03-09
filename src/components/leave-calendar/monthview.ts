@@ -193,22 +193,22 @@ import { IMonthViewDisplayEventTemplateContext } from "./calendar";
         }
 
         .monthview-approved-leave {
-            background-color: #5db561;
+            background-color: #48E74F;
             color: white;
         }
 
         .monthview-rejected-leave {
-            background-color: #f1458e;
+            background-color: #F91010;
             color: white;
         }
 
         .monthview-requested-leave {
-            background-color: #45bff7;
+            background-color: orange;
             color: white;
         }
 
         .monthview-cancelled-leave {
-            background-color: #918a0f;
+            background-color: #C9D1D0;
             color: white;
         }
 
@@ -466,21 +466,24 @@ export class MonthViewComponent implements ICalendarComponent, OnInit, OnChanges
     }
 
     getHighlightClass(date:IMonthViewRow):string {
+       
         let className = '';
         if (date.hasEvent) {
-            if(date.events.length == 1) {
-                if(date.events[0].status == "Requested") {
-                    className = 'monthview-requested-leave';
-                }
-                else if(date.events[0].status == "Accepted") {
-                    className = 'monthview-approved-leave';
-                }
-                else if(date.events[0].status == "Declined") {
-                    className = 'monthview-rejected-leave';
-                }
-                else if(date.events[0].status == "Cancelled") {
-                    className = 'monthview-cancelled-leave';
-                }
+            if(date.events.length > 0) {
+                for(var i = 0;i <date.events.length;i++){
+                    if(date.events[i].status == "Requested") {
+                        className = 'monthview-requested-leave';
+                    }
+                    else if(date.events[i].status == "Accepted") {
+                        className = 'monthview-approved-leave';
+                    }
+                    else if(date.events[i].status == "Declined") {
+                        className = 'monthview-rejected-leave';
+                    }
+                    else if(date.events[i].status == "Cancelled") {
+                        className = 'monthview-cancelled-leave';
+                    }
+               }
             }
             /*if (date.secondary) {
                 className = 'monthview-secondary-with-event';
