@@ -55,7 +55,7 @@
             <img [src]="res.owner.photoUrl ? res.owner.photoUrl : '../../assets/imgs/user.png'">
           </ion-avatar>
           <h2>{{res?.owner?.name }}</h2>   
-          <h2  style="font-size:12px">&bull;{{res?.owner?.team?.name}}</h2>
+          <h2  style="font-size:12px">&bull;{{res?.owner?.team?.id}}</h2>
           <h6 style="font-size:12px">Req. On: {{res?.createdAt | date : "MMM d, y" }} [ {{res?.lveType}} ]</h6>
 
         </ion-item>
