@@ -68,7 +68,7 @@
   <ion-slides pager="false" id="tomorrow" slidesPerView=3 style="height: 160px;" *ngIf="(appContext.tomorrowsLeavesCollection | filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject).length > 0">
     <ion-slide *ngFor="let leave of appContext.tomorrowsLeavesCollection | filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject">
       <ion-card>
-        <img style="width: 103px;height: 86px;" [src]="leave.owner.photoUrl ? leave.owner.photoUrl : '../../assets/imgs/user.png'"
+        <img style="width: 103px;height: 86px;" [src]="leave.owner.photoUrl ? leave.owner.photoUrl : 'assets/imgs/user.png'"
         />
         <ion-card-content>
             <p style="font-weight:800; white-space: nowrap;overflow: hidden;">{{ leave?.owner?.name }}</p>
@@ -79,7 +79,7 @@
  <ion-slides pager="false" id="tomorrow" slidesPerView=1 style="height:130px;" *ngIf="(appContext.tomorrowsLeavesCollection | filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject).length == 0">
     <ion-slide>
       <!-- <p align="center" style="color:#0a72dc;font-weight:bold;font-size:14px">No Events :)</p> -->
-      <img style="margin-left: auto;margin-right: auto;display: block;" [src]="'../../assets/imgs/research.png'">
+      <img style="margin-left: auto;margin-right: auto;display: block;" [src]="'assets/imgs/research.png'">
       <br/>
       <div style="text-align: center;">
         <span class="itemStyle">No Events Found </span>
