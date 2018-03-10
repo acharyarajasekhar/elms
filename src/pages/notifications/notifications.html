@@ -8,7 +8,7 @@
         <ion-item-sliding *ngFor="let leave of appContext.notificationLeavesCollection| filterNotification: appContext.myReporteesCollection: appContext.myProfileObject">
             <ion-item (click)="openModal(leave)">
                 <ion-avatar item-start>
-                    <img [src]="leave.owner.photoUrl ? leave.owner.photoUrl : '../../assets/imgs/user.png'">
+                    <img [src]="leave.owner.photoUrl ? leave.owner.photoUrl : 'assets/imgs/defaults/user.jpg'">
                 </ion-avatar>
                 <div class="info1">
                     <h2>{{ leave?.owner?.name }}</h2>

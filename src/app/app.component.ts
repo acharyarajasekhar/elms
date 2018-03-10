@@ -30,7 +30,7 @@ import { UserServiceV2Provider } from '../providers/user-service-v2/user-service
     height: 150px;
     min-width: 100%;
     min-height: 100%;
-    background-image: url('../../assets/imgs/bg1.png') !important;
+    background-image: url('assets/imgs/bg1.png') !important;
     animation:animate 45s infinite;
     background-color: #039be5 !important;
   }
@@ -64,7 +64,7 @@ export class MyApp {
     ];
 
     this.Userdetails =localStorage.getItem('userContext') ? JSON.parse(localStorage.getItem('userContext')) : null;
-    this.photoURL=this.Userdetails ? this.Userdetails.photoUrl : "../assets/imgs/user.png";    
+    this.photoURL=this.Userdetails ? this.Userdetails.photoUrl : "assets/imgs/defaults/user.jpg";    
   }
 
   initializeApp() {

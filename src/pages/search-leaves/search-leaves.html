@@ -37,7 +37,7 @@
   <br/>
 
   <div *ngIf="!isSearchResultsAvailable()" style="position: relative;top:10%;">
-    <img style="margin-left: auto;margin-right: auto;display: block;" [src]="'assets/imgs/research.png'">
+    <img style="margin-left: auto;margin-right: auto;display: block;" [src]="'assets/imgs/defaults/noresults.jpg'">
     <br/>
     <div style="text-align: center;">
       <span class="contentStyle">Whoops!!! &nbsp;</span>
@@ -52,7 +52,7 @@
       <div class="itemStyle">
         <ion-item>
           <ion-avatar item-start>
-            <img [src]="res.owner.photoUrl ? res.owner.photoUrl : '../../assets/imgs/user.png'">
+            <img [src]="res.owner.photoUrl ? res.owner.photoUrl : 'assets/imgs/defaults/user.jpg'">
           </ion-avatar>
           <h2>{{res?.owner?.name }}</h2>   
           <h2  style="font-size:12px">&bull;{{res?.owner?.team?.id}}</h2>
@@ -77,7 +77,7 @@
           <ion-col (click)=acceptLeave(res?.leaveId) item-start style="text-align: center;">
             <div>
               <button class="child" ion-button icon-left clear small>
-                <!-- <img src="../../assets/imgs/happy (3).png" /> -->
+                <!-- <img src="assets/imgs/happy.png" /> -->
                 <ion-icon style="font-size:2em; color:#238527;" name="checkmark"></ion-icon>
               </button>
             </div>
@@ -90,7 +90,7 @@
           <ion-col (click)=CallPrompt(res?.leaveId) item-end style="text-align: center;">
             <div>
               <button ion-button icon-left clear small>
-                <!-- <img src="../../assets/imgs/angryblack.png" /> -->
+                <!-- <img src="assets/imgs/angryblack.png" /> -->
                 <ion-icon style="font-size:2em; color:#E57373;" name="close"></ion-icon>
               </button>
             </div>

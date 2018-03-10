@@ -144,7 +144,7 @@ export enum Step {
                 <ion-card style="border-radius:5px;border:1px solid #000;" *ngFor="let event of selectedDate?.events" (click)="eventSelected(event)">
                     <ion-item>
                         <ion-avatar item-start>
-                            <img [src]="event.photoUrl ? event.photoUrl : '../../assets/imgs/user.png'">
+                            <img [src]="event.photoUrl ? event.photoUrl : 'assets/imgs/defaults/user.jpg'">
                         </ion-avatar>
                         <span class="FontAvatar">{{event.startTime | date : "MMM d, y"}}</span> to  <span class="FontAvatar">{{event.endTime | date : "MMM d, y"}}</span>
                         <span class="FontAvatar" style="float:right;margin:1px;" *ngIf="!event.allDay">

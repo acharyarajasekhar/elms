@@ -12,7 +12,7 @@
     <div class="itemStyle">
       <ion-item>
         <ion-avatar item-start>
-          <img [src]="photoUrl ? photoUrl : '../../assets/imgs/user.png'">
+          <img [src]="photoUrl ? photoUrl : 'assets/imgs/defaults/user.jpg'">
         </ion-avatar>
         <h2>{{name }}</h2>
         <p>{{createdAt | date : "MMM d, y" }}</p>
@@ -37,7 +37,7 @@
   <ion-list>
     <ion-item  *ngFor="let res of appContext.duringthisTimeCollection | filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject">
       <ion-thumbnail item-start>
-        <img [src]="res.owner.photoUrl ? res.owner.photoUrl : '../../assets/imgs/user.png'">
+        <img [src]="res.owner.photoUrl ? res.owner.photoUrl : 'assets/imgs/defaults/user.jpg'">
       </ion-thumbnail>
       <h2 class="itemStyle">{{res?.owner?.name }}</h2>
       <p class="contentStyle"> {{res?.owner?.team?.name }}</p>
