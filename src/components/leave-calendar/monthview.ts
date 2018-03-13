@@ -208,7 +208,12 @@ import { IMonthViewDisplayEventTemplateContext } from "./calendar";
         }
 
         .monthview-cancelled-leave {
-            background-color: #C9D1D0;
+            background-color: #707674;
+            color: white;
+        }
+
+        .monthview-history-leave {
+            background-color: #C8AC2D;
             color: white;
         }
 
@@ -469,21 +474,23 @@ export class MonthViewComponent implements ICalendarComponent, OnInit, OnChanges
        
         let className = '';
         if (date.hasEvent) {
-            if(date.events.length > 0) {
-                for(var i = 0;i <date.events.length;i++){
-                    if(date.events[i].status == "Requested") {
+            if(date.events.length==1) {
+                    if(date.events[0].status == "Requested") {
                         className = 'monthview-requested-leave';
                     }
-                    else if(date.events[i].status == "Accepted") {
+                    else if(date.events[0].status == "Accepted") {
                         className = 'monthview-approved-leave';
                     }
-                    else if(date.events[i].status == "Declined") {
+                    else if(date.events[0].status == "Declined") {
                         className = 'monthview-rejected-leave';
                     }
-                    else if(date.events[i].status == "Cancelled") {
+                    else if(date.events[0].status == "Cancelled") {
                         className = 'monthview-cancelled-leave';
                     }
-               }
+            }
+            else if(date.events.length > 1) {
+
+                className = 'monthview-history-leave';
             }
             /*if (date.secondary) {
                 className = 'monthview-secondary-with-event';

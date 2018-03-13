@@ -4,7 +4,7 @@ import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-se
 import { AppContextProvider } from '../../providers/app-context/app-context';
 import { LeaveStatus } from '../../models/leavestatus.enum';
 import * as moment from 'moment';
-
+import * as _ from 'lodash';
 @IonicPage()
 @Component({
   selector: 'page-my-leaves',
@@ -45,6 +45,7 @@ export class MyLeavesPage {
           Leaveid: leave.leaveId
         })
       })
+      this.eventSource = _.orderBy(this.eventSource, ["reqDate"], ['desc']);
     })
 
   }

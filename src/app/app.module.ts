@@ -41,7 +41,7 @@ import { ToastMessageProvider } from '../providers/toast-message/toast-message';
 import { UserServiceV2Provider } from '../providers/user-service-v2/user-service-v2';
 import{commentsController} from '../components/controllers/comments-controller';
 import { PipesModule } from '../pipes/pipes.module';
-  
+import { IonicImageViewerModule } from 'ionic-img-viewer';  
 @NgModule({
   declarations: [
     MyApp,
@@ -59,7 +59,8 @@ import { PipesModule } from '../pipes/pipes.module';
     AngularFirestoreModule,
     AngularFireAuthModule,
     ChartsModule,
-    PipesModule
+    PipesModule,
+    IonicImageViewerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

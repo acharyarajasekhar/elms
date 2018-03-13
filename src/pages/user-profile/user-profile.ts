@@ -5,6 +5,7 @@ import { User } from './../../models/user.model';
 import { ImageProvider } from '../../providers/image-service/image-service';
 import { AppContextProvider } from '../../providers/app-context/app-context';
 import { Reference } from 'angularfire2/firestore';
+import { ImageViewerController } from 'ionic-img-viewer';
 @IonicPage()
 @Component({
   selector: 'page-user-profile',
@@ -14,22 +15,31 @@ export class UserProfilePage {
 
   profileForm: FormGroup;;
   user:any = {};
- 
+  _imageViewerCtrl: ImageViewerController;
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     public toastCtrl: ToastController,  
     private imageSrv: ImageProvider,
     private appContext: AppContextProvider,
+    imageViewerCtrl: ImageViewerController,
     private actionSheetCtrl: ActionSheetController) { 
-      //console.log(this.appContext.myProfileObject);
-       this.user =this.appContext.myProfileObject;
+      // this.user =this.appContext.myProfileObject;
+      this._imageViewerCtrl = imageViewerCtrl;
   }
 
   editProfile(){
     this.navCtrl.push("EditUserProfilePage",{user: this.user});
   }
   
+  presentImage(myImage) {
+    const imageViewer = this._imageViewerCtrl.create(myImage);
+    imageViewer.present();
+   // setTimeout(() => imageViewer.dismiss(), 3000);
+    imageViewer.onDidDismiss(() => {});
+  }
+
+
  changePicture() {
     let actionSheet = this.actionSheetCtrl.create({
       enableBackdropDismiss: true,
@@ -46,6 +56,14 @@ export class UserProfilePage {
           handler: () => {
             this.uploadFromGallery();
           }
+        },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
         }
       ]
     });
@@ -58,5 +76,9 @@ export class UserProfilePage {
 
   async uploadFromCamera() {
     this.user.photoUrl = await this.imageSrv.uploadFromCamera();    
+  }
+
+  ionViewWillEnter() {
+    this.user =this.appContext.myProfileObject;
   }
 }
