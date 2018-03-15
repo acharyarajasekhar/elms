@@ -62,9 +62,8 @@ export class MyApp {
       // { title: 'Reports', component: "ReportPage" },
       { title: 'Feedback', component: "FeedbackPage" }
     ];
-
-    this.Userdetails =localStorage.getItem('userContext') ? JSON.parse(localStorage.getItem('userContext')) : null;
-    this.photoURL=this.Userdetails ? this.Userdetails.photoUrl : "assets/imgs/defaults/user.jpg";    
+    
+ 
   }
 
   initializeApp() {
