@@ -36,29 +36,19 @@
   </ion-card>
   <br/>
 
-  <div *ngIf="!isSearchResultsAvailable()" style="position: relative;top:10%;">
-    <img style="margin-left: auto;margin-right: auto;display: block;" [src]="'assets/imgs/defaults/noresults.jpg'">
-    <br/>
-    <div style="text-align: center;">
-      <span class="contentStyle">Whoops!!! &nbsp;</span>
-      <span class="itemStyle">No Results Found </span>
-    </div>
-  </div>
-
-  <div *ngIf="isSearchResultsAvailable()">
+  <div *ngIf="appContext.searchedLeavesCollection | filterBySearch: appContext.getAllTeamsCollection: appContext.myReporteesCollection: appContext.myProfileObject: Myteam; else loading">
     <!-- <ion-card class="cardBorder" [ngStyle]="{'border-left-color':getColor(res.status)}" *ngFor="let res of appContext.searchedLeavesCollection | filterByIsManagerFlag: appContext.myTeamMembersCollection: appContext.myReporteesCollection: appContext.myProfileObject"> -->
-        <ion-card class="cardBorder" [ngStyle]="{'border-left-color':getColor(res.status)}" *ngFor="let res of appContext.searchedLeavesCollection | filterBySearch: appContext.getAllTeamsCollection: appContext.myReporteesCollection: appContext.myProfileObject: Myteam ">
+    <ion-card class="cardBorder" [ngStyle]="{'border-left-color':getColor(res.status)}" *ngFor="let res of appContext.searchedLeavesCollection | filterBySearch: appContext.getAllTeamsCollection: appContext.myReporteesCollection: appContext.myProfileObject: Myteam;">
 
       <div class="itemStyle">
         <ion-item>
           <ion-avatar item-start>
             <img [src]="res.owner.photoUrl ? res.owner.photoUrl : 'assets/imgs/defaults/user.jpg'">
           </ion-avatar>
-          <h2 class="itemStyle">{{res?.owner?.name }}</h2>   
+          <h2 class="itemStyle">{{res?.owner?.name }}</h2>
           <p>{{res?.owner?.team?.id}}</p>
           <!-- <h6 class="contentStyle" style="font-size:12px">&bull;&nbsp;{{res?.createdAt | date : "MMM d, y" }} &nbsp;&nbsp;&bull; {{res?.lveType}} </h6> -->
           <p>&bull;&nbsp; {{res?.createdAt | date : "MMM d, y" }}&nbsp;&nbsp;&bull; {{res?.lveType}}</p>
-
 
         </ion-item>
       </div>
@@ -116,14 +106,18 @@
           </ion-col>
         </ion-row>
       </ng-container>
-
-
-
-
-
     </ion-card>
   </div>
 
 
 
+
+  <ng-template #loading>
+    <img style="margin-left: auto;margin-right: auto;display: block;" [src]="'assets/imgs/defaults/noresults.jpg'">
+    <br/>
+    <div style="text-align: center;">
+      <span class="contentStyle">Whoops!!! &nbsp;</span>
+      <span class="itemStyle">No Results Found </span>
+    </div>
+  </ng-template>
 </ion-content>

@@ -28,6 +28,11 @@ export class filterBySearchPipe implements PipeTransform
             })
           }
         }
-        return leaves.filter((leave: any) => leave.owner.email);
+        var resultColl = [];
+        resultColl = leaves.filter((leave: any) => leave.owner.email);
+        if(resultColl.length>0)
+        return resultColl;
+        else
+        return null;
     }
 }
