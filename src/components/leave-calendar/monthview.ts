@@ -203,7 +203,7 @@ import { IMonthViewDisplayEventTemplateContext } from "./calendar";
         }
 
         .monthview-requested-leave {
-            background-color: orange;
+            background-color: #FFBF00;
             color: white;
         }
 
