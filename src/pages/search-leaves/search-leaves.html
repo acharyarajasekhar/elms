@@ -54,9 +54,11 @@
           <ion-avatar item-start>
             <img [src]="res.owner.photoUrl ? res.owner.photoUrl : 'assets/imgs/defaults/user.jpg'">
           </ion-avatar>
-          <h2>{{res?.owner?.name }}</h2>   
-          <h2  style="font-size:12px">&bull;{{res?.owner?.team?.id}}</h2>
-          <h6 style="font-size:12px">Req. On: {{res?.createdAt | date : "MMM d, y" }} [ {{res?.lveType}} ]</h6>
+          <h2 class="itemStyle">{{res?.owner?.name }}</h2>   
+          <p>{{res?.owner?.team?.id}}</p>
+          <!-- <h6 class="contentStyle" style="font-size:12px">&bull;&nbsp;{{res?.createdAt | date : "MMM d, y" }} &nbsp;&nbsp;&bull; {{res?.lveType}} </h6> -->
+          <p>&bull;&nbsp; {{res?.createdAt | date : "MMM d, y" }}&nbsp;&nbsp;&bull; {{res?.lveType}}</p>
+
 
         </ion-item>
       </div>
