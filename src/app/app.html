@@ -9,7 +9,7 @@
             <img [src]="appContext.myProfileObject?.photoUrl">
             <!-- <ion-icon style="font-size:2.2em" name="md-contact"></ion-icon> -->
           </ion-avatar>
-          <h2 class="UserName"> Hello, {{ (authService.user | async)?.displayName || "Guest" }}</h2>
+          <h2 class="UserName"> Hello, {{ (appContext.myProfileObject?.name) || "Guest" }}</h2>
 
         </ion-item>
 
