@@ -48,14 +48,13 @@
           <h2 class="itemStyle">{{res?.owner?.name }}</h2>
           <p>{{res?.owner?.team?.id}}</p>
           <!-- <h6 class="contentStyle" style="font-size:12px">&bull;&nbsp;{{res?.createdAt | date : "MMM d, y" }} &nbsp;&nbsp;&bull; {{res?.lveType}} </h6> -->
-          <p>&bull;&nbsp; {{res?.createdAt | date : "MMM d, y" }}&nbsp;&nbsp;&bull; {{res?.lveType}}</p>
-
+          <p>Requested on: {{res?.createdAt | date : "MMM d, y" }}</p>
         </ion-item>
       </div>
       <hr>
       <ion-card-content>
         <div class="contentStyle">
-          <p> Hey!!! I will be on leave from
+          <p> Hey!!! I will be on&nbsp;<b>{{res?.lveType}}</b> leave from
             <span class="FontAvatar">{{res?.from | date : "MMM d, y"}}</span> to
             <span class="FontAvatar">{{res?.to | date : "MMM d, y"}}</span> due to
             <span class="FontAvatar">{{res?.reason }}</span>
