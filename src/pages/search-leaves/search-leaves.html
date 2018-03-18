@@ -20,14 +20,14 @@
           <ion-label>To</ion-label>
           <ion-datetime displayFormat="MMM DD, YYYY" [min]="getMinToDate(fromDate)" [max]="maxToDate" [(ngModel)]="toDate"></ion-datetime>
         </ion-item>
-        <ion-item>
+        <ion-item *ngIf="!disableSelector">
           <ion-label>Team</ion-label>
-          <ion-select [(ngModel)]="Myteam" [disabled]="disableSelector">
-              <ion-option [value]="res.name" *ngFor="let res of responseteam">
-                  {{res.name}}
-              </ion-option>
-            </ion-select>
-      </ion-item>
+          <ion-select [(ngModel)]="Myteam">
+            <ion-option [value]="res.name" *ngFor="let res of responseteam">
+              {{res.name}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
         <ion-item>
           <button ion-button round full (click)="searchLeave(fromDate, toDate,Myteam)">Search</button>
         </ion-item>
