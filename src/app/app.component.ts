@@ -27,7 +27,7 @@ import { UserServiceV2Provider } from '../providers/user-service-v2/user-service
 
   .UserHeader
   {
-    height: 150px;
+    height: 120px;
     min-width: 100%;
     min-height: 100%;
     background-image: url('assets/imgs/bg1.png') !important;

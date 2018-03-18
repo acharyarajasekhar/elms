@@ -7,7 +7,8 @@
     border: none !important;
     background-color: transparent !important;
     position: absolute;
-    top: 25px;
+    top: 10px;
+    left: 2px;
 }
 
 .item-inner
@@ -25,6 +26,17 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    top: 55%;
+    left: 5%;
+    position:relative;
+}
+
+.UserEmail
+{
+    top: 45%;
+    position: relative;
+    color: wheat;
+    left: 5%;
 }
 
 // App Global Sass

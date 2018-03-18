@@ -6,14 +6,12 @@
         <ion-item class="Itemheader">
           <ion-avatar item-start>
             <!-- <img [src]="photoURL ? photoURL : 'assets/imgs/defaults/user.jpg'" style="width:80px;height:80px;border-radius:50%"> -->
-            <img [src]="appContext.myProfileObject?.photoUrl">
-            <!-- <ion-icon style="font-size:2.2em" name="md-contact"></ion-icon> -->
+            <img style="width: 65px;height: 65px;" [src]="(appContext.myProfileObject?.photoUrl) || 'assets/imgs/defaults/user.jpg' ">
           </ion-avatar>
-          <h2 class="UserName"> Hello, {{ (appContext.myProfileObject?.name) || "Guest" }}</h2>
-
         </ion-item>
-
       </ion-title>
+      <h2 class="UserName"> {{ (appContext.myProfileObject?.name) || "Guest" }}</h2>
+      <p class="UserEmail"> {{ (appContext.myProfileObject?.email)}}</p>
     </div>
     </ion-toolbar>
   </ion-header>
