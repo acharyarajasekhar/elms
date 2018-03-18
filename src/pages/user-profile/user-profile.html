@@ -12,13 +12,13 @@
   </ion-navbar>
 </ion-header>
 <ion-content style="width:100%;height:100%">
-  <div style="display:table;width:100%;height:40%;background-color:#039be5;text-align:center;">
-    <div style="display:table-cell;vertical-align:middle;">          
-        <img [src]="user.photoUrl ? user.photoUrl : 'assets/imgs/defaults/user.jpg'" style="width:100px;height:100px;border-radius:50%" #myImage (click)="presentImage(myImage)" />
-        <ion-icon name="camera" (click)="changePicture()" style="color:white"></ion-icon>
-        <h2 style="color:white">{{ user?.name }}</h2>          
-    </div>
-  </div>    
+    <div style="display:table;width:100%;height:40%;background-color:#039be5;text-align:center;">
+        <div style="display:table-cell;vertical-align:middle;">          
+              <img class="profilepic" [src]="user.photoUrl ? user.photoUrl : 'assets/imgs/defaults/user.jpg'" #myImage (click)="presentImage(myImage)"/>
+              <ion-icon name="camera" (click)="changePicture()" style="color:white;position: relative;right: 30px;bottom: 5px;font-size: 1.5em;"></ion-icon>
+              <h2 style="color:white;text-align: center; position: relative; right: 5px;font-family: g_bold;">{{ user?.name }}</h2>          
+        </div>
+      </div>    
   <ion-list>
     <ion-item>
       <ion-icon name="mail" style="color:rgb(238, 198, 22)" item-start></ion-icon>

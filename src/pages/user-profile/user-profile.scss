@@ -2,4 +2,11 @@ page-user-profile {
     .content {
         background-color: white !important;
     }
+    .profilepic
+    {
+        border-radius: 4px;
+        width: 150px;
+        height: 150px;
+        border: 1px solid white;
+    }
 }
