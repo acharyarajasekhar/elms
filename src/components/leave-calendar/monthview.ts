@@ -203,17 +203,17 @@ import { IMonthViewDisplayEventTemplateContext } from "./calendar";
         }
 
         .monthview-requested-leave {
-            background-color: #FFBF00;
+            background-color: gray;
             color: white;
         }
 
         .monthview-cancelled-leave {
-            background-color: #707674;
+            background-color: #FFC200;
             color: white;
         }
 
         .monthview-history-leave {
-            background-color: #C8AC2D;
+            background-color: #E6BE8A;
             color: white;
         }
 

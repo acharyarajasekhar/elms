@@ -13,11 +13,11 @@
           <ion-list>
             <ion-item class="ionitems">
               <ion-label>Name</ion-label>
-              <ion-input type="text" formControlName="name" placeholder="Name" [(ngModel)]="user.name"></ion-input>
+              <ion-input type="text" formControlName="name" maxlength="30" placeholder="Name" [(ngModel)]="user.name"></ion-input>
             </ion-item>
             <ion-item class="ionitems"  style="margin-top: 10px;">
               <ion-label>Mobile</ion-label>
-              <ion-input type="number" formControlName="phoneNumber" placeholder="Mobile" [(ngModel)]="user.phoneNumber"></ion-input>
+              <ion-input type="tel" formControlName="phoneNumber" maxlength="10" placeholder="Mobile" [(ngModel)]="user.phoneNumber"></ion-input>
             </ion-item>
             <!-- <ion-item class="ionitems"  style="margin-top: 10px;">
               <ion-label>Manager</ion-label>

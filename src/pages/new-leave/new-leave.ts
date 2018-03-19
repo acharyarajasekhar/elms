@@ -36,6 +36,10 @@ export class NewLeavePage {
   }
 
   onDateChange() {
+    if(new Date(moment(this.leave.from).format('YYYY-MM-DD')) < new Date(moment(new Date()).add(0, 'days').format('YYYY-MM-DD'))){
+      this.leave.from =  this.minFromDate;
+    }
+
     if (new Date(this.leave.from) > new Date(this.leave.to)) {
       this.leave.to = this.leave.from;
     }
