@@ -14,11 +14,11 @@
       <ion-list no-line>
         <ion-item>
           <ion-label>From</ion-label>
-          <ion-datetime displayFormat="MMM DD, YYYY" [min]="minFromDate" [max]="getMaxFromDate(toDate)" [(ngModel)]="fromDate"></ion-datetime>
+          <ion-datetime displayFormat="MMM DD, YYYY" [min]="minFromDate" (ionChange)="validatedate()" [max]="getMaxFromDate(toDate)" [(ngModel)]="fromDate"></ion-datetime>
         </ion-item>
         <ion-item>
           <ion-label>To</ion-label>
-          <ion-datetime displayFormat="MMM DD, YYYY" [min]="getMinToDate(fromDate)" [max]="maxToDate" [(ngModel)]="toDate"></ion-datetime>
+          <ion-datetime displayFormat="MMM DD, YYYY" [min]="getMinToDate(fromDate)" (ionChange)="validatedate()" [max]="maxToDate" [(ngModel)]="toDate"></ion-datetime>
         </ion-item>
         <ion-item *ngIf="!disableSelector">
           <ion-label>Team</ion-label>
@@ -29,7 +29,7 @@
           </ion-select>
         </ion-item>
         <ion-item>
-          <button ion-button round full (click)="searchLeave(fromDate, toDate,Myteam)">Search</button>
+          <button ion-button round full [disabled]="!SearchResults" (click)="searchLeave(fromDate, toDate,Myteam)">Search</button>
         </ion-item>
       </ion-list>
     </ion-card-content>

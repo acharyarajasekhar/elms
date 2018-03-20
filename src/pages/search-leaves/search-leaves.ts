@@ -51,6 +51,16 @@ export class SearchLeavesPage {
     return moment(fromDate).format('YYYY-MM-DD');
   }
 
+  validatedate()
+  {
+    if(moment(this.fromDate).format('YYYY-MM-DD')> moment(this.toDate).format('YYYY-MM-DD'))
+    {
+     this.SearchResults=false;
+    }
+    else
+    this.SearchResults=true;
+  }
+
   searchLeave(fromDate, toDate,value) {
     var from = this.leavesSvc.getDateRange(fromDate);
     var to = this.leavesSvc.getDateRange(toDate);
