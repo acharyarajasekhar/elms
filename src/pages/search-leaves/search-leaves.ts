@@ -17,6 +17,7 @@ import {DetailsviewPage} from '../detailsview/detailsview';
 })
 export class SearchLeavesPage {
 
+  SearchResults: boolean = false;
   fromDate = new Date().toISOString();
   maxToDate = moment(new Date()).add(90, 'days').format('YYYY-MM-DD');
   toDate=this.maxToDate;
