@@ -71,11 +71,13 @@ export class UserProfilePage {
   }
 
   async uploadFromGallery() {
-    this.user.photoUrl = await this.imageSrv.uploadFromGallery();    
+    //this.user.photoUrl = await this.imageSrv.uploadFromGallery();
+    await this.imageSrv.uploadFromGallery();      
   }
 
   async uploadFromCamera() {
-    this.user.photoUrl = await this.imageSrv.uploadFromCamera();    
+    //this.user.photoUrl = await this.imageSrv.uploadFromCamera();
+    await this.imageSrv.uploadFromCamera();       
   }
 
   ionViewWillEnter() {

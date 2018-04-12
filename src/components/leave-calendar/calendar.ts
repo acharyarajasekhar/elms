@@ -438,6 +438,6 @@ export class CalendarComponent implements OnInit {
     }
 
     CancelLeave(leaveid: string, comment?: string) {
-        this.leaveSvc.updateLeaveStatus(leaveid, 3, comment);
+        this.leaveSvc.updateLeaveStatus(leaveid,true, 3, comment);
     }
 }

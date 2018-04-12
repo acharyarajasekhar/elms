@@ -25,6 +25,9 @@ export class HomePage {
     public navCtrl: NavController,
     private leavesSvc: LeaveServicev2Provider,
     private appContext: AppContextProvider) {
+    var from = moment(new Date()).startOf('day').toDate();
+    var to = moment(new Date()).add(90, 'days').endOf('day').toDate();
+    this.leavesSvc.getNotifications(from, to,this.appContext.notificationLeaves);
   }
 
   ionViewWillEnter () {

@@ -33,7 +33,7 @@ presentPrompt(LeaveID: string,title:string,alertMsg:string,leaveStatus:number) {
         {
           text: 'Save',
           handler: data => {
-           this._leaveService.updateLeaveStatus(LeaveID,leaveStatus, data.comments);
+           this._leaveService.updateLeaveStatus(LeaveID,true,leaveStatus, data.comments);
           }
         }
       ]

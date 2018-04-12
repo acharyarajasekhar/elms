@@ -88,13 +88,24 @@ export class LeaveServicev2Provider {
       .snapshotChanges()
   }
 
-  private getUnReadNotification(from: Date) {
-    return this.store.collection('eLeaves', ref => {
-      return ref.where('to', ">=", from)
-                .where('isRead','==',false)
-                //.orderBy('createdAt', 'asc')
-    })
-    .snapshotChanges()
+  private getUnReadNotification(from: Date, isManager:boolean) {
+    debugger;
+    if(isManager){
+      return this.store.collection('eLeaves', ref => {
+        return ref.where('to', ">=", from)
+                  .where('status','==',0)
+                  
+      })
+      .snapshotChanges();
+    }
+    else{
+      return this.store.collection('eLeaves', ref => {
+        return ref.where('to', ">=", from)
+                  .where('isRead','==',false)
+                  .where('owner', "==", this.store.doc('eUsers/' + this.appContext.myProfileObject.email).ref)
+      })
+      .snapshotChanges();
+    }
   }
 
   private getMyLeaves(from: Date) {
@@ -145,17 +156,36 @@ export class LeaveServicev2Provider {
     this.searchMyLeavesByDateRange(startDate, endDate)
   }
 
-  public updateLeaveStatus(Id: string, newStatus: number, comments: string) {
-    this.store.doc('eLeaves/' + Id).update({ status: newStatus,isRead: true, modifiedAt: new Date(), managerComments: comments})
-      .then(status => {
-        if(newStatus === 1){
-          this.toastMP.showToast("Leave request accepted successfully!", false);
-        }
-        else if(newStatus === 2){
-          this.toastMP.showToast("Leave request rejected successfully!", true);
-        }
-        this.emailSP.trigger(Id, newStatus);
-      }).catch(err => { this.toastMP.showToast(err, true) });
+  public updateLeaveStatus(Id: string,isManager:boolean, newStatus: number, comments: string) {
+     if(isManager){
+       //update notification as manager
+      this.store.doc('eLeaves/' + Id).update(
+        { 
+          status: newStatus,
+          modifiedAt: new Date(), 
+          managerComments: comments
+        })
+        .then(status => {
+          if(newStatus === 1){
+            this.toastMP.showToast("Leave request accepted successfully!", false);
+          }
+          else if(newStatus === 2){
+            this.toastMP.showToast("Leave request rejected successfully!", true);
+          }
+          this.emailSP.trigger(Id, newStatus);
+        }).catch(err => { this.toastMP.showToast(err, true) });
+     }
+     else{
+       //update notification as user
+      this.store.doc('eLeaves/' + Id).update(
+        { 
+          isRead: true, 
+          modifiedAt: new Date(), 
+        })
+        .then(status => {
+          console.log('notification read!')
+        }).catch(err => { this.toastMP.showToast(err, true) });
+     }
   }
 
   private addLeave(leave) {
@@ -214,7 +244,9 @@ export class LeaveServicev2Provider {
       start: from,
       end: to
     };
-    this.updateNotificationResult(this.getUnReadNotification(this.appContext.searchDateRange.start),currsubject);
+    let _isManager:boolean;
+    _isManager = this.appContext.myProfileObject.isManager;
+    this.updateNotificationResult(this.getUnReadNotification(this.appContext.searchDateRange.start,_isManager),currsubject);
   }
 
   private updateNotificationResult(source: Observable<any>,InvokeSubject:Subject<any>) {

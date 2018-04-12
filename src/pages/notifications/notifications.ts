@@ -23,7 +23,6 @@ export class NotificationsPage {
 
     var from = moment(new Date()).startOf('day').toDate();
     var to = moment(new Date()).add(90, 'days').endOf('day').toDate();
-    //this.leavesSvc.searchLeavesByDateRange(from, to,this.appContext.searchedLeaves);
     this.leavesSvc.getNotifications(from, to,this.appContext.notificationLeaves);
   }
 
@@ -32,7 +31,7 @@ export class NotificationsPage {
   }
 
   approveLeave(leaveId) {
-    this.leavesSvc.updateLeaveStatus(leaveId, 1, "Approved");
+    this.leavesSvc.updateLeaveStatus(leaveId,true, 1, "Approved");
   }
 
   declineLeave(leaveId) {

@@ -79,7 +79,7 @@ export class SearchLeavesPage {
   }
 
   acceptLeave(leaveID: any) {
-    this.leavesSvc.updateLeaveStatus(leaveID,LeaveStatus.Accepted,"Approved");
+    this.leavesSvc.updateLeaveStatus(leaveID,true,LeaveStatus.Accepted,"Approved");
   }
 
   getColor(status) {
