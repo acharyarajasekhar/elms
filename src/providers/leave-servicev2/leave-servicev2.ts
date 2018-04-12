@@ -89,7 +89,6 @@ export class LeaveServicev2Provider {
   }
 
   private getUnReadNotification(from: Date, isManager:boolean) {
-    debugger;
     if(isManager){
       return this.store.collection('eLeaves', ref => {
         return ref.where('to', ">=", from)
