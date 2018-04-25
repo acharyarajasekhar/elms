@@ -161,6 +161,7 @@ export class LeaveServicev2Provider {
       this.store.doc('eLeaves/' + Id).update(
         { 
           status: newStatus,
+          isRead: false,
           modifiedAt: new Date(), 
           managerComments: comments
         })
