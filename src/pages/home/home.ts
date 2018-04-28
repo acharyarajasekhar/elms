@@ -4,6 +4,7 @@ import { AppContextProvider } from '../../providers/app-context/app-context';
 import * as moment from 'moment';
 import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-servicev2';
 import { BadgeCounterProvider } from '../../providers/badge-counter';
+import { ToastMessageProvider } from '../../providers/toast-message/toast-message';
 
 @IonicPage()
 @Component({
@@ -24,6 +25,7 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
+    private toaster: ToastMessageProvider,
     private leavesSvc: LeaveServicev2Provider,
     private appContext: AppContextProvider,
     private badgeCounter: BadgeCounterProvider) {
@@ -44,6 +46,11 @@ export class HomePage {
   }
 
   goToPage(pageName) {
-    this.navCtrl.push(pageName);
+    if(this.badgeArray.length == 0 && pageName === 'NotificationsPage'){
+      this.toaster.showToast("no notifications", false);
+    }
+    else{
+      this.navCtrl.push(pageName);
+    }
   }
 }
