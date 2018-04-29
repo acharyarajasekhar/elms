@@ -15,6 +15,7 @@ export class AppContextProvider {
   notificationLeavesCollection = [];
   myLeavesCollection = [];
   getAllTeamsCollection=[];
+  notificationsV2Collection = [];
 
   myAccount = new Subject<any>();
   myProfile = new Subject<any>();
@@ -27,6 +28,7 @@ export class AppContextProvider {
   duringthistimeleaves= new Subject<any>();
   myLeaves = new Subject<any>();
   getAllTeams = new Subject<any>();
+  notificationsV2 = new Subject<any>();
 
   searchDateRange: any = {};
 
@@ -76,6 +78,10 @@ export class AppContextProvider {
       this.myLeavesCollection = leaves;
     })
 
+    this.notificationsV2.subscribe(notifications => {
+      this.notificationsV2Collection = notifications;
+    })
+
     this.clearAppState();
   }
 
@@ -91,6 +97,7 @@ export class AppContextProvider {
     this.notificationLeaves.next([]);
     this.myLeaves.next([]);
     this.getAllTeams.next([]);
+    this.notificationsV2.next([]);
   }
 
 }

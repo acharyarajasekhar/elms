@@ -6,6 +6,7 @@ import { LeaveServicev2Provider } from '../../providers/leave-servicev2/leave-se
 import * as moment from 'moment';
 import { ToastMessageProvider } from '../../providers/toast-message/toast-message';
 import { commentsController } from '../../components/controllers/comments-controller';
+import { NotificationServiceV2 } from '../../providers/notification-service-v2/notification-service-v2';
 
 @IonicPage()
 @Component({
@@ -18,12 +19,15 @@ export class NotificationsPage {
     private leavesSvc: LeaveServicev2Provider,
     public toastMP: ToastMessageProvider,
     public modalCtrl: ModalController,
+    private notificationSvc: NotificationServiceV2,
     private alertCtrl: commentsController,
     private appContext: AppContextProvider) {
 
-    var from = moment(new Date()).startOf('day').toDate();
-    var to = moment(new Date()).add(90, 'days').endOf('day').toDate();
-    let notifyCount = this.leavesSvc.getNotifications(from, to,this.appContext.notificationLeaves);
+    this.notificationSvc.getMyNotificationDetails();
+
+    // var from = moment(new Date()).startOf('day').toDate();
+    // var to = moment(new Date()).add(90, 'days').endOf('day').toDate();
+    // let notifyCount = this.leavesSvc.getNotifications(from, to,this.appContext.notificationLeaves);
   }
 
   ionViewWillLeave() {
@@ -41,23 +45,25 @@ export class NotificationsPage {
   }
 
   markAsRead(leaveId) {
-    this.leavesSvc.markAsRead(leaveId);
+    // this.leavesSvc.markAsRead(leaveId);
+    this.notificationSvc.clearNotification(leaveId);
   }
 
   onSwipe(leave) {
-    if (this.canShowClear(leave)) {
-      this.markAsRead(leave.leaveId);
-    } else {
+    if(this.canShowApproveDecline(leave)){
       this.approveLeave(leave.leaveId);
+    }
+    else{
+      this.markAsRead(leave.leaveId);
     }
   }
 
   canShowClear(leave) {
-    return leave.isMyLeave && !leave.isRead && !this.canShowApproveDecline(leave);
+    return leave.isMyLeave && !this.canShowApproveDecline(leave) && (leave.status == 1 || leave.status == 2);
   }
 
   canShowApproveDecline(leave) {
-    return !leave.isMyLeave && (leave.owner.manager.email == this.appContext.myProfileObject.email);
+    return !leave.isMyLeave && leave.isMyReporteeLeave && leave.status == 0;
   }
 
   openModal(leave: any) {

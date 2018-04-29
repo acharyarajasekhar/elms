@@ -5,7 +5,7 @@
 </ion-header>
 <ion-content class="has-header">
     <ion-list>
-        <ion-item-sliding *ngFor="let leave of appContext.notificationLeavesCollection| filterNotification: appContext.myReporteesCollection: appContext.myProfileObject">
+        <ion-item-sliding *ngFor="let leave of appContext.notificationLeavesCollection">
             <ion-item (click)="openModal(leave)">
                 <ion-avatar item-start>
                     <img [src]="leave.owner.photoUrl ? leave.owner.photoUrl : 'assets/imgs/defaults/user.jpg'">
@@ -28,11 +28,11 @@
             </ion-item>
             <ion-item-options side="left" (ionSwipe)="onSwipe(leave)">
                 <button ion-button color="primary" *ngIf="canShowClear(leave)" expandable (click)="markAsRead(leave.leaveId)">Clear</button>
-                <button ion-button color="secondary" *ngIf="canShowApproveDecline(leave) && leave.status == 0" expandable (click)="approveLeave(leave.leaveId)">Approve</button>
+                <button ion-button color="secondary" *ngIf="canShowApproveDecline(leave)" expandable (click)="approveLeave(leave.leaveId)">Approve</button>
             </ion-item-options>
             <ion-item-options side="right">
                     <button ion-button color="primary" *ngIf="canShowClear(leave)" expandable (click)="markAsRead(leave.leaveId)">Clear</button>
-                <button ion-button color="danger" *ngIf="canShowApproveDecline(leave) && leave.status == 0" expandable (click)="declineLeave(leave.leaveId)">Decline</button>
+                <button ion-button color="danger" *ngIf="canShowApproveDecline(leave)" expandable (click)="declineLeave(leave.leaveId)">Decline</button>
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>

@@ -42,15 +42,10 @@ export class HomePage {
     var from = moment(new Date()).startOf('day').toDate();
     var to = moment(new Date()).add(90, 'days').endOf('day').toDate();
     this.leavesSvc.searchLeavesByDateRange(from, to,this.appContext.searchedLeaves);
-    this.getBadgeCount();
+    // this.getBadgeCount();  
   }
 
   goToPage(pageName) {
-    if(this.badgeArray.length == 0 && pageName === 'NotificationsPage'){
-      this.toaster.showToast("no notifications", false);
-    }
-    else{
-      this.navCtrl.push(pageName);
-    }
+    this.navCtrl.push(pageName);
   }
 }

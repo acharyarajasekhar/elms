@@ -43,6 +43,8 @@ import{commentsController} from '../components/controllers/comments-controller';
 import { PipesModule } from '../pipes/pipes.module';
 import { IonicImageViewerModule } from 'ionic-img-viewer';  
 import { BadgeCounterProvider } from '../providers/badge-counter';
+import { NotificationServiceV2 } from '../providers/notification-service-v2/notification-service-v2';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -88,6 +90,7 @@ import { BadgeCounterProvider } from '../providers/badge-counter';
     AppContextProvider,
     ToastMessageProvider,
     BadgeCounterProvider,
+    NotificationServiceV2,
     IonicErrorHandler,
     [{provide: ErrorHandler, useClass: AppErrorHandlerProvider}],
     
