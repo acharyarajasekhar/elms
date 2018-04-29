@@ -22,8 +22,11 @@
                         <ion-icon name="md-globe"></ion-icon>
                     </p>
                 </div>
+                <div class="info3" *ngIf="leave.status == 0 || leave.status == 3">
+                    <ion-icon name="md-checkmark-circle-outline" item-end [color]="leave.status == 0 ? 'pending' : 'dark'" style="margin-bottom:-10px;font-size:15px;"></ion-icon>
+                </div>
                 <div class="info3" *ngIf="leave.status == 1 || leave.status == 2">
-                    <ion-icon name="md-checkmark-circle-outline" item-end [color]="leave.status == 1 ? 'primary' : 'danger'" style="margin-bottom:-10px;font-size:15px;"></ion-icon>
+                    <ion-icon name="md-checkmark-circle-outline" item-end [color]="leave.status == 1 ? 'secondary' : 'danger'" style="margin-bottom:-10px;font-size:15px;"></ion-icon>
                 </div>
             </ion-item>
             <ion-item-options side="left" (ionSwipe)="onSwipe(leave)">
