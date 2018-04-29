@@ -59,7 +59,8 @@ export class NotificationsPage {
   }
 
   canShowClear(leave) {
-    return leave.isMyLeave && !this.canShowApproveDecline(leave) && (leave.status == 1 || leave.status == 2);
+    // return leave.isMyLeave && !this.canShowApproveDecline(leave) && (leave.status == 1 || leave.status == 2);
+    return !this.canShowApproveDecline(leave);
   }
 
   canShowApproveDecline(leave) {

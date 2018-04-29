@@ -13,26 +13,31 @@ export class UserServiceV2Provider {
     private appContext: AppContextProvider) {
     this.appContext.myAccount.subscribe(account => {
       this.getUserProfileByEmailID(account.email).subscribe((profile: any) => {
-        if(profile !=null){
-        this.getUserProfileByEmailID(profile.manager.id).subscribe((manager: any) => {
-          profile.manager = manager;
-          var teamId = profile.team.id;
-          this.getTeamByTeamID(teamId).subscribe(team => {
-            profile.team = team;
-            this.appContext.myProfile.next(profile);
-            this.getUsersByTeamID(teamId).subscribe(teamMembers => {
-              teamMembers.forEach((teamMember: any, i, arr) => {
-                teamMember.manager = profile.manager;
-                teamMember.team = profile.team;
-                if (i == arr.length - 1) {
-                  this.appContext.myTeamMembers.next(teamMembers);
-                }
-              })              
+        if (profile != null) {
+          this.getMyNotifications(profile.email).subscribe(notifications => {
+            this.appContext.notificationsV2.next(notifications);
+            console.log("notify");
+            console.log(notifications);
+          });
+          this.getUserProfileByEmailID(profile.manager.id).subscribe((manager: any) => {
+            profile.manager = manager;
+            var teamId = profile.team.id;
+            this.getTeamByTeamID(teamId).subscribe(team => {
+              profile.team = team;
+              this.appContext.myProfile.next(profile);
+              this.getUsersByTeamID(teamId).subscribe(teamMembers => {
+                teamMembers.forEach((teamMember: any, i, arr) => {
+                  teamMember.manager = profile.manager;
+                  teamMember.team = profile.team;
+                  if (i == arr.length - 1) {
+                    this.appContext.myTeamMembers.next(teamMembers);
+                  }
+                })
+              })
             })
           })
-        })
         }
-        if (profile !=null && profile.isManager) {
+        if (profile != null && profile.isManager) {
           this.getReporteesByManagerEmailID(profile.email).subscribe(reportees => {
             if (reportees || reportees.length == 0) { this.appContext.myReportees.next([]) }
             reportees.forEach((reportee: any, i, arr) => {
@@ -64,6 +69,10 @@ export class UserServiceV2Provider {
 
   getReporteesByManagerEmailID(emailId) {
     return this.store.collection('eUsers', ref => ref.where('manager', "==", this.store.doc('eUsers/' + emailId).ref)).valueChanges();
+  }
+
+  getMyNotifications(emailId) {
+    return this.store.collection('eNotifications/' + emailId + '/notifications', ref => ref.where('targetUserID','==',emailId)).valueChanges();
   }
 
 }
